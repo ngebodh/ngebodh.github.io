@@ -12,6 +12,8 @@ website:
     toc:
       depth: 2
 
+
+
   navbar:
     link-external-newwindow: true
     link-external-icon: true

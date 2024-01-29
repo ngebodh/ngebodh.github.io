@@ -42,7 +42,6 @@ I currently work on building, understanding, and integrating intelligent systems
 -   Soterix Medical Inc./ Google X (Collaboration)
 -   Harvard Medical School - Spaulding Rehab Hospital
 
-
 ## Select Publications
 
 -   **A Scalable Framework for Closed-Loop Neuromodulation with Deep Learning.** Nigel Gebodh, Vladimir Miskovic, Sarah Laszlo, Abhishek Datta, Marom Bikson. bioRxiv 2023.01.18.524615; doi: <https://doi.org/10.1101/2023.01.18.524615>
@@ -53,18 +52,18 @@ I currently work on building, understanding, and integrating intelligent systems
 
 ###### [See all publications here.](publications/publications.qmd)
 
-
-
 ## Education
 
 The Grove School of Engineering, </br>The City College of New York, CUNY
 
 #### PhD & MPhil
+
 Building improved wearables, and assessing neural (sleep/attention/vigilance) and physiological function (EEG, ECG, EMG etc.) under brain stimulation with computational modeling, and machine learning.
 
 #### MSci
+
 Understanding the human visual system by mapping the early visual cortex. Applying signal detection and signal processing techniques.
 
 #### BE
-Medical device design, device manufacturing, and rapid prototyping.
 
+Medical device design, device manufacturing, and rapid prototyping.
