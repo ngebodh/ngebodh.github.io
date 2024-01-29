@@ -1,0 +1,16 @@
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: #181818;
+$body-color: white;
+$link-color: #75AADB;
+
+$navbar-bg: $body-bg;
+
+$navbar-hl: turquoise;
+$sidebar-hl: $navbar-hl;
+$sidebar-fg: $navbar-hl;
+$toc-active-border: $navbar-hl;
+$toc-color:  $navbar-hl; 
+
+// Code blocks
+$code-block-bg-alpha: -.8;
