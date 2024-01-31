@@ -2,8 +2,6 @@
 title: "Nigel **Gebodh**"
 subtitle: "Engineer | Artist | Scientist"
 
-image: ProfileImage_1.jpg
-
 home:
   template: jolla
 
