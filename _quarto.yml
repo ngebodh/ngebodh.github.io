@@ -27,7 +27,7 @@ website:
       href: https://scholar.google.com/citations?user=ys2YCxIAAAAJ&hl  
     - icon: bi bi-linkedin
       href: https://www.linkedin.com/in/nigel-gebodh-1b670a61           
-    - icon: twitter
+    - icon: bi bi-twitter-x
       href: https://twitter.com/nigelgebodh
     - icon: github
       href: https://github.com/ngebodh
@@ -35,7 +35,7 @@ website:
       href: https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA
 
   page-footer:
-    left: "Copyright, Nigel Gebodh, Made on Earth by a Human"
+    left: "© Nigel Gebodh, Made on Earth by a Human"
 
   back-to-top-navigation: true
 
@@ -58,5 +58,6 @@ format:
     fig-align: center
     navbar:
       background: darkgray
+    email-obfuscation: javascript
 
 

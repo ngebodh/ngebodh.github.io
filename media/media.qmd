@@ -22,8 +22,9 @@ title: "Talks & Media"
 
 
 ## Media
-* Technology Feature in Quartz: The Objects that Power the Global Economy, pg. 64-65. 2017
-* HBO Vice News. March 30, 2017
-* Grove School of Engineering, City College of New York - Access to Excellence, 2014
-* M/EEG with noninvasive brain stimulation (NIBS): Artifacts, Modeling, and Removal,NYC Neuromodulation, 2020
-* Neuromodec’s Top Impactful Neuromodulation articles of 2021, Neuromodec, 2021
+* [NIH G-RISE Research Highlight](https://www.youtube.com/watch?v=FJduDo_SfMo), CCNY Division of Science, 2023
+* [Technology Feature in Quartz: The Objects that Power the Global Economy](https://vimeo.com/231423594), pg. 64-65. 2017
+* [HBO Vice News](https://www.vice.com/en/article/wjz9q4/people-are-zapping-their-brains-with-electricity-hoping-to-enhance-creativity-and-intelligence), March 30, 2017
+* [Grove School of Engineering, City College of New York - Access to Excellence](https://www.youtube.com/watch?v=1mFGKg5kXiI), 2014
+* [M/EEG with noninvasive brain stimulation (NIBS): Artifacts, Modeling, and Removal](https://www.youtube.com/watch?v=816cZJyweLU),NYC Neuromodulation, 2020
+* [Neuromodec’s Top Impactful Neuromodulation articles of 2021](https://neuromodec.org/2021-neuromdodulation-highlights), Neuromodec, 2021
