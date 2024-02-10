@@ -23,6 +23,8 @@ about:
       href: https://github.com/ngebodh
     - icon: bi bi-youtube
       href: https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA    
+    - icon: bi bi-butterfly
+      href: https://bsky.app/profile/nigelgebodh.bsky.social   
     - icon: envelope
       text: "nigel.gebodh@gmail.com"
       href: mailto:nigel.gebodh@gmail.com

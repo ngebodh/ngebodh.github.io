@@ -14,3 +14,34 @@ $toc-color:  $navbar-hl;
 
 // Code blocks
 $code-block-bg-alpha: -.8;
+
+
+
+.bi-butterfly::before {
+    content: ""; /* Clear the default content */
+    display: inline-block; /* Make it an inline block */
+    width: 16px; /* Set the desired width for your icon */
+    height: 16px; /* Set the desired height for your icon */
+    background-image: url('img/blueskyicon.png'); /* Specify the path to your PNG image */
+    background-size: cover; /* Adjust the background size as needed */
+    
+    /* Define custom CSS variables */
+    --brightness: 175%;
+    --grayscale: 100%;
+
+    /* Apply filter properties using custom variables */
+    filter: 
+        brightness(var(--brightness))
+        grayscale(var(--grayscale));
+}
+
+
+
+
+
+
+
+
+
+
+
