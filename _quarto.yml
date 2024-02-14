@@ -15,7 +15,6 @@ website:
       text: Home
     - href: publications/publications.qmd
     - href: media/media.qmd
-      text: "Talks & Media"
     - text: "Connect"
       menu:
       - icon: bi-mortarboard-fill
