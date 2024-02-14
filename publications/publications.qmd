@@ -1,6 +1,25 @@
 ---
 title: "Publications"
+listing:
+  - id: published-papers
+    include: 
+        type: "Published"
+    contents: papers.yaml
+    template: papers.ejs
+    #filter-ui: true
+    sort: "date desc" 
+    sort-ui: false
+    #categories: false
 
+  - id: published-chapters
+    include: 
+        type: "Chapter"
+    contents: papers.yaml
+    template: papers.ejs
+    #filter-ui: true
+    sort: "date desc" 
+    sort-ui: false
+    #categories: false
 
 ---
 
@@ -9,27 +28,15 @@ For the latest publications see [Google Scholar](https://scholar.google.com/cita
 
 ## Papers
 
-
-|Title| Year |
------------------------------------------|-----:
-|**A Scalable Framework for Closed-Loop Neuromodulation with Deep Learning.** N. Gebodh, V. Miskovic, S. Laszlo, A. Datta, M. Bikson, 2023.  bioRxiv, pp.2023-01. doi:[10.1101/2023.01.18.524615](https://doi.org/10.1101%2F2023.01.18.524615) | 2023 [PDF](https://www.biorxiv.org/content/10.1101/2023.01.18.524615v1.full.pdf)
-|**Novel Evoked Synaptic Activity Potentials (ESAPs) Elicited by Spinal Cord Stimulation.** M. Sharma, V. Bhaskar,L. Yang,M. FallahRad, N. Gebodh, T. Zhang, R. Esteller, J. Martin, M. Bikson, 2023.  Eneuro, 10(5). doi:[10.1523/ENEURO.0429-22.2023](https://doi.org/10.1523/ENEURO.0429-22.2023)| 2023 [PDF](https://www.eneuro.org/content/eneuro/10/5/ENEURO.0429-22.2023.full.pdf)
-|**Dataset of concurrent EEG, ECG, and behavior with multiple doses of transcranial electrical stimulation.** N. Gebodh, Z. Esmaeilpour, A. Datta, M. Bikson (2021) Nature Scientific Data 8:274. doi:[10.1038/s41597-021-01046-y](https://doi.org/10.1038/s41597-021-01046-y)    | 2021 [PDF](https://www.nature.com/articles/s41597-021-01046-y.pdf)
-|**Electrical stimulation of cranial nerves in cognition and disease.** D. Adair, D. Truong, Z. Esmaeilpour, N. Gebodh H. Borges, L. Ho, J D. Bremner, B. W Badran, V. Napadow, V. P Clark, M. Bikson.  Brain stimulation. (13). pp. 717-750. 23 February 2020, doi:[10.1016/j.brs.2020.02.019](https://doi.org/10.1016/j.brs.2020.02.019)  | 2020 [PDF](https://www.sciencedirect.com/science/article/pii/S1935861X20300413/pdfft?md5=534694d19cce4283d952af63a38515de&pid=1-s2.0-S1935861X20300413-main.pdf)
-|**Experimental-design Specific Changes in Spontaneous EEG and During Intermittent Photic Stimulation by High Definition Transcranial Direct Current Stimulation.** V.V. Lazarev, N. Gebodh, T. Tamborino, M. Bikson, E.M. Caparelli-Daquer.  Neuroscience 2020;426:50–8. doi:[10.1016/j.neuroscience.2019.11.016](https://doi.org/10.1016/j.neuroscience.2019.11.016) | 2020 [PDF](https://nonagon-grouper-x4a7.squarespace.com/s/Experimental-design-Specific-Changes-in-Spontaneous-EEG-and-During-Intermittent-Photic-Stimulation-b.pdf)
-|**Inherent physiological artifacts in EEG during tDCS.** N. Gebodh, Z. Esmaeilpour, D. Adair, K. Chelette, J. Dmochowski, A.J. Woods, E.S. Kappenman, L.C. Parra, M. Bikson.  NeuroImage. (185). pp. 408-424. 15 January 2019, doi:[10.1016/j.neuroimage.2018.10.025](https://doi.org/10.1016/j.neuroimage.2018.10.025) | 2019 [PDF](./papers/Gebodh_2019_EEG_artifacts.pdf)
-|**Antiepileptic Effects of a Novel Non-invasive Neuromodulation Treatment in a Subject With Early-Onset Epileptic Encephalopathy: Case Report With 20 Sessions of HD-tDCS Intervention.** O. Meiron, R. Gale, J. Namestnic, O. Bennet-Back, N. Gebodh, Z. Esmaeilpour, V. Mandzhiyev, M. Bikson.  Front. Neurosci. 13:547. 2019. doi:[10.3389/fnins.2019.00547](https://doi.org/10.3389/fnins.2019.00547) | 2019 [PDF](./papers/Merion_2019_HDtDCS_Epilepsy.pdf)
-|**Effects of stimulus size and contrast on the initial primary visual cortical response in humans.** N. Gebodh, M I. Vanegas, S. P Kelly. Effects of stimulus size and contrast on the initial primary visual cortical response in humans. Brain Topography. 2017 Jul;30(4):450-60. doi:[10.1007/s10548-016-0530-2](https://doi.org/10.1007/s10548-016-0530-2) | 2017 [PDF](./papers/Gebodh_2017_EffectsStimSizeContrastOnV1_C1.pdf)
-| **Clinically Effective Treatment of Fibromyalgia Pain With High-Definition Transcranial Direct Current Stimulation: Phase II Open-Label Dose Optimization.** L. Castillo-Saavedra and N. Gebodh, M. Bikson, C. Diaz-Cruz, R. Brandao, L. Coutinho, D. Truong, A. Datta, R. Shani-Hershkovich, M. Weiss, I. Laufer, A. Reches, Z. Peremen, A. Geva, L.C. Parra, F. Fregni.  J Pain. 2016 17(1):14-26. doi:[10.1016/j.jpain.2015.09.009](https://doi.org/10.1016/j.jpain.2015.09.009) | 2016 [PDF](https://www.sciencedirect.com/science/article/pii/S1526590015008846/pdfft?md5=41b1687d35f28db7b422834211180699&pid=1-s2.0-S1526590015008846-main.pdf)
+:::{#published-papers}
+:::
 
 
 ## Book Chapters
 
-|Title| Year |
----------------------------------------------|-----:
-|**Transcranial direct current stimulation among technologies for low-intensity transcranial electrical stimulation: classification, history, and terminology**  in Practical guide to transcranial direct current stimulation. N. Gebodh, Z. Esmaeilpour, D. Adair, P. Schestattsky, F. Fregni, M. Bikson. Springer, Cham  – 2019, Chapter 1, Page 3-43. doi:[https://doi.org/10.1007/978-3-319-95948-1_1](https://doi.org/10.1007/978-3-319-95948-1_1) | 2019 [PDF](https://www.researchgate.net/profile/Zeinab-Esmaeilpour/publication/330603283_Transcranial_Direct_Current_Stimulation_Among_Technologies_for_Low-Intensity_Transcranial_Electrical_Stimulation_Classification_History_and_Terminology_Principles_Procedures_and_Applications/links/5c50ad8592851c22a398cf7e/Transcranial-Direct-Current-Stimulation-Among-Technologies-for-Low-Intensity-Transcranial-Electrical-Stimulation-Classification-History-and-Terminology-Principles-Procedures-and-Applications.pdf?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6InNpZ251cCIsInBhZ2UiOiJwdWJsaWNhdGlvbiJ9fQ)
-|**Transcranial direct current stimulation integration with magnetic resonance imaging, magnetic resonance spectroscopy, near infrared spectroscopy imaging, and electroencephalography** in Practical guide to transcranial direct current stimulation. A. J Woods, M. Bikson, K. Chelette, J. Dmochowski, A. Dutta, Z. Esmaeilpour, N. Gebodh, M. A Nitsche, C. Stagg.  Springer, Cham  – 2019, Chapter 11, Page 293-345. doi:[https://doi.org/10.1007/978-3-319-95948-1_11](https://doi.org/10.1007/978-3-319-95948-1_11) | 2019 [PDF](./papers/Woods_2019_Chap11.pdf)
-|**Transcranial Electrical Stimulation: transcranial Direct Current Stimulation (tDCS), transcranial Alternating Current Stimulation (tACS), transcranial Pulsed Current Stimulation (tPCS), and Transcranial Random Noise Stimulaiton (tRNS)** in The Stimulated Brain. I. Moreno-Duarte, N. Gebodh, P. Schestatsky, B. Guleyupoglu, D. Reato, M. Bikson, F. Fregni.(Cohen Kadosh ed.) Elsevier Science – 2014, Chapter 2, Page 35-60. doi:[https://doi.org/10.1016/B978-0-12-404704-4.00002-8](https://doi.org/10.1016/B978-0-12-404704-4.00002-8) | 2014 [PDF](./papers/Moreno_2014_Chap1.pdf)
+:::{#published-chapters}
+:::
+
 
 ## Research Presentations
 

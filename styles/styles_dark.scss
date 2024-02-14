@@ -1,6 +1,6 @@
 /*-- scss:defaults --*/
 // Base document colors
-$body-bg: #181818;
+$body-bg: rgb(24, 24, 24);
 $body-color: rgb(177, 175, 175);
 $link-color: #8f8f8f;
 
@@ -14,6 +14,14 @@ $toc-color:  $navbar-hl;
 
 // Code blocks
 $code-block-bg-alpha: -.8;
+
+
+//.ai-lg,
+//.btn-xs,
+//.btn-outline-secondary, ?? does not change much
+//.btn-light 
+
+.ai-lg{color:rgba(35, 123, 114, 0.7);}
 
 
 
@@ -34,14 +42,5 @@ $code-block-bg-alpha: -.8;
         brightness(var(--brightness))
         grayscale(var(--grayscale));
 }
-
-
-
-
-
-
-
-
-
 
 

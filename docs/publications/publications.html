@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../favicon_1.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-listing/list.min.js"></script>
+<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,12 +71,98 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-published-papers .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-type','listing-author','listing-date','listing-year','listing-preprint','listing-github','listing-journal','listing-pdf','listing-doi','listing-categories','listing-pubopen','listing-zenodo','listing-osf','listing-figshare','listing-pubclosed',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
+      
+      searchColumns: ["listing-title","listing-type","listing-author","listing-date","listing-year","listing-preprint","listing-github","listing-journal","listing-pdf","listing-doi","listing-categories","listing-pubopen","listing-zenodo","listing-osf","listing-figshare","listing-pubclosed"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-published-papers'] = new List('listing-published-papers', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-published-chapters .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-type','listing-author','listing-date','listing-year','listing-book','listing-chapter','listing-pdf','listing-pubclosed','listing-doi','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
+      
+      searchColumns: ["listing-title","listing-type","listing-author","listing-date","listing-year","listing-book","listing-chapter","listing-pdf","listing-pubclosed","listing-doi","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-published-chapters'] = new List('listing-published-chapters', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -152,23 +240,10 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Publications</li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="6">
@@ -207,77 +282,843 @@ ul.task-list li input[type="checkbox"] {
 <p>For the latest publications see <a href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl=en">Google Scholar</a></p>
 <section id="papers" class="level2">
 <h2 class="anchored" data-anchor-id="papers">Papers</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Title</th>
-<th style="text-align: right;">Year</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>A Scalable Framework for Closed-Loop Neuromodulation with Deep Learning.</strong> N. Gebodh, V. Miskovic, S. Laszlo, A. Datta, M. Bikson, 2023. bioRxiv, pp.2023-01. doi:<a href="https://doi.org/10.1101%2F2023.01.18.524615">10.1101/2023.01.18.524615</a></td>
-<td style="text-align: right;">2023 <a href="https://www.biorxiv.org/content/10.1101/2023.01.18.524615v1.full.pdf">PDF</a></td>
-</tr>
-<tr class="even">
-<td><strong>Novel Evoked Synaptic Activity Potentials (ESAPs) Elicited by Spinal Cord Stimulation.</strong> M. Sharma, V. Bhaskar,L. Yang,M. FallahRad, N. Gebodh, T. Zhang, R. Esteller, J. Martin, M. Bikson, 2023. Eneuro, 10(5). doi:<a href="https://doi.org/10.1523/ENEURO.0429-22.2023">10.1523/ENEURO.0429-22.2023</a></td>
-<td style="text-align: right;">2023 <a href="https://www.eneuro.org/content/eneuro/10/5/ENEURO.0429-22.2023.full.pdf">PDF</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Dataset of concurrent EEG, ECG, and behavior with multiple doses of transcranial electrical stimulation.</strong> N. Gebodh, Z. Esmaeilpour, A. Datta, M. Bikson (2021) Nature Scientific Data 8:274. doi:<a href="https://doi.org/10.1038/s41597-021-01046-y">10.1038/s41597-021-01046-y</a></td>
-<td style="text-align: right;">2021 <a href="https://www.nature.com/articles/s41597-021-01046-y.pdf">PDF</a></td>
-</tr>
-<tr class="even">
-<td><strong>Electrical stimulation of cranial nerves in cognition and disease.</strong> D. Adair, D. Truong, Z. Esmaeilpour, N. Gebodh H. Borges, L. Ho, J D. Bremner, B. W Badran, V. Napadow, V. P Clark, M. Bikson. Brain stimulation. (13). pp.&nbsp;717-750. 23 February 2020, doi:<a href="https://doi.org/10.1016/j.brs.2020.02.019">10.1016/j.brs.2020.02.019</a></td>
-<td style="text-align: right;">2020 <a href="https://www.sciencedirect.com/science/article/pii/S1935861X20300413/pdfft?md5=534694d19cce4283d952af63a38515de&amp;pid=1-s2.0-S1935861X20300413-main.pdf">PDF</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Experimental-design Specific Changes in Spontaneous EEG and During Intermittent Photic Stimulation by High Definition Transcranial Direct Current Stimulation.</strong> V.V. Lazarev, N. Gebodh, T. Tamborino, M. Bikson, E.M. Caparelli-Daquer. Neuroscience 2020;426:50–8. doi:<a href="https://doi.org/10.1016/j.neuroscience.2019.11.016">10.1016/j.neuroscience.2019.11.016</a></td>
-<td style="text-align: right;">2020 <a href="https://nonagon-grouper-x4a7.squarespace.com/s/Experimental-design-Specific-Changes-in-Spontaneous-EEG-and-During-Intermittent-Photic-Stimulation-b.pdf">PDF</a></td>
-</tr>
-<tr class="even">
-<td><strong>Inherent physiological artifacts in EEG during tDCS.</strong> N. Gebodh, Z. Esmaeilpour, D. Adair, K. Chelette, J. Dmochowski, A.J. Woods, E.S. Kappenman, L.C. Parra, M. Bikson. NeuroImage. (185). pp.&nbsp;408-424. 15 January 2019, doi:<a href="https://doi.org/10.1016/j.neuroimage.2018.10.025">10.1016/j.neuroimage.2018.10.025</a></td>
-<td style="text-align: right;">2019 <a href="./papers/Gebodh_2019_EEG_artifacts.pdf">PDF</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Antiepileptic Effects of a Novel Non-invasive Neuromodulation Treatment in a Subject With Early-Onset Epileptic Encephalopathy: Case Report With 20 Sessions of HD-tDCS Intervention.</strong> O. Meiron, R. Gale, J. Namestnic, O. Bennet-Back, N. Gebodh, Z. Esmaeilpour, V. Mandzhiyev, M. Bikson. Front. Neurosci. 13:547. 2019. doi:<a href="https://doi.org/10.3389/fnins.2019.00547">10.3389/fnins.2019.00547</a></td>
-<td style="text-align: right;">2019 <a href="./papers/Merion_2019_HDtDCS_Epilepsy.pdf">PDF</a></td>
-</tr>
-<tr class="even">
-<td><strong>Effects of stimulus size and contrast on the initial primary visual cortical response in humans.</strong> N. Gebodh, M I. Vanegas, S. P Kelly. Effects of stimulus size and contrast on the initial primary visual cortical response in humans. Brain Topography. 2017 Jul;30(4):450-60. doi:<a href="https://doi.org/10.1007/s10548-016-0530-2">10.1007/s10548-016-0530-2</a></td>
-<td style="text-align: right;">2017 <a href="./papers/Gebodh_2017_EffectsStimSizeContrastOnV1_C1.pdf">PDF</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Clinically Effective Treatment of Fibromyalgia Pain With High-Definition Transcranial Direct Current Stimulation: Phase II Open-Label Dose Optimization.</strong> L. Castillo-Saavedra and N. Gebodh, M. Bikson, C. Diaz-Cruz, R. Brandao, L. Coutinho, D. Truong, A. Datta, R. Shani-Hershkovich, M. Weiss, I. Laufer, A. Reches, Z. Peremen, A. Geva, L.C. Parra, F. Fregni. J Pain. 2016 17(1):14-26. doi:<a href="https://doi.org/10.1016/j.jpain.2015.09.009">10.1016/j.jpain.2015.09.009</a></td>
-<td style="text-align: right;">2016 <a href="https://www.sciencedirect.com/science/article/pii/S1526590015008846/pdfft?md5=41b1687d35f28db7b422834211180699&amp;pid=1-s2.0-S1526590015008846-main.pdf">PDF</a></td>
-</tr>
-</tbody>
-</table>
+<div id="listing-published-papers" class="quarto-listing quarto-listing-container-custom">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css">
+
+<style>
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+  }
+  .btn{
+    border-radius: 0.25rem;
+  }
+  .btn-outline-secondary{
+    --bs-btn-border-color: None 
+  }
+  .ai-lg {
+    font-size: 1.2em;  /* Adjust as needed */
+    
+  }
+</style>
+
+<ul class="list">
+  
+    <li data-index="0" data-categories="Machine Learning,EEG,ECG,CNN" data-listing-date-sort="1674190800000">
+      A Scalable Framework for Closed-Loop Neuromodulation with Deep Learning 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2023. Nigel Gebodh, Vladimir Miskovic, Sarah Laszlo, Abhishek Datta, Marom Bikson. <em>BioRxiv</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.biorxiv.org/content/10.1101/2023.01.18.524615v1.full.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.biorxiv.org/content/10.1101/2023.01.18.524615v1" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-doi ai-lg"></i> Preprint 
+        </a> 
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+        <a role="button" href="https://github.com/ngebodh/GX_DL_Framework" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-github ai-lg"></i> GitHub 
+        </a>
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="1" data-categories="Spinal Cord Stimulation,eSAPS" data-listing-date-sort="1672549200000">
+      Novel Evoked Synaptic Activity Potentials (ESAPs) Elicited by Spinal Cord Stimulation 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2023. Mahima Sharma, Vividha Bhaskar, Lillian Yang, Mohamad FallahRad, Nigel Gebodh, Tianhe Zhang, Rosana Esteller, John Martin, Marom Bikson. <em>eNeuro</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.eneuro.org/content/eneuro/10/5/ENEURO.0429-22.2023.full.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://www.eneuro.org/content/10/5/ENEURO.0429-22.2023" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="2" data-categories="EEG,ECG,Human Behavior,Compensatory Tracking Task,Dataset" data-listing-date-sort="1635307200000">
+      Dataset of concurrent EEG, ECG, and behavior with multiple doses of transcranial electrical stimulation 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2021. Nigel Gebodh, Zeinab Esmaeilpour, Abhishek Datta, Marom Bikson. <em>Nature Scientific Data</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.nature.com/articles/s41597-021-01046-y.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://www.nature.com/articles/s41597-021-01046-y" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <a role="button" href="https://openneuro.org/datasets/ds003670/versions/1.1.0" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-osf ai-lg"></i> OSF
+        </a>
+      
+
+      
+        <a role="button" href="https://zenodo.org/records/4456079" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-zenodo ai-lg"></i> Zenodo
+        </a>
+      
+
+      
+        <a role="button" href="https://figshare.com/authors/Nigel_Gebodh/8797454" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-figshare ai-lg"></i> figshare
+        </a>
+      
+      
+      
+        <a role="button" href="https://github.com/ngebodh/GX_tES_EEG_Physio_Behavior" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-github ai-lg"></i> GitHub 
+        </a>
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="3" data-categories="Cranial Nerves,Cognition,Review" data-listing-date-sort="1582434000000">
+      Electrical stimulation of cranial nerves in cognition and disease 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2020. Devin Adair, Dennis Truong, Zeinab Esmaeilpour, Nigel Gebodh, Helen Borges, Libby Ho, Douglas J. Bremmer, Bashar W. Badran, Vitaly Napadow, Vincent P. Clark, Marom Bikson. <em>Brain Stimulation</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.sciencedirect.com/science/article/pii/S1935861X20300413/pdfft?md5=534694d19cce4283d952af63a38515de&amp;pid=1-s2.0-S1935861X20300413-main.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1016/j.brs.2020.02.019" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="4" data-categories="EEG,Visual Stimulation,tDCS" data-listing-date-sort="1580533200000">
+      Experimental-design Specific Changes in Spontaneous EEG and During Intermittent Photic Stimulation by High Definition Transcranial Direct Current Stimulation 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2020. Vladimir Lazarev, Nigel Gebodh, Tiago Tamborino, Marom Bikson, Egas M Caparelli-Daquer. <em>Neuroscience</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://nonagon-grouper-x4a7.squarespace.com/s/Experimental-design-Specific-Changes-in-Spontaneous-EEG-and-During-Intermittent-Photic-Stimulation-b.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1016/j.neuroscience.2019.11.016" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="5" data-categories="EEG,tDCS" data-listing-date-sort="1559016000000">
+      Antiepileptic Effects of a Novel Non-invasive Neuromodulation Treatment in a Subject With Early-Onset Epileptic Encephalopathy: Case Report With 20 Sessions of HD-tDCS Intervention 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2019. Oded Meiron, Rena Gale, Julia Namestnic, Odeya Bennet-Back, Nigel Gebodh, Zeinab Esmaeilpour, Vladislav Mandzhiyev, Marom Bikson. <em>Frontiers in Neuroscience</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="./papers/Merion_2019_HDtDCS_Epilepsy.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://doi.org/10.3389/fnins.2019.00547" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="6" data-categories="EEG,tDCS,Artifacts,PCA,SVD" data-listing-date-sort="1539316800000">
+      Inherent physiological artifacts in EEG during tDCS 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2018. Nigel Gebodh, Zeinab Esmaeilpour, Devin Adair, Kenneth Chelette, Jacek Dmochowski, Adam J. Woods, Emily S. Kappenman, Lucas C. Parra, Marom Bikson. <em>NeuroImage</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="./papers/Gebodh_2019_EEG_artifacts.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1016/j.neuroimage.2018.10.025" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-closed-access ai-lg"></i> Publisher's Version 
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="7" data-categories="EEG,Visual Stimulation" data-listing-date-sort="1493870400000">
+      Effects of stimulus size and contrast on the initial primary visual cortical response in humans 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2017. Nigel Gebodh, Marta Isabel Vanegas, Simon P. Kelly. <em>Brain Topogr</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="./papers/Gebodh_2017_EffectsStimSizeContrastOnV1_C1.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1007/s10548-016-0530-2" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-closed-access ai-lg"></i> Publisher's Version 
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="8" data-categories="EEG,Pain,tDCS,Visual Stimulation" data-listing-date-sort="1444017600000">
+      Clinically Effective Treatment of Fibromyalgia Pain With High-Definition Transcranial Direct Current Stimulation: Phase II Open-Label Dose Optimization 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+        <small class="text-muted">
+          2015. Nigel Gebodh, Laura Castillo-Saavedra, Marom Bikson, Camilo Diaz-Cruz, Rivail Brandao, Livia Coutinho, Dennis Truong, Abhishek Datta, Revital Shani-Hershkovich, Michal Weiss, Ilan Laufer, Amit Reches, Ziv Peremen, Amir Geva, Lucas C. Parra, Felipe Fregni. <em>J. Pain</em>.
+        </small>
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.sciencedirect.com/science/article/pii/S1526590015008846/pdfft?md5=41b1687d35f28db7b422834211180699&amp;pid=1-s2.0-S1526590015008846-main.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1016/j.jpain.2015.09.009" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-open-access ai-lg"></i> Open Access
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+</ul>
+
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
 </section>
 <section id="book-chapters" class="level2">
 <h2 class="anchored" data-anchor-id="book-chapters">Book Chapters</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Title</th>
-<th style="text-align: right;">Year</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Transcranial direct current stimulation among technologies for low-intensity transcranial electrical stimulation: classification, history, and terminology</strong> in Practical guide to transcranial direct current stimulation. N. Gebodh, Z. Esmaeilpour, D. Adair, P. Schestattsky, F. Fregni, M. Bikson. Springer, Cham – 2019, Chapter 1, Page 3-43. doi:<a href="https://doi.org/10.1007/978-3-319-95948-1_1">https://doi.org/10.1007/978-3-319-95948-1_1</a></td>
-<td style="text-align: right;">2019 <a href="https://www.researchgate.net/profile/Zeinab-Esmaeilpour/publication/330603283_Transcranial_Direct_Current_Stimulation_Among_Technologies_for_Low-Intensity_Transcranial_Electrical_Stimulation_Classification_History_and_Terminology_Principles_Procedures_and_Applications/links/5c50ad8592851c22a398cf7e/Transcranial-Direct-Current-Stimulation-Among-Technologies-for-Low-Intensity-Transcranial-Electrical-Stimulation-Classification-History-and-Terminology-Principles-Procedures-and-Applications.pdf?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6InNpZ251cCIsInBhZ2UiOiJwdWJsaWNhdGlvbiJ9fQ">PDF</a></td>
-</tr>
-<tr class="even">
-<td><strong>Transcranial direct current stimulation integration with magnetic resonance imaging, magnetic resonance spectroscopy, near infrared spectroscopy imaging, and electroencephalography</strong> in Practical guide to transcranial direct current stimulation. A. J Woods, M. Bikson, K. Chelette, J. Dmochowski, A. Dutta, Z. Esmaeilpour, N. Gebodh, M. A Nitsche, C. Stagg. Springer, Cham – 2019, Chapter 11, Page 293-345. doi:<a href="https://doi.org/10.1007/978-3-319-95948-1_11">https://doi.org/10.1007/978-3-319-95948-1_11</a></td>
-<td style="text-align: right;">2019 <a href="./papers/Woods_2019_Chap11.pdf">PDF</a></td>
-</tr>
-<tr class="odd">
-<td><strong>Transcranial Electrical Stimulation: transcranial Direct Current Stimulation (tDCS), transcranial Alternating Current Stimulation (tACS), transcranial Pulsed Current Stimulation (tPCS), and Transcranial Random Noise Stimulaiton (tRNS)</strong> in The Stimulated Brain. I. Moreno-Duarte, N. Gebodh, P. Schestatsky, B. Guleyupoglu, D. Reato, M. Bikson, F. Fregni.(Cohen Kadosh ed.) Elsevier Science – 2014, Chapter 2, Page 35-60. doi:<a href="https://doi.org/10.1016/B978-0-12-404704-4.00002-8">https://doi.org/10.1016/B978-0-12-404704-4.00002-8</a></td>
-<td style="text-align: right;">2014 <a href="./papers/Moreno_2014_Chap1.pdf">PDF</a></td>
-</tr>
-</tbody>
-</table>
+<div id="listing-published-chapters" class="quarto-listing quarto-listing-container-custom">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css">
+
+<style>
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+  }
+  .btn{
+    border-radius: 0.25rem;
+  }
+  .btn-outline-secondary{
+    --bs-btn-border-color: None 
+  }
+  .ai-lg {
+    font-size: 1.2em;  /* Adjust as needed */
+    
+  }
+</style>
+
+<ul class="list">
+  
+    <li data-index="0" data-categories="EEG,Pain,tDCS,Visual Stimulation" data-listing-date-sort="1548306000000">
+      Transcranial direct current stimulation among technologies for low-intensity transcranial electrical stimulation: classification, history, and terminology 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+        <small class="text-muted">
+          Jan 24, 2019. Nigel Gebodh, Zeinab Esmaeilpour, Devin Adair, Pedro Schestattsky, Felipe Fregni, Marom Bikson. Chapter 1. <em>Practical guide to transcranial direct current stimulation</em>. 
+        </small>
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="https://www.researchgate.net/profile/Zeinab-Esmaeilpour/publication/330603283_Transcranial_Direct_Current_Stimulation_Among_Technologies_for_Low-Intensity_Transcranial_Electrical_Stimulation_Classification_History_and_Terminology_Principles_Procedures_and_Applications/links/5c50ad8592851c22a398cf7e/Transcranial-Direct-Current-Stimulation-Among-Technologies-for-Low-Intensity-Transcranial-Electrical-Stimulation-Classification-History-and-Terminology-Principles-Procedures-and-Applications.pdf?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6InNpZ251cCIsInBhZ2UiOiJwdWJsaWNhdGlvbiJ9fQ" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1007/978-3-319-95948-1_1" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-closed-access ai-lg"></i> Publisher's Version 
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="1" data-categories="EEG,tDCS" data-listing-date-sort="1548306000000">
+      Transcranial direct current stimulation integration with magnetic resonance imaging, magnetic resonance spectroscopy, near infrared spectroscopy imaging, and electroencephalography 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+        <small class="text-muted">
+          Jan 24, 2019. Adam J. Woods, Marom Bikson, Kenneth Chelette, Jacek Dmochowski, Anirban Dutta, Zeinab Esmaeilpour, Nigel Gebodh, Michael A. Nitsche, Charlotte Stagg. Chapter 11. <em>Practical guide to transcranial direct current stimulation</em>. 
+        </small>
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="./papers/Woods_2019_Chap11.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1007/978-3-319-95948-1_11" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-closed-access ai-lg"></i> Publisher's Version 
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+    <li data-index="2" data-categories="EEG,tDCS" data-listing-date-sort="1405051200000">
+      Transcranial Electrical Stimulation: transcranial Direct Current Stimulation (tDCS), transcranial Alternating Current Stimulation (tACS), transcranial Pulsed Current Stimulation (tPCS), and Transcranial Random Noise Stimulaiton (tRNS) 
+      <br>
+      <p>
+
+      <!-- paper info for book chapters -->
+      
+        <small class="text-muted">
+          Jul 11, 2014. Ingrid Moreno-Duarte, Nigel Gebodh, Pedro Schestatsky, Berkan Guleyupoglu, Davide Reato, Marom Bikson, Felipe Fregni. Chapter 2. <em>The Stimulated Brain</em>. 
+        </small>
+      
+      
+      <!-- paper info for not-yet-published papers -->
+      
+
+      
+      
+      <!-- paper info for published papers -->
+      
+      
+      <br>
+
+      
+      
+      
+      
+      
+        <a role="button" href="./papers/Moreno_2014_Chap1.pdf" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="bi bi-file-earmark-pdf ai-lg"></i> PDF 
+        </a> 
+      
+      
+      
+      
+      
+        <a role="button" href="https://doi.org/10.1016/B978-0-12-404704-4.00002-8" type="button" class="btn btn-outline-secondary btn-xs"> 
+          <i class="ai ai-closed-access ai-lg"></i> Publisher's Version 
+        </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+      
+      
+      
+      
+      
+      
+      <br>
+      
+      
+      </p>
+      <hr>
+    </li>
+  
+</ul>
+
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
 </section>
 <section id="research-presentations" class="level2">
 <h2 class="anchored" data-anchor-id="research-presentations">Research Presentations</h2>
@@ -316,6 +1157,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Psychophysiology</li>
 <li>Hemodialysis Intl</li>
 </ul>
+
 
 
 </section>

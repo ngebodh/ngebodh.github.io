@@ -7,13 +7,6 @@ website:
   favicon: favicon_1.svg
 
 
-  sidebar:
-    position: left
-    toc:
-      depth: 2
-
-
-
   navbar:
     link-external-newwindow: true
     link-external-icon: true
@@ -72,7 +65,7 @@ format:
     toc: true
     toc_depth: 15
     toc-expand: 6
-    toc_float: true
+    toc_float: false
     toc_smooth_scroll: true
     toc_highlight: true
     fig-align: center
