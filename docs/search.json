@@ -201,5 +201,12 @@
     "title": "LLM chatbot demo with models from Google, Mistral AI, and Hugging Face",
     "section": "",
     "text": "Use the left panel to select a model from the dropdown.\nEnter your question in the textbox at the bottom of the page.\nHappy chatting."
+  },
+  {
+    "objectID": "projects/2024-03-05/index_demo.html#test",
+    "href": "projects/2024-03-05/index_demo.html#test",
+    "title": "LLM chatbot demo with models from Google, Mistral AI, and Hugging Face",
+    "section": "Test",
+    "text": "Test"
   }
 ]
