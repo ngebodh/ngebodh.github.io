@@ -5,6 +5,11 @@ project:
 website:
   title: "Nigel **Gebodh**"
   favicon: favicon_1.svg
+  google-analytics: "G-E4M44W57FR"
+  twitter-card: 
+    creator: "@nigelgebodh"
+    image: "./img/ProfileImage_1.jpg"
+  open-graph: true
 
 
   navbar:
@@ -15,6 +20,8 @@ website:
       text: Home
     - href: publications/publications.qmd
     - href: media/media.qmd
+    - href: projects/index.qmd
+      text: Projects
     - text: "Connect"
       menu:
       - icon: bi-mortarboard-fill

@@ -76,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -105,31 +105,48 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../../media/media.html"> 
 <span class="menu-text">Talks &amp; Media</span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl"> <i class="bi bi-mortarboard-fill" role="img">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-connect" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Connect</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-connect">    
+        <li>
+    <a class="dropdown-item" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl" target="_blank"><i class="bi bi-mortarboard-fill" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="dropdown-text">Google Scholar</span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61"> <i class="bi bi-bi bi-linkedin" role="img">
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61" target="_blank"><i class="bi bi-bi bi-linkedin" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="dropdown-text">LinkedIn</span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/nigelgebodh"> <i class="bi bi-twitter" role="img">
+        <li>
+    <a class="dropdown-item" href="https://twitter.com/nigelgebodh" target="_blank"><i class="bi bi-bi bi-twitter-x" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="dropdown-text">Twitter(X)</span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ngebodh"> <i class="bi bi-github" role="img">
+        <li>
+    <a class="dropdown-item" href="https://github.com/ngebodh" target="_blank"><i class="bi bi-github" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="dropdown-text">GitHub</span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA"> <i class="bi bi-bi bi-youtube" role="img">
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA" target="_blank"><i class="bi bi-bi bi-youtube" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="dropdown-text">YouTube</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="https://bsky.app/profile/nigelgebodh.bsky.social" target="_blank"><i class="bi bi-bi bi-butterfly" role="img">
+</i> 
+ <span class="dropdown-text">BlueSky</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:nigel.gebodh@gmail.com" target="_blank"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">nigel.gebodh@gmail.com</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -137,16 +154,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Welcome To My Blog</li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
@@ -155,6 +162,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">Welcome To My Blog</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">news</div>
+                <div class="quarto-category">LLMs</div>
               </div>
                   </div>
   </div>
@@ -182,9 +190,6 @@ ul.task-list li input[type="checkbox"] {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
@@ -196,9 +201,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="thumbnail.jpg" class="img-fluid"></p>
-<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+<iframe width="780" height="500" src="https://nimaboscarino-hotdog-gradio.hf.space" title="Quarto Documentation"></iframe>
 
 
 
@@ -756,7 +759,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright, Nigel Gebodh, Made on Earth by a Human</p>
+<p>© Nigel Gebodh, Made on Earth by a Human</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

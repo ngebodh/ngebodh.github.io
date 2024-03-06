@@ -1,0 +1,17 @@
+---
+title: "LLM chatbot demo with models from Google, Mistral AI, and Hugging Face"
+# subtitle: "LLM chatbot demo with Gemma, Mistral, and Zephyr"
+author: "Nigel Gebodh"
+categories: [LLM, ML, NLP, Chatbot, Streamlit, Hugging Face, Mistral, Gemma, Zephyr]
+date: "2024-03-05"
+---
+
+```{=html}
+<iframe
+	src="https://ngebodh-simplechatbot.hf.space"
+	frameborder="0"
+	width="100%"
+	height="800"
+></iframe>
+
+```
