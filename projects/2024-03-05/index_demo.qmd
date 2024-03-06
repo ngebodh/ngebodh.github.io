@@ -6,12 +6,38 @@ categories: [LLM, ML, NLP, Chatbot, Streamlit, Hugging Face, Mistral, Gemma, Zep
 date: "2024-03-05"
 ---
 
+::: {#hero-heading}
+
 ```{=html}
 <iframe
 	src="https://ngebodh-simplechatbot.hf.space"
 	frameborder="0"
-	width="100%"
-	height="800"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;"
+    allowfullscreen
 ></iframe>
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+::: 
