@@ -31,7 +31,7 @@ Jump straight to the [chatbot demo](index_demo.qmd)
 
 [^1]: API - Application programming interface
 
-Here, we’ll use Streamlit to look at some of the state-of-the-art LLMs on Hugging Face that can easily be set-up for quick inference in a chatbot interface:
+Here, we’ll use Streamlit to look at some of the state-of-the-art LLMs on Hugging Face that can be easily set-up for quick inference in a chatbot interface:
 
 -   Mistral 7B
 -   Gemma 7B and 2B
@@ -65,7 +65,7 @@ LLMs work through a number of different complex steps (*greatly oversimplified*)
 
 <img src="gemma_logo.png" alt="Gemma" width="45%" height="auto" style="border: none;"/>
 
-[Gemma](https://blog.google/technology/developers/gemma-open-models/) is described as a family of lightweight models. It was developed by Deepmind and other teams at Google. These models were used to create Google’s Gemini models. The name of the model comes from the Latin word *gemma*, translating to 'gem' or precious stone.
+[Gemma](https://blog.google/technology/developers/gemma-open-models/) is described as a family of lightweight models. It was developed by [DeepMind](https://deepmind.google/) and other teams at Google. These models were used to create Google’s Gemini models. The name of the model comes from the Latin word *gemma*, translating to 'gem' or precious stone.
 
 The open source [Gemma model](https://storage.googleapis.com/deepmind-media/gemma/gemma-report.pdf) is based on the transformer decoder architecture and comes in two sizes: a 7B and 2B. These represent the number of parameters that each model has, which are actually 7,751,248,896 (7B) and 1,981,884,416 (2B). On benchmarks the Gemma model performs on par or better than the LLaMA and Mistral models. You can check out the interactive benchmark comparisons [here](https://ai.google.dev/gemma#research).
 
@@ -83,20 +83,20 @@ One thing to note is that the current 7B Hugging Face implementation of the Gemm
 
 <img src="zephyr_logo.png" alt="Zephyr" width="45%" height="auto" style="border: none;"/>
 
-The Zephyr models are a series of models that were fine tuned by the team at [Hugging Face](https://huggingface.co/HuggingFaceH4). The [Zephyr 7B-β](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta) model is the second of (*currently*) 3 models and is a fine tuned version of the Mistral 7B model. The idea behind model fine-tuning is to improve the accuracy of the models. In this case the Mistral model was additionally fine-tuned with [AI feedback (AIF)](https://arxiv.org/abs/2310.16944). Similar to the term *mistral* the word [*zephyr*](https://www.oed.com/search/dictionary/?scope=Entries&q=zephyr) refers to a soft gentle breeze.
+The Zephyr models are a series of models that were fine-tuned by the team at [Hugging Face](https://huggingface.co/HuggingFaceH4). The [Zephyr 7B-β](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta) model is the second of (*currently*) 3 models and is a fine-tuned version of the Mistral 7B model. The idea behind model fine-tuning is to improve the accuracy of the models. In this case the Mistral model was additionally fine-tuned with [AI feedback (AIF)](https://arxiv.org/abs/2310.16944). Similar to the term *mistral* the word [*zephyr*](https://www.oed.com/search/dictionary/?scope=Entries&q=zephyr) refers to a soft, gentle breeze.
 
-One of the latest Zephyr models, [Zephyr 7B Gemma](https://huggingface.co/HuggingFaceH4/zephyr-7b-gemma-v0.1) is a fine-tuned version of the Gemma model by Google, however the has not yet been configured for inference on Hugging Face. There is an interactive demo available though, check it out [here](https://huggingface.co/spaces/HuggingFaceH4/zephyr-7b-gemma-chat).
+One of the latest Zephyr models, [Zephyr 7B Gemma](https://huggingface.co/HuggingFaceH4/zephyr-7b-gemma-v0.1) is a fine-tuned version of the Gemma model by Google, however it has not yet been configured for inference on Hugging Face. There is an interactive demo available though, check it out [here](https://huggingface.co/spaces/HuggingFaceH4/zephyr-7b-gemma-chat).
 
 ## Setting Up Models with Hugging Face and Streamlit
 
-Hugging Face hosts a number of open source pre-trained LLMs and allows you to directly interface with them through API calls. When getting started we’ll first need an API key[^7], which is free after creating a Hugging Face account.
+Hugging Face hosts a number of open-source, pre-trained LLMs and allows you to directly interface with them through API calls. When getting started we’ll first need an API key[^7], which is free after creating a Hugging Face account.
 
 [^7]: It will be an alpha numeric code starting with `hf`
 
 1.  We first install all the libraries we’ll be using. We’ll use the OpenAI API to stream model output from but other APIs exist.
 
     ``` python
-    !pip install openai langchain python-dotenv langchain-community 
+    !pip install openai python-dotenv
     ```
 
 2.  Next we assign the client interface that’ll be helping us with API calls to HuggingFace. If you're using Hugging Face spaces be sure to add your Hugging Face API key to your secret codes in your space settings.
@@ -226,7 +226,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
               st.markdown(message["content"])
     ```
 
-8.  Finally we set up the chat interface in Streamlit where the user’s questions or `prompts` get passed on to the model we select and the model or the `assistant` returns a `response`. We make sure to keep adding our `prompts` and `response`s to the *messages* structure we created so the model has some context to keep a conversation going.
+8.  Finally we set up the chat interface in Streamlit where the user’s questions or `prompt` gets passed on to the model we select and the model or the `assistant` returns a `response`. We make sure to keep adding our `prompt` and `response` to the *messages* structure we created so the model has some context to keep a conversation going.
 
     ``` python
     # Accept user input
@@ -263,10 +263,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
       <img src="chat_interface1.png" alt="Final Chatbot interface" width="80%" height="auto" style="border: none;">
 </div>      
 ```
-
-<br>
-</br>
-
+<br> </br>
 
 The full script can be found [here](https://huggingface.co/spaces/ngebodh/SimpleChatbot/blob/main/app.py).
 
