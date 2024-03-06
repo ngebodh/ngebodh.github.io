@@ -69,7 +69,7 @@ LLMs work through a number of different complex steps (*greatly oversimplified*)
 
 The open source [Gemma model](https://storage.googleapis.com/deepmind-media/gemma/gemma-report.pdf) is based on the transformer decoder architecture and comes in two sizes: a 7B and 2B. These represent the number of parameters that each model has, which are actually 7,751,248,896 (7B) and 1,981,884,416 (2B). On benchmarks the Gemma model performs on par or better than the LLaMA and Mistral models. You can check out the interactive benchmark comparisons [here](https://ai.google.dev/gemma#research).
 
-One thing to note is that the current 7B Hugging Face implementation of the Gemma model may have some hiccups, which are looked into by the Hugging Face team[^6] so use it with caution.
+One thing to note is that the current 7B Hugging Face implementation of the Gemma model may have some hiccups, which are being looked into by the Hugging Face team[^6] so use it with caution.
 
 [^6]: [Jeremy Howard's take](https://x.com/jeremyphoward/status/1763281884422050161?s=20)
 
@@ -99,7 +99,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
     !pip install openai langchain python-dotenv langchain-community 
     ```
 
-2.  Next we assign the client interface that’ll be helping us with API calls to HuggingFace. If you're using Hugging Face spaces be sure to add your Hugging Face API key to your secret codes in your space settings. 
+2.  Next we assign the client interface that’ll be helping us with API calls to HuggingFace. If you're using Hugging Face spaces be sure to add your Hugging Face API key to your secret codes in your space settings.
 
     ``` python
     import streamlit as st
@@ -158,7 +158,19 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
                   }              
     ```
 
-5.  We configure the session settings in Streamlit and add some buttons.
+5.  Create a function that wipes the session conversation if a button is pushed
+
+    ``` python
+    def reset_conversation():
+        '''
+        Resets Conversation
+        '''
+        st.session_state.conversation = []
+        st.session_state.messages = []
+        return None
+    ```
+
+6.  We configure the session settings in Streamlit and add some buttons.
 
     ``` python
       # Define the available models
@@ -184,7 +196,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
       st.subheader(f'AI - {selected_model}')
     ```
 
-6.  We do some configurations to clean up our messages and make sure we have the model selected.
+7.  We do some configurations to clean up our messages and make sure we have the model selected.
 
     ``` python
       #Keep track of which model we're using
@@ -214,7 +226,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
               st.markdown(message["content"])
     ```
 
-7.  Finally we set up the chat interface in Streamlit where the user’s questions or `prompts` get passed on to the model we select and the model or the `assistant` returns a `response`. We make sure to keep adding our `prompts` and `response`s to the *messages* structure we created so the model has some context to keep a conversation going.
+8.  Finally we set up the chat interface in Streamlit where the user’s questions or `prompts` get passed on to the model we select and the model or the `assistant` returns a `response`. We make sure to keep adding our `prompts` and `response`s to the *messages* structure we created so the model has some context to keep a conversation going.
 
     ``` python
     # Accept user input
@@ -244,7 +256,7 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
         st.session_state.messages.append({"role": "assistant", "content": response})
     ```
 
-8.  If we're running this locally we can use `streamlit run app.py` or on Hugging Face wait for all parts to build automatically. When everything's up and running the interface will look like below. On the left panel the drop-down lets us switch between models and the temperature slider let's us adjust the model's temperature value.
+9.  If we're running this locally we can use `streamlit run app.py` or on Hugging Face wait for all parts to build automatically. When everything's up and running the interface will look like below. On the left panel the drop-down lets us switch between models and the temperature slider let's us adjust the model's temperature value.
 
 ```{=html}
 <div style="text-align: center;">
