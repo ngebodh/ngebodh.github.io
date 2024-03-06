@@ -87,7 +87,7 @@ The Zephyr models are a series of models that were fine tuned by the team at [Hu
 
 One of the latest Zephyr models, [Zephyr 7B Gemma](https://huggingface.co/HuggingFaceH4/zephyr-7b-gemma-v0.1) is a fine-tuned version of the Gemma model by Google, however the has not yet been configured for inference on Hugging Face. There is an interactive demo available though, check it out [here](https://huggingface.co/spaces/HuggingFaceH4/zephyr-7b-gemma-chat).
 
-## Setting Up Models with Hugging Face and Steamlit
+## Setting Up Models with Hugging Face and Streamlit
 
 Hugging Face hosts a number of open source pre-trained LLMs and allows you to directly interface with them through API calls. When getting started we’ll first need an API key[^7], which is free after creating a Hugging Face account.
 
