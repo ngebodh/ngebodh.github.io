@@ -260,6 +260,16 @@ Hugging Face hosts a number of open source pre-trained LLMs and allows you to di
 
 ```{=html}
 <div style="text-align: center;">
-      <img src="chat_interface1.png" alt="Final Chatbot interface" width="60%" height="auto" style="border: none;">
+      <img src="chat_interface1.png" alt="Final Chatbot interface" width="80%" height="auto" style="border: none;">
 </div>      
 ```
+
+<br>
+</br>
+
+
+The full script can be found [here](https://huggingface.co/spaces/ngebodh/SimpleChatbot/blob/main/app.py).
+
+# What's Next
+
+The models on their own are very powerful but they only have information up to the time they were trained. To enhance the model's capabilities in the future we can feed them updated or real-time information through processes called [Retrieval-Augmented Generation (RAG)](https://aws.amazon.com/what-is/retrieval-augmented-generation/).

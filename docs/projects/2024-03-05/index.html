@@ -230,6 +230,7 @@ gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
   <li><a href="#what-is-zephyr" id="toc-what-is-zephyr" class="nav-link" data-scroll-target="#what-is-zephyr">What is Zephyr?</a></li>
   </ul></li>
   <li><a href="#setting-up-models-with-hugging-face-and-streamlit" id="toc-setting-up-models-with-hugging-face-and-streamlit" class="nav-link" data-scroll-target="#setting-up-models-with-hugging-face-and-streamlit">Setting Up Models with Hugging Face and Streamlit</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s Next</a></li>
   </ul>
 </nav>
     </div>
@@ -292,6 +293,7 @@ gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
   <li><a href="#what-is-zephyr" id="toc-what-is-zephyr">What is Zephyr?</a></li>
   </ul></li>
   <li><a href="#setting-up-models-with-hugging-face-and-streamlit" id="toc-setting-up-models-with-hugging-face-and-streamlit">Setting Up Models with Hugging Face and Streamlit</a></li>
+  <li><a href="#whats-next" id="toc-whats-next">What’s Next</a></li>
   </ul>
 </nav>
 <p><img src="assistant_gif.gif" alt="Chatbot. Image by Nigel Gebodh and DALL-E 3" width="100%" height="auto" style="border: none;"></p>
@@ -479,8 +481,14 @@ gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
 <li><p>If we’re running this locally we can use <code>streamlit run app.py</code> or on Hugging Face wait for all parts to build automatically. When everything’s up and running the interface will look like below. On the left panel the drop-down lets us switch between models and the temperature slider let’s us adjust the model’s temperature value.</p></li>
 </ol>
 <div style="text-align: center;">
-      <img src="chat_interface1.png" alt="Final Chatbot interface" width="60%" height="auto" style="border: none;">
+      <img src="chat_interface1.png" alt="Final Chatbot interface" width="80%" height="auto" style="border: none;">
 </div>      
+<p><br> <br></p>
+<p>The full script can be found <a href="https://huggingface.co/spaces/ngebodh/SimpleChatbot/blob/main/app.py">here</a>.</p>
+</section>
+<section id="whats-next" class="level1">
+<h1>What’s Next</h1>
+<p>The models on their own are very powerful but they only have information up to the time they were trained. To enhance the model’s capabilities in the future we can feed them updated or real-time information through processes called <a href="https://aws.amazon.com/what-is/retrieval-augmented-generation/">Retrieval-Augmented Generation (RAG)</a>.</p>
 
 
 </section>
