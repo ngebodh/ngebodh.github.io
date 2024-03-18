@@ -1,5 +1,5 @@
 ---
-title: "Nigel **Gebodh**"
+title: "Nigel Gebodh, PhD"
 subtitle: "Engineer | Artist | Scientist"
 image: img/ProfileImage_1.jpg
 
@@ -35,11 +35,12 @@ email-obfuscation: javascript
 
 ## Bio
 
-I'm a PhD candidate in Biomedical Engineering and an NIH-GRISE and Grove School of Engineering Fellow.
+I currently work on building, understanding, and integrating machine learning/artificial intelligent systems.
 
-My work is at the intersection of digital health, machine learning, wearables, biosignals, and understanding brain and body connections.
+I'm interested in the intersection of machine learning, intelligent agents, digital health, wearables, signal processing, and understanding brain and body connections.
 
-I currently work on building, understanding, and integrating intelligent systems with wearables and digital health applications.
+I completed my PhD work in Neural and Biomedical Engineering with fellowships awarded from the NIH and Grove School of Engineering.
+
 
 ## Experience
 
@@ -60,7 +61,11 @@ I currently work on building, understanding, and integrating intelligent systems
 
 ## Education
 
-The Grove School of Engineering, </br>The City College of New York, CUNY
+The Grove School of Engineering, 
+</br>
+The City College of New York, CUNY
+</br>
+*NIH-GRISE and Grove School of Engineering Fellow*
 
 #### PhD & MPhil
 
@@ -68,7 +73,7 @@ Building improved wearables, and assessing neural (sleep/attention/vigilance) an
 
 #### MSci
 
-Understanding the human visual system by mapping the early visual cortex. Applying signal detection and signal processing techniques.
+Understanding the human visual system by mapping the early visual cortex. Applying machine learning, signal detection, and signal processing techniques.
 
 #### BE
 
