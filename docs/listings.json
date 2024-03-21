@@ -6,6 +6,8 @@
   {
     "listing": "/projects/index.html",
     "items": [
+      "/projects/2024-03-19/index.html",
+      "/projects/2024-03-19/index_test.html",
       "/projects/2024-03-05/index.html",
       "/projects/2024-03-05/index_demo.html"
     ]

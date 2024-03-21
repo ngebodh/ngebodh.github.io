@@ -130,6 +130,69 @@
     "href": "projects/index.html",
     "title": "Projects",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\nMar 5, 2024\n\n\nLarge Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face\n\n\n13 min\n\n\n\n\nMar 5, 2024\n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n1 min\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n \n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n24 min\n\n\n\n\n \n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n5 min\n\n\n\n\nMar 5, 2024\n\n\nLarge Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face\n\n\n13 min\n\n\n\n\nMar 5, 2024\n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n1 min\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "projects/2024-03-19/index.html",
+    "href": "projects/2024-03-19/index.html",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "",
+    "text": "Image by DALL-E 3"
+  },
+  {
+    "objectID": "projects/2024-03-19/index_test.html",
+    "href": "projects/2024-03-19/index_test.html",
+    "title": "The Neuromodulation Landscape",
+    "section": "",
+    "text": "This is an interactive mapping of different types of neuromodulation or brain stimulation techniques.\nThis mapping is based on my book chapter.\n\n\n\nNeuromodulation is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist.\nCheck out this deeper discussion on the difference.\n\n\n\n\nUse the navigation buttons at the top to change the layout of the chart.\nTo expand the chart categories click on the dropdown arrows.\nClick on the numbers within each block to create a root mapping.\nYou can export your selection with the buttons on top.\n\n\n\nThis is a work in progress and will be periodically updated. Email me with any feedback!"
+  },
+  {
+    "objectID": "projects/2024-03-19/index_test.html#what-is-this",
+    "href": "projects/2024-03-19/index_test.html#what-is-this",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "What is this?",
+    "text": "What is this?\nThis is an interactive mapping of different types of neuromodulation or brain stimulation techniques.\nThis mapping is based on my book chapter."
+  },
+  {
+    "objectID": "projects/2024-03-19/index_test.html#what-is-neuromodulation",
+    "href": "projects/2024-03-19/index_test.html#what-is-neuromodulation",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "What is neuromodulation?",
+    "text": "What is neuromodulation?\nNeuromodulation is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist.\nCheck out this deeper discussion on the difference."
+  },
+  {
+    "objectID": "projects/2024-03-19/index_test.html#footnotes",
+    "href": "projects/2024-03-19/index_test.html#footnotes",
+    "title": "The Neuromodulation Landscape",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nCheck out this deeper discussion on the difference↩︎"
+  },
+  {
+    "objectID": "projects/2024-03-19/index_test.html#how-do-i-use-this",
+    "href": "projects/2024-03-19/index_test.html#how-do-i-use-this",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "How do I use this?",
+    "text": "How do I use this?\n\nUse the navigation buttons at the top to change the layout of the chart.\nTo expand the chart categories click on the dropdown arrows.\nClick on the numbers on the upper right within each block to create a root mapping.\nUse the clear button to remove tree mapping.\nYou can drag the map around the fit your screen.\nYou can enter full screen mode.\nYou can export your selection with the buttons on top.\n\n\nFeedback\nThis is a work in progress and will be periodically updated. Email me with any feedback."
+  },
+  {
+    "objectID": "projects/2024-03-19/index.html#what-is-this",
+    "href": "projects/2024-03-19/index.html#what-is-this",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "What is this?",
+    "text": "What is this?\nThis is an interactive mapping of different types of neuromodulation or brain stimulation techniques.\nThis mapping is based on my book chapter."
+  },
+  {
+    "objectID": "projects/2024-03-19/index.html#what-is-neuromodulation",
+    "href": "projects/2024-03-19/index.html#what-is-neuromodulation",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "What is neuromodulation?",
+    "text": "What is neuromodulation?\nNeuromodulation is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist.\nCheck out this deeper discussion on the difference."
+  },
+  {
+    "objectID": "projects/2024-03-19/index.html#how-do-i-use-this",
+    "href": "projects/2024-03-19/index.html#how-do-i-use-this",
+    "title": "Interactive Neuromodulation Landscape",
+    "section": "How do I use this?",
+    "text": "How do I use this?\n\nUse the navigation buttons at the top to change the layout of the chart.\nTo expand the chart categories click on the dropdown arrows.\nClick on the numbers on the upper right within each block to create a root mapping.\nUse the clear button to remove tree mapping.\nYou can drag the map around the fit your screen.\nYou can enter full screen mode.\nYou can export your selection with the buttons on top.\n\n\nFeedback\nThis is a work in progress and will be periodically updated. Email me with any feedback."
   }
 ]
