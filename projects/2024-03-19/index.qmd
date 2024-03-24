@@ -33,7 +33,7 @@ This mapping is based on my [book chapter](https://www.researchgate.net/publicat
 
 
 ## What is neuromodulation?
-**Neuromodulation** is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist. 
+**Neuromodulation** is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangeably, although in some cases differences exist. 
 
 Check out [this deeper discussion on the difference](https://neuromodec.org/2020/07/what-is-the-difference-between-brain-stimulation-and-neuromodulation/#:~:text=Neuromodulation%20as%20such%20is%20a,lasting%20(e.g.%20therapeutic)%20change.).  
 
@@ -43,7 +43,7 @@ Check out [this deeper discussion on the difference](https://neuromodec.org/2020
 - To expand the chart categories click on the dropdown arrows. 
 - Click on the numbers on the upper right within each block to create a root mapping. 
 - Use the clear button to remove tree mapping.
-- You can drag the map around the fit your screen.
+- You can drag the map around to fit your screen.
 - You can enter full screen mode.
 - You can export your selection with the buttons on top. 
 
