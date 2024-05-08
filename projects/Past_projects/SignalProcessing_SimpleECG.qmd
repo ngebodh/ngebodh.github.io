@@ -13,7 +13,7 @@ format:
 
 ```{=html}
 <iframe 
-    src="https://nbviewer.org/github/ngebodh/SignalProcessing/blob/master/ECG/ECG_Analysis_SignProcessing.ipynb"
+    src="https://nbviewer.org/github/ngebodh/SignalProcessing/blob/master/ECG/ECG_Analysis_SignProcessing.ipynb?flush_cache=true"
 	frameborder="0"
     style="position:  relative; 
     top: 0%; 

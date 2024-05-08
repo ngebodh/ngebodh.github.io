@@ -13,7 +13,7 @@ format:
 
 ```{=html}
 <iframe 
-    src="https://nbviewer.jupyter.org/github/ngebodh/MachineLearning/blob/master/DeepLearning/ImageRecog/DeepLearningWithKeras_ImageRecog_VGG16.ipynb"
+    src="https://nbviewer.jupyter.org/github/ngebodh/MachineLearning/blob/master/DeepLearning/ImageRecog/DeepLearningWithKeras_ImageRecog_VGG16.ipynb?flush_cache=true"
 	frameborder="0"
     style="position:  relative; 
     top: 0%; 
