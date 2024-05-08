@@ -1,0 +1,25 @@
+---
+title: "Image Recognition & Classification with ResNet50"
+subtitle: "Using the ResNet50 model for to classify images"
+author: "Nigel Gebodh"
+categories: [Deep Learning, ML, Computer Vision, Image Recognition, TensorFlow, Keras]
+date: "2022-01-01"
+# reference-location: margin
+back-to-top-navigation: false
+format: 
+  html:
+    page-layout: full
+---
+
+```{=html}
+<iframe 
+    src="https://nbviewer.org/github/ngebodh/MachineLearning/blob/master/DeepLearning/ImageRecog/DeepLearningWithKeras-ImageRecog.ipynb"
+	frameborder="0"
+    style="position:  relative; 
+    top: 0%; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;"
+    allowfullscreen>
+</iframe>
+```

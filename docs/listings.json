@@ -8,7 +8,12 @@
     "items": [
       "/projects/2024-03-19/index.html",
       "/projects/2024-03-05/index.html",
-      "/projects/2024-03-05/index_demo.html"
+      "/projects/2024-03-05/index_demo.html",
+      "/projects/Past_projects/ImageRecog_MLP.html",
+      "/projects/Past_projects/ImageRecog_PCA.html",
+      "/projects/Past_projects/ImageRecog_ResNet50.html",
+      "/projects/Past_projects/ImageRecog_VGG16.html",
+      "/projects/Past_projects/SignalProcessing_SimpleECG.html"
     ]
   }
 ]

@@ -1,0 +1,25 @@
+---
+title: "Simple ECG Signal Analysis in Python"
+subtitle: "Simple ECG heart rate analysis in Python"
+author: "Nigel Gebodh"
+categories: [Signal Processing, ECG, Plotly]
+date: "2022-01-01"
+# reference-location: margin
+back-to-top-navigation: false
+format: 
+  html:
+    page-layout: full
+---
+
+```{=html}
+<iframe 
+    src="https://nbviewer.org/github/ngebodh/SignalProcessing/blob/master/ECG/ECG_Analysis_SignProcessing.ipynb"
+	frameborder="0"
+    style="position:  relative; 
+    top: 0%; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;"
+    allowfullscreen>
+</iframe>
+```

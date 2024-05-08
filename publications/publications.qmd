@@ -76,6 +76,8 @@ For the latest publications see [Google Scholar](https://scholar.google.com/cita
 
 ## Ad Hoc Review
 
+* eNeuro
+* Scientific Reports
 * Brain Stimulation   
 * Sleep Medicine     
 * PLOS Comp Bio    

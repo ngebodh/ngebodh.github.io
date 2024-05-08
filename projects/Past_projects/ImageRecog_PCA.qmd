@@ -1,0 +1,25 @@
+---
+title: "Facial Recognition with Principal Component Analysis"
+subtitle: "Using PCA to identify famous faces (Eigen Face)"
+author: "Nigel Gebodh"
+categories: [ML, Computer Vision, Image Recognition, PCA, SVD, Scikit-Learn]
+date: "2022-01-01"
+# reference-location: margin
+back-to-top-navigation: false
+format: 
+  html:
+    page-layout: full
+---
+
+```{=html}
+<iframe 
+    src="https://nbviewer.org/github/ngebodh/MachineLearning/blob/master/SVM/EigenFaces_PCA.ipynb"
+	frameborder="0"
+    style="position:  relative; 
+    top: 0%; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;"
+    allowfullscreen>
+</iframe>
+```

@@ -32,7 +32,14 @@
     "href": "publications/publications.html#ad-hoc-review",
     "title": "Publications",
     "section": "Ad Hoc Review",
-    "text": "Ad Hoc Review\n\nBrain Stimulation\n\nSleep Medicine\n\nPLOS Comp Bio\n\nJ.NeuroEng & Rehab\nNeuroImage\nNeuropsychologia\nApplied Intelligence\nPsychophysiology\nHemodialysis Intl"
+    "text": "Ad Hoc Review\n\neNeuro\nScientific Reports\nBrain Stimulation\n\nSleep Medicine\n\nPLOS Comp Bio\n\nJ.NeuroEng & Rehab\nNeuroImage\nNeuropsychologia\nApplied Intelligence\nPsychophysiology\nHemodialysis Intl"
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\nInteractive Neuromodulation Landscape\n\n\n6 min\n\n\n\n\nLarge Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face\n\n\n13 min\n\n\n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n1 min\n\n\n\n\nDigit Recognition with MLP from Scratch\n\n\n1 min\n\n\n\n\nFacial Recognition with Principal Component Analysis\n\n\n1 min\n\n\n\n\nImage Recognition & Classification with ResNet50\n\n\n1 min\n\n\n\n\nImage Recognition & Classification with VGG16\n\n\n1 min\n\n\n\n\nSimple ECG Signal Analysis in Python\n\n\n1 min\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -124,55 +131,6 @@
     "title": "Large Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face",
     "section": "Setting Up Models with Hugging Face and Streamlit",
     "text": "Setting Up Models with Hugging Face and Streamlit\nHugging Face hosts a number of open-source, pre-trained LLMs and allows you to directly interface with them through API calls. When getting started we’ll first need an API key7, which is free after creating a Hugging Face account.\n7 It will be an alpha numeric code starting with hf\nWe first install all the libraries we’ll be using. We’ll use the OpenAI API to stream model output from but other APIs exist.\n!pip install openai python-dotenv\nNext we assign the client interface that’ll be helping us with API calls to HuggingFace. If you’re using Hugging Face spaces be sure to add your Hugging Face API key to your secret codes in your space settings.\nimport streamlit as st\nfrom openai import OpenAI\nimport os\nimport sys\nfrom dotenv import load_dotenv, dotenv_values\n\n#This loads env variables like your API keys\nload_dotenv() \nWe create a dictionary with the model names and their URLs.\n#Create supported models\nmodel_links ={\n              \"Mistral\":\"mistralai/Mistral-7B-Instruct-v0.2\",\n              \"Gemma-7B\":\"google/gemma-7b-it\",\n              \"Gemma-2B\":\"google/gemma-2b-it\",\n              \"Zephyr-7B-β\":\"HuggingFaceH4/zephyr-7b-beta\",\n              }\nWe’ll also create a dictionary with some info about the models.\n#Pull info about the model to display\nmodel_info ={\n    \"Mistral\":\n        {'description':\n            \"\"\"The Mistral model is a **Large Language Model (LLM)** that's able to have question and answer interactions...\"\"\",\n        'logo':\n            'https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp'},\n    \"Gemma-7B\":        \n        {'description':\n            \"\"\"The Gemma model is a **Large Language Model (LLM)** that's able to have question and answer interactions...\"\"\",\n        'logo':\n            'https://pbs.twimg.com/media/GG3sJg7X0AEaNIq.jpg'},\n    \"Gemma-2B\":        \n        {'description':\n            \"\"\"The Gemma model is a **Large Language Model (LLM)** that's able to have question and answer interactions...\"\"\",\n        'logo':\n            'https://pbs.twimg.com/media/GG3sJg7X0AEaNIq.jpg'},\n    \"Zephyr-7B\":        \n        {'description':\n            \"\"\"The Zephyr model is a **Large Language Model (LLM)** that's able to have question and answer interactions...\"\"\",\n        'logo':\n            'https://huggingface.co/HuggingFaceH4/zephyr-7b-gemma-v0.1/resolve/main/thumbnail.png'},\n    \"Zephyr-7B-β\":        \n        {'description':\n            \"\"\"The Zephyr model is a **Large Language Model (LLM)** that's able to have question and answer interactions...\"\"\",\n        'logo':\n            'https://huggingface.co/HuggingFaceH4/zephyr-7b-alpha/resolve/main/thumbnail.png'},  \n\n              }              \nCreate a function that wipes the session conversation if a button is pushed\ndef reset_conversation():\n    '''\n    Resets Conversation\n    '''\n    st.session_state.conversation = []\n    st.session_state.messages = []\n    return None\nWe configure the session settings in Streamlit and add some buttons.\n  # Define the available models\n  models =[key for key in model_links.keys()]\n\n  # Create the sidebar with the dropdown for model selection\n  selected_model = st.sidebar.selectbox(\"Select Model\", models)\n\n  #Create a temperature slider\n  temp_values = st.sidebar.slider('Select a temperature value', 0.0, 1.0, (0.5))\n\n\n  #Add reset button to clear conversation\n  st.sidebar.button('Reset Chat', on_click=reset_conversation) #Reset button\n\n\n  # Create model description\n  st.sidebar.write(f\"You're now chatting with **{selected_model}**\")\n  st.sidebar.markdown(model_info[selected_model]['description'])\n  st.sidebar.image(model_info[selected_model]['logo'])\n  st.sidebar.markdown(\"*Generated content may be inaccurate or false.*\")\n\n  st.subheader(f'AI - {selected_model}')\nWe do some configurations to clean up our messages and make sure we have the model selected.\n  #Keep track of which model we're using\n  if \"prev_option\" not in st.session_state:\n      st.session_state.prev_option = selected_model\n\n  #Clear conv if we change models\n  if st.session_state.prev_option != selected_model:\n      st.session_state.messages = []\n      st.session_state.prev_option = selected_model\n      reset_conversation()\n\n  #Pull in the model we want to use\n  repo_id = model_links[selected_model]\n\n  # Set a default model\n  if selected_model not in st.session_state:\n      st.session_state[selected_model] = model_links[selected_model] \n\n  # Initialize chat history\n  if \"messages\" not in st.session_state:\n      st.session_state.messages = []\n\n  # Display chat messages from history on app rerun\n  for message in st.session_state.messages:\n      with st.chat_message(message[\"role\"]):\n          st.markdown(message[\"content\"])\nFinally we set up the chat interface in Streamlit where the user’s questions or prompt gets passed on to the model we select and the model or the assistant returns a response. We make sure to keep adding our prompt and response to the messages structure we created so the model has some context to keep a conversation going.\n# Accept user input\nif prompt := st.chat_input(f\"Hi I'm {selected_model}, ask me a question\"):\n\n    # Display user message in chat message container\n    with st.chat_message(\"user\"):\n        st.markdown(prompt)\n    # Add user message to chat history\n    st.session_state.messages.append({\"role\": \"user\", \"content\": prompt})\n\n\n    # Display assistant response in chat message container\n    with st.chat_message(\"assistant\"):\n        stream = client.chat.completions.create(\n            model=model_links[selected_model],\n            messages=[\n                {\"role\": m[\"role\"], \"content\": m[\"content\"]}\n                for m in st.session_state.messages\n            ],\n            temperature=temp_values,#0.5,\n            stream=True,\n            max_tokens=3000,\n        )\n\n        response = st.write_stream(stream)\n    st.session_state.messages.append({\"role\": \"assistant\", \"content\": response})\nIf we’re running this locally we can use streamlit run app.py or on Hugging Face wait for all parts to build automatically. When everything’s up and running the interface will look like below. On the left panel the drop-down lets us switch between models and the temperature slider let’s us adjust the model’s temperature value.\n\n\n      \n      \n \nThe full script can be found here."
-  },
-  {
-    "objectID": "projects/index.html",
-    "href": "projects/index.html",
-    "title": "Projects",
-    "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\nMar 20, 2024\n\n\nInteractive Neuromodulation Landscape\n\n\n6 min\n\n\n\n\nMar 5, 2024\n\n\nLarge Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face\n\n\n13 min\n\n\n\n\nMar 5, 2024\n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n1 min\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "projects/2024-03-19/index.html",
-    "href": "projects/2024-03-19/index.html",
-    "title": "Interactive Neuromodulation Landscape",
-    "section": "",
-    "text": "Image by DALL-E 3"
-  },
-  {
-    "objectID": "projects/2024-03-19/index_test.html",
-    "href": "projects/2024-03-19/index_test.html",
-    "title": "The Neuromodulation Landscape",
-    "section": "",
-    "text": "This is an interactive mapping of different types of neuromodulation or brain stimulation techniques.\nThis mapping is based on my book chapter.\n\n\n\nNeuromodulation is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist.\nCheck out this deeper discussion on the difference.\n\n\n\n\nUse the navigation buttons at the top to change the layout of the chart.\nTo expand the chart categories click on the dropdown arrows.\nClick on the numbers within each block to create a root mapping.\nYou can export your selection with the buttons on top.\n\n\n\nThis is a work in progress and will be periodically updated. Email me with any feedback!"
-  },
-  {
-    "objectID": "projects/2024-03-19/index_test.html#what-is-this",
-    "href": "projects/2024-03-19/index_test.html#what-is-this",
-    "title": "Interactive Neuromodulation Landscape",
-    "section": "What is this?",
-    "text": "What is this?\nThis is an interactive mapping of different types of neuromodulation or brain stimulation techniques.\nThis mapping is based on my book chapter."
-  },
-  {
-    "objectID": "projects/2024-03-19/index_test.html#what-is-neuromodulation",
-    "href": "projects/2024-03-19/index_test.html#what-is-neuromodulation",
-    "title": "Interactive Neuromodulation Landscape",
-    "section": "What is neuromodulation?",
-    "text": "What is neuromodulation?\nNeuromodulation is the action of interacting with or altering activity in the nervous system through the delivery of a stimulus. These stimuli can range from electrical currents, magnetic pulses, light, ultrasound, heat, etc. The terms neuromodulation and brain stimulation are often used interchangably, although in some cases differences exist.\nCheck out this deeper discussion on the difference."
-  },
-  {
-    "objectID": "projects/2024-03-19/index_test.html#footnotes",
-    "href": "projects/2024-03-19/index_test.html#footnotes",
-    "title": "The Neuromodulation Landscape",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nCheck out this deeper discussion on the difference↩︎"
-  },
-  {
-    "objectID": "projects/2024-03-19/index_test.html#how-do-i-use-this",
-    "href": "projects/2024-03-19/index_test.html#how-do-i-use-this",
-    "title": "Interactive Neuromodulation Landscape",
-    "section": "How do I use this?",
-    "text": "How do I use this?\n\nUse the navigation buttons at the top to change the layout of the chart.\nTo expand the chart categories click on the dropdown arrows.\nClick on the numbers on the upper right within each block to create a root mapping.\nUse the clear button to remove tree mapping.\nYou can drag the map around the fit your screen.\nYou can enter full screen mode.\nYou can export your selection with the buttons on top.\n\n\nFeedback\nThis is a work in progress and will be periodically updated. Email me with any feedback."
   },
   {
     "objectID": "projects/2024-03-19/index.html#what-is-this",

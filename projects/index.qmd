@@ -4,7 +4,7 @@ listing:
   type: table
   sort: 
     - "date desc"
-  fields: [date, title, reading-time]
+  fields: [title, reading-time]
   categories: true
   feed:
     type: full
