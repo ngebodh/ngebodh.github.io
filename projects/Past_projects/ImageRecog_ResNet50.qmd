@@ -1,6 +1,6 @@
 ---
 title: "Image Recognition & Classification with ResNet50"
-subtitle: "Using the ResNet50 model for to classify images"
+subtitle: "Using the ResNet50 model to classify images"
 author: "Nigel Gebodh"
 categories: [Deep Learning, ML, Computer Vision, Image Recognition, TensorFlow, Keras]
 date: "2022-01-01"

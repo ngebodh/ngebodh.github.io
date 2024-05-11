@@ -1,6 +1,6 @@
 ---
 title: "Image Recognition & Classification with VGG16"
-subtitle: "Using the VGG16 model for to classify images"
+subtitle: "Using the VGG16 model to classify images"
 author: "Nigel Gebodh"
 categories: [Deep Learning, ML, Computer Vision, Image Recognition, TensorFlow, Keras]
 date: "2022-01-01"
