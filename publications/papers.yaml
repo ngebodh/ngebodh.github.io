@@ -1,6 +1,50 @@
 ###################################################################################################################################
 #Papers 
 
+- title: "Frontal HD-tACS enhances behavioral and EEG biomarkers of vigilance in continuous attention task"
+  type: "Published"
+  author: 
+    - Nigel Gebodh
+    - Vladimir Miskovic
+    - Sarah Laszlo
+    - Abhishek Datta
+    - Marom Bikson
+  date: 2024-05-23
+  year: 2024
+  journal: "<em>Brain Stimulation</em>"
+  pdf: "https://www.brainstimjrnl.com/action/showPdf?pii=S1935-861X%2824%2900091-3"
+  pubopen: "https://www.brainstimjrnl.com/article/S1935-861X(24)00091-3/fulltext"
+  github: "https://github.com/ngebodh/GX_tES_EEG_Physio_Behavior/tree/master/GX_F30vM30"
+  doi: 10.1016/j.brs.2024.05.009
+  categories: 
+    - EEG
+    - ECG
+    - GX Dataset
+
+
+- title: "A pilot randomized controlled trial of transcranial direct current stimulation adjunct to moderate-intensity aerobic exercise in hypertensive individuals"
+  type: "Published"
+  author: 
+    - Edson Silva-Filho
+    - Marom Bikson
+    - Nigel Gebodh
+    - Niranjan Khadka
+    - Amilton da Cruz Santos
+    - Rodrigo Pegado
+    - Maria do Socorro Brasileiro-Santos
+  date: 2024-04-10
+  year: 2024
+  journal: "<em>Frontiers in Neuroergonomics</em>"
+  pdf: "https://www.frontiersin.org/articles/10.3389/fnrgo.2024.1236486/pdf"
+  pubopen: "https://www.frontiersin.org/journals/neuroergonomics/articles/10.3389/fnrgo.2024.1236486/full"
+  doi: 10.3389/fnrgo.2024.1236486
+  categories: 
+    - tDCS
+    - Blood Pressure
+    - Exercise
+
+
+
 - title: "A Scalable Framework for Closed-Loop Neuromodulation with Deep Learning"
   type: "Published"
   author: 
@@ -274,7 +318,7 @@
 
 
 
-- title: "Transcranial Electrical Stimulation: transcranial Direct Current Stimulation (tDCS), transcranial Alternating Current Stimulation (tACS), transcranial Pulsed Current Stimulation (tPCS), and Transcranial Random Noise Stimulaiton (tRNS)"
+- title: "Transcranial Electrical Stimulation: transcranial Direct Current Stimulation (tDCS), transcranial Alternating Current Stimulation (tACS), transcranial Pulsed Current Stimulation (tPCS), and Transcranial Random Noise Stimulation (tRNS)"
   type: "Chapter"
   author: 
     - Ingrid Moreno-Duarte
