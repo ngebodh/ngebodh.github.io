@@ -38,6 +38,7 @@ This mapping is based on my [book chapter](https://www.researchgate.net/publicat
 Check out [this deeper discussion on the difference](https://neuromodec.org/2020/07/what-is-the-difference-between-brain-stimulation-and-neuromodulation/#:~:text=Neuromodulation%20as%20such%20is%20a,lasting%20(e.g.%20therapeutic)%20change.).  
 
 
+
 ## How do I use this?
 - Use the navigation buttons at the top to change the layout of the chart. 
 - To expand the chart categories click on the dropdown arrows. 
@@ -46,6 +47,7 @@ Check out [this deeper discussion on the difference](https://neuromodec.org/2020
 - You can drag the map around to fit your screen.
 - You can enter full screen mode.
 - You can export your selection with the buttons on top. 
+- The data to make the chart can be found [here](orgData_ojs.csv).
 
 #### Feedback
 This is a work in progress and will be periodically updated. 
