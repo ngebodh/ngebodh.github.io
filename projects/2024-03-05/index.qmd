@@ -36,6 +36,7 @@ Here, we’ll use Streamlit to look at some of the state-of-the-art LLMs on Hugg
 -   Mistral 7B
 -   Gemma 7B and 2B
 -   Zephyr 7B-β
+-   And more (Meta Llama etc.)
 
 ### LLMs what are they good for?
 
@@ -260,7 +261,7 @@ Hugging Face hosts a number of open-source, pre-trained LLMs and allows you to d
 
 ```{=html}
 <div style="text-align: center;">
-      <img src="chat_interface1.png" alt="Final Chatbot interface" width="80%" height="auto" style="border: none;">
+      <img src="LLLMChatbot.gif" alt="Final Chatbot interface" width="80%" height="auto" style="border: none;">
 </div>      
 ```
 <br> </br>
