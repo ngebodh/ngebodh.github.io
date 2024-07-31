@@ -154,13 +154,6 @@
     "text": "Order By\n       Default\n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\nA Guide to Vector Norms in Machine Learning\n\n\n23 min\n\n\n\n\nInteractive Neuromodulation Landscape\n\n\n6 min\n\n\n\n\nLarge Language Models - Chatting with AI Chatbots from Google, Mistral AI, and Hugging Face\n\n\n13 min\n\n\n\n\nDemo - LLM chatbot with models from Google, Mistral AI, and Hugging Face\n\n\n1 min\n\n\n\n\nDigit Recognition with MLP from Scratch\n\n\n1 min\n\n\n\n\nFacial Recognition with Principal Component Analysis\n\n\n1 min\n\n\n\n\nImage Recognition & Classification with ResNet50\n\n\n1 min\n\n\n\n\nImage Recognition & Classification with VGG16\n\n\n1 min\n\n\n\n\nSimple ECG Signal Analysis in Python\n\n\n1 min\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
-    "objectID": "projects/Short_dive_posts/ML_reg_norm/ML_reg_norm.html",
-    "href": "projects/Short_dive_posts/ML_reg_norm/ML_reg_norm.html",
-    "title": "A Guide to Vector Norms in Machine Learning",
-    "section": "",
-    "text": "Norms are a fundamental concept in linear algebra and machine learning.\n\nNorms are a class of mathematical operations used to quantify or measure the length or size of vector or matrix. \n\nThey can be extended to higher dimensions\nSince norms calculate lengths or magnitudes these values are typically \\(\\geq 0\\)\n\n\n\nIn machine learning norms are applied in:\n\nDistance metrics:\n\nSince norms measure lengths and distances, they can be applied to measure the length of a vector or distances between vectors (\\(d(u, v)\\)). They are used in various algorithms that rely on datapoint distance calculations like k-Nearest Neighbor or k-Means clustering.\n\nLoss functions:\n\nSince norms help in calculating distances they are widely used in error or loss calculations like the Mean Squared Error (MSE) and Mean Absolute Error (MAE).\n\nRegularization:\n\nTechniques like LASSO and Ridge regularization/regression apply the \\(L_1\\) and \\(L_2\\) norms to prevent model overfitting by inducing sparsity and reducing model weights.\n\nFeature selection:\n\nNorms like the \\(L_1\\) can help with feature selection by zeroing out unimportant features or creating a sparse solution (some elements in the solution are zero).\n\n\n\nHere we’ll look at some common norms used in machine learning and how they’re applied."
-  },
-  {
     "objectID": "projects/Short_dive_posts/ML_reg_norm/ML_reg_norm.html#norm-notation",
     "href": "projects/Short_dive_posts/ML_reg_norm/ML_reg_norm.html#norm-notation",
     "title": "A Guide to Vector Norms in Machine Learning",

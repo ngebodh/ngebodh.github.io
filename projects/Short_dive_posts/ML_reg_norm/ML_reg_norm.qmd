@@ -86,7 +86,8 @@ def print_result(type_in=1, val=None):
 
 
 
-
+<img src="vector_norms.png" alt="Image by DALL-E 3" width="100%" height="auto" style="border: none;"/>
+<figcaption>Image by DALL-E 3</figcaption>
 
 # What exactly is a norm? 
 Norms are a fundamental concept in linear algebra and machine learning. 
