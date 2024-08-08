@@ -1,6 +1,6 @@
 ---
-title: "A Guide to Vector Norms in Machine Learning"
-subtitle: "Understanding the application of norms in machine learning"
+title: "A Brief Guide to Vector Norms in Machine Learning"
+subtitle: "Understanding the basic application of norms in machine learning with Python examples"
 author: "Nigel Gebodh"
 categories: [ML, Deep Learning, Linear Algebra, Math]
 date: "2024-07-30"
@@ -23,16 +23,12 @@ execute:
 # jupyter: python3
 ---
 
-<style>
 
-/\* Whatever that is inside this
-
-```{=html}
-<style> tag is all styling for your markup / content structure.
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed {
-        background: #E5FAFA; /* C5F7F8 E5FAFA E1FCFC*/
-        color: gray;
+        background: #e6fffe; /* C5F7F8 E5FAFA E1FCFC  #ecfffe #E5FAFA*/
+        color: #0b3357; /* gray navy*/
         border: 3px solid #2980B9;
         margin: 10% auto;
         width: 95%;
@@ -41,17 +37,15 @@ execute:
         border-radius: 20px;
       }
     </style>
-```
-<style>
 
-/\* Whatever that is inside this
 
-```{=html}
-<style> tag is all styling for your markup / content structure.
+
+
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed_gray {
-        background: #eeeeee; /* C5F7F8 E5FAFA E1FCFC a6a6a6*/
-        color: gray;
+        background: 	#f3f6f4; /* #eff8f8 C5F7F8 E5FAFA E1FCFC a6a6a6 #eeeeee #e3e3e3*/
+        color: #444444; /*gray */
         border: 3px solid #a6a6a6;
         margin: 10% auto;
         width: 95%;
@@ -60,26 +54,23 @@ execute:
         border-radius: 20px;
       }
     </style>
-```
-<style>
 
-/\* Whatever that is inside this
 
-```{=html}
-<style> tag is all styling for your markup / content structure.
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed_equation {
         background: #f0fff1; /* C5F7F8 E5FAFA E1FCFC a6a6a6  #94DEA5 #c1fba4 #c2f8cb #f0fff1*/
         color: gray;
-        border: 3px solid #f0fff1; /* dark blue- #023D54 */
+        border: 3px solid #f0fff1; /* dark blue- #023D54 width: 70%; */
         margin: 10% auto;
-        width: 70%;
         height: 95%;
         padding: 10px;
         border-radius: 20px;
       }
     </style>
-```
+
+
+
 ```{python}
 #| echo: false
 import numpy as np
@@ -105,16 +96,21 @@ def print_result(type_in=1, val=None):
 Norms are a fundamental concept in linear algebra and machine learning. Here we'll look at some common norms used in machine learning and how they're applied.
 
 ::: boxed
+
 ***Norms*** are a class of mathematical operations used to quantify or measure the length or size of vector or matrix or distance between vectors or matrices. </mark>
 
 -   Since norms measure lengths, distances, or magnitudes they are typically ≥ 0.
 
--   This is useful in machine learning in cases where you want to build models where you minimize error between predictions and ground truth.
+-   This is useful in machine learning in cases where you want to build models where you minimize errors/distances between predictions and ground truth.
+
 :::
 
-# **How are norms applied in machine learning?**
+
+
+# How are norms applied in machine learning?
 
 ::: boxed_gray
+
 In machine learning norms are applied in:
 
 -   **Distance metrics**:
@@ -125,6 +121,8 @@ In machine learning norms are applied in:
     -   Techniques like LASSO and Ridge regularization/regression apply the $L_1$ and $L_2$ norms to prevent model overfitting by inducing sparsity and reducing model weights.
 -   **Feature selection**:
     -   Norms like the $L_1$ can help with feature selection by zeroing out unimportant features or creating a sparse solution (some elements in the solution are zero). [Check out Dr. Steve Brunton’s explanation](https://www.youtube.com/watch?v=76B5cMEZA4Y).
+
+
 :::
 
 # Common Norms in Machine Learning
@@ -135,7 +133,7 @@ In machine learning norms are applied in:
 
 -   **𝐿∞ Norm** (Max Norm or Chebyshev Norm)
 
--   ***Lₚ*** **(*0****≤**p\<1*****) “Norm” (**Not very common, but can show up)
+-   ***Lₚ*** **(*0****≤**p\<1*****) “Norm” (**Not as common, but can show up)
 
 ## Norm Notation
 
@@ -486,7 +484,7 @@ $$
 :::
 
 ::: boxed_gray
-Norms follow a set of rules:
+Rules of norms:
 
 -   **Non-Negativity**: Norms are non-negative values. It makes sense since they are computed to get the length or size of a vector or matrix. $$
     ||\mathbf{u}||_{p} \geq 0
@@ -507,6 +505,8 @@ $$
 $$
 ||k\mathbf{u} || = |k| ||\mathbf{u} || 
 $$
+
+
 :::
 
 ### $\cdot$ Example: $L_p$ Norms

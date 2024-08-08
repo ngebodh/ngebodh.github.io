@@ -9,7 +9,7 @@
 <meta name="author" content="Nigel Gebodh">
 <meta name="dcterms.date" content="2024-07-30">
 
-<title>Nigel Gebodh - A Guide to Vector Norms in Machine Learning</title>
+<title>Nigel Gebodh - A Brief Guide to Vector Norms in Machine Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -250,7 +250,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#what-exactly-is-a-norm" id="toc-what-exactly-is-a-norm" class="nav-link active" data-scroll-target="#what-exactly-is-a-norm">What exactly is a norm?</a></li>
-  <li><a href="#how-are-norms-applied-in-machine-learning" id="toc-how-are-norms-applied-in-machine-learning" class="nav-link" data-scroll-target="#how-are-norms-applied-in-machine-learning"><strong>How are norms applied in machine learning?</strong></a></li>
+  <li><a href="#how-are-norms-applied-in-machine-learning" id="toc-how-are-norms-applied-in-machine-learning" class="nav-link" data-scroll-target="#how-are-norms-applied-in-machine-learning">How are norms applied in machine learning?</a></li>
   <li><a href="#common-norms-in-machine-learning" id="toc-common-norms-in-machine-learning" class="nav-link" data-scroll-target="#common-norms-in-machine-learning">Common Norms in Machine Learning</a>
   <ul class="collapse">
   <li><a href="#norm-notation" id="toc-norm-notation" class="nav-link" data-scroll-target="#norm-notation">Norm Notation</a></li>
@@ -293,8 +293,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">A Guide to Vector Norms in Machine Learning</h1>
-<p class="subtitle lead">Understanding the application of norms in machine learning</p>
+<h1 class="title">A Brief Guide to Vector Norms in Machine Learning</h1>
+<p class="subtitle lead">Understanding the basic application of norms in machine learning with Python examples</p>
   <div class="quarto-categories">
     <div class="quarto-category">ML</div>
     <div class="quarto-category">Deep Learning</div>
@@ -329,13 +329,11 @@ window.Quarto = {
 </header>
 
 
-<style>
-<p>/* Whatever that is inside this</p>
-<style> tag is all styling for your markup / content structure.
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed {
-        background: #E5FAFA; /* C5F7F8 E5FAFA E1FCFC*/
-        color: gray;
+        background: #e6fffe; /* C5F7F8 E5FAFA E1FCFC  #ecfffe #E5FAFA*/
+        color: #0b3357; /* gray navy*/
         border: 3px solid #2980B9;
         margin: 10% auto;
         width: 95%;
@@ -343,14 +341,12 @@ window.Quarto = {
         padding: 20px;
         border-radius: 20px;
       }
-    </style></style>
-<style>
-<p>/* Whatever that is inside this</p>
-<style> tag is all styling for your markup / content structure.
+    </style>
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed_gray {
-        background: #eeeeee; /* C5F7F8 E5FAFA E1FCFC a6a6a6*/
-        color: gray;
+        background:     #f3f6f4; /* #eff8f8 C5F7F8 E5FAFA E1FCFC a6a6a6 #eeeeee #e3e3e3*/
+        color: #444444; /*gray */
         border: 3px solid #a6a6a6;
         margin: 10% auto;
         width: 95%;
@@ -358,22 +354,19 @@ window.Quarto = {
         padding: 10px;
         border-radius: 20px;
       }
-    </style></style>
-<style>
-<p>/* Whatever that is inside this</p>
-<style> tag is all styling for your markup / content structure.
+    </style>
+<style> 
       /* The . with the boxed represents that it is a class */
       .boxed_equation {
         background: #f0fff1; /* C5F7F8 E5FAFA E1FCFC a6a6a6  #94DEA5 #c1fba4 #c2f8cb #f0fff1*/
         color: gray;
-        border: 3px solid #f0fff1; /* dark blue- #023D54 */
+        border: 3px solid #f0fff1; /* dark blue- #023D54 width: 70%; */
         margin: 10% auto;
-        width: 70%;
         height: 95%;
         padding: 10px;
         border-radius: 20px;
       }
-    </style></style>
+    </style>
 <p><img src="vector_norms.png" alt="Image by DALL-E 3" width="100%" height="auto" style="border: none;"></p>
 <figcaption>
 Image by DALL-E 3
@@ -385,12 +378,12 @@ Image by DALL-E 3
 <p><strong><em>Norms</em></strong> are a class of mathematical operations used to quantify or measure the length or size of vector or matrix or distance between vectors or matrices. </p>
 <ul>
 <li><p>Since norms measure lengths, distances, or magnitudes they are typically ≥ 0.</p></li>
-<li><p>This is useful in machine learning in cases where you want to build models where you minimize error between predictions and ground truth.</p></li>
+<li><p>This is useful in machine learning in cases where you want to build models where you minimize errors/distances between predictions and ground truth.</p></li>
 </ul>
 </div>
 </section>
 <section id="how-are-norms-applied-in-machine-learning" class="level1">
-<h1><strong>How are norms applied in machine learning?</strong></h1>
+<h1>How are norms applied in machine learning?</h1>
 <div class="boxed_gray">
 <p>In machine learning norms are applied in:</p>
 <ul>
@@ -419,7 +412,7 @@ Image by DALL-E 3
 <li><p><strong><em>L₁</em></strong> <strong>Norm</strong> (Manhattan Norm or Taxicab norm)</p></li>
 <li><p><strong><em>L₂</em></strong> <strong>Norm</strong> (Euclidean Norm or Magnitude)</p></li>
 <li><p><strong>𝐿∞ Norm</strong> (Max Norm or Chebyshev Norm)</p></li>
-<li><p><strong><em>Lₚ</em></strong> <strong>(<em>0</em></strong><em>≤<strong>p&lt;1</strong></em><strong>) “Norm” (</strong>Not very common, but can show up)</p></li>
+<li><p><strong><em>Lₚ</em></strong> <strong>(<em>0</em></strong><em>≤<strong>p&lt;1</strong></em><strong>) “Norm” (</strong>Not as common, but can show up)</p></li>
 </ul>
 <section id="norm-notation" class="level2">
 <h2 class="anchored" data-anchor-id="norm-notation">Norm Notation</h2>
@@ -488,7 +481,7 @@ or
 \]</span> <span class="math display">\[
 ||\mathbf{x}||_{1} = |3| + |4| =  3 + 4 = 7
 \]</span></p>
-<div id="da48614d" class="cell" data-execution_count="2">
+<div id="60fcf1b1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -527,7 +520,7 @@ or
 &amp; = 9\\
 \end{align*}
 \]</span></p>
-<div id="5c28c6e6" class="cell" data-execution_count="3">
+<div id="d73b2985" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -595,7 +588,7 @@ Example
 &amp; = 5
 \end{align*}
 \]</span></p>
-<div id="176f7c20" class="cell" data-execution_count="4">
+<div id="ea9d02e3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -636,7 +629,7 @@ Example
 &amp; = 5.196\\
 \end{align*}
 \]</span></p>
-<div id="c8dc1d32" class="cell" data-execution_count="5">
+<div id="e5f423db" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -688,7 +681,7 @@ Example
 \]</span> <span class="math display">\[
 ||\mathbf{x}||_{\infty} := max [|3|, |4|] := 4
 \]</span></p>
-<div id="4d8eec74" class="cell" data-execution_count="6">
+<div id="f565a420" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -727,7 +720,7 @@ Example
 &amp; = 3
 \end{align*}
 \]</span></p>
-<div id="a27a8d0b" class="cell" data-execution_count="7">
+<div id="9c8a206f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -765,7 +758,7 @@ L_p := ||\mathbf{x}||_{p} := \sqrt[p]{\sum_{i=1}^n  |x_i|^p} := \left[ \sum_{i=1
 \]</span></p>
 </div>
 <div class="boxed_gray">
-<p>Norms follow a set of rules:</p>
+<p>Rules of norms:</p>
 <ul>
 <li><p><strong>Non-Negativity</strong>: Norms are non-negative values. It makes sense since they are computed to get the length or size of a vector or matrix. <span class="math display">\[
 ||\mathbf{u}||_{p} \geq 0
@@ -804,7 +797,7 @@ Example
 &amp; = 4.498
 \end{align*}
 \]</span></p>
-<div id="992479bb" class="cell" data-execution_count="8">
+<div id="36357051" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -831,7 +824,7 @@ Example
 &amp; =  4.285
 \end{align*}
 \]</span></p>
-<div id="e5b13351" class="cell" data-execution_count="9">
+<div id="503c5bd1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -897,7 +890,7 @@ Simplifying:
                      &amp; =  13.93 \\
 \end{align*}
 \]</span></p>
-<div id="3af2f783" class="cell" data-execution_count="10">
+<div id="7234f8cc" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -931,7 +924,7 @@ Simplifying:
 &amp; = 27\\
 \end{align*}
 \]</span></p>
-<div id="c78ec447" class="cell" data-execution_count="11">
+<div id="ec1a4118" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -991,7 +984,7 @@ Simplifying:
         62.123 &amp; \leq 61.888  (\textcolor{red}{Violation!})   \\     
 \end{align*}
 \]</span></p>
-<div id="6407d932" class="cell" data-execution_count="12">
+<div id="f965db1c" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -1075,7 +1068,7 @@ Example
 \end{align*}
 \]</span></p>
 <p>This means there are <span class="math inline">\(2\)</span> non-zero elements in the vector <span class="math inline">\(\mathbf{x}\)</span></p>
-<div id="65d83b9a" class="cell" data-execution_count="13">
+<div id="c9f5a9b8" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">0</span>])</span>
@@ -1208,7 +1201,7 @@ or
 \]</span> <span class="math display">\[
 MAE = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{|3| + |4|}) = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{ 3 + 4}) = \textcolor{purple}{\frac{1}{2}}( \textcolor{steelblue}{7}) = 3.5
 \]</span></p>
-<div id="e82eff3d" class="cell" data-execution_count="14">
+<div id="f5f08008" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -1280,7 +1273,7 @@ or
 \]</span> <span class="math display">\[
 MSE = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{3^2 + 4^2}) = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{ 9 + 16}) = \textcolor{purple}{\frac{1}{2}}( \textcolor{steelblue}{25}) = 12.5
 \]</span></p>
-<div id="f9c85b57" class="cell" data-execution_count="15">
+<div id="b2dd3c33" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
