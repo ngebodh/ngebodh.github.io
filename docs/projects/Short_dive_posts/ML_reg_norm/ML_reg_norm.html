@@ -250,24 +250,28 @@ window.Quarto = {
    
   <ul>
   <li><a href="#what-exactly-is-a-norm" id="toc-what-exactly-is-a-norm" class="nav-link active" data-scroll-target="#what-exactly-is-a-norm">What exactly is a norm?</a></li>
+  <li><a href="#how-are-norms-applied-in-machine-learning" id="toc-how-are-norms-applied-in-machine-learning" class="nav-link" data-scroll-target="#how-are-norms-applied-in-machine-learning"><strong>How are norms applied in machine learning?</strong></a></li>
   <li><a href="#common-norms-in-machine-learning" id="toc-common-norms-in-machine-learning" class="nav-link" data-scroll-target="#common-norms-in-machine-learning">Common Norms in Machine Learning</a>
   <ul class="collapse">
   <li><a href="#norm-notation" id="toc-norm-notation" class="nav-link" data-scroll-target="#norm-notation">Norm Notation</a></li>
   <li><a href="#l_1-norm-manhattan-norm" id="toc-l_1-norm-manhattan-norm" class="nav-link" data-scroll-target="#l_1-norm-manhattan-norm"><span class="math inline">\(L_1\)</span> Norm (Manhattan Norm)</a>
   <ul class="collapse">
-  <li><a href="#cdot-example-l_1-norm" id="toc-cdot-example-l_1-norm" class="nav-link" data-scroll-target="#cdot-example-l_1-norm"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_1\)</span> Norm</em></a></li>
+  <li><a href="#cdot-example-l_1-norm" id="toc-cdot-example-l_1-norm" class="nav-link" data-scroll-target="#cdot-example-l_1-norm"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_1\)</span> Norm</a></li>
   </ul></li>
   <li><a href="#l_2-norm-euclidean-norm" id="toc-l_2-norm-euclidean-norm" class="nav-link" data-scroll-target="#l_2-norm-euclidean-norm"><span class="math inline">\(L_2\)</span> Norm (Euclidean Norm)</a>
   <ul class="collapse">
-  <li><a href="#cdot-example-l_2-norm" id="toc-cdot-example-l_2-norm" class="nav-link" data-scroll-target="#cdot-example-l_2-norm"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_2\)</span> Norm</em></a></li>
+  <li><a href="#cdot-example-l_2-norm" id="toc-cdot-example-l_2-norm" class="nav-link" data-scroll-target="#cdot-example-l_2-norm"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_2\)</span> Norm</a></li>
   </ul></li>
   <li><a href="#l_infty-norm-max-norm" id="toc-l_infty-norm-max-norm" class="nav-link" data-scroll-target="#l_infty-norm-max-norm"><span class="math inline">\(L_\infty\)</span> Norm (Max Norm)</a>
   <ul class="collapse">
-  <li><a href="#cdotexample-l_infty-norm" id="toc-cdotexample-l_infty-norm" class="nav-link" data-scroll-target="#cdotexample-l_infty-norm"><em><span class="math inline">\(\cdot\)</span>Example: <span class="math inline">\(L_\infty\)</span> Norm</em></a></li>
+  <li><a href="#cdotexample-l_infty-norm" id="toc-cdotexample-l_infty-norm" class="nav-link" data-scroll-target="#cdotexample-l_infty-norm"><span class="math inline">\(\cdot\)</span>Example: <span class="math inline">\(L_\infty\)</span> Norm</a></li>
   </ul></li>
   <li><a href="#l_p-norm-generalized-norm" id="toc-l_p-norm-generalized-norm" class="nav-link" data-scroll-target="#l_p-norm-generalized-norm"><span class="math inline">\(L_p\)</span> Norm (Generalized Norm)</a>
   <ul class="collapse">
-  <li><a href="#cdot-example-l_p-norms" id="toc-cdot-example-l_p-norms" class="nav-link" data-scroll-target="#cdot-example-l_p-norms"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_p\)</span> Norms</em></a></li>
+  <li><a href="#cdot-example-l_p-norms" id="toc-cdot-example-l_p-norms" class="nav-link" data-scroll-target="#cdot-example-l_p-norms"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_p\)</span> Norms</a></li>
+  </ul></li>
+  <li><a href="#other-l_p-norms" id="toc-other-l_p-norms" class="nav-link" data-scroll-target="#other-l_p-norms">Other <span class="math inline">\(L_p\)</span> “Norms”</a>
+  <ul class="collapse">
   <li><a href="#l_p-for-0p1-norm" id="toc-l_p-for-0p1-norm" class="nav-link" data-scroll-target="#l_p-for-0p1-norm"><span class="math inline">\(L_p\)</span> for <span class="math inline">\(0&lt;p&lt;1\)</span> Norm</a></li>
   <li><a href="#l_0-norm" id="toc-l_0-norm" class="nav-link" data-scroll-target="#l_0-norm"><span class="math inline">\(L_0\)</span> “Norm”</a></li>
   </ul></li>
@@ -275,9 +279,9 @@ window.Quarto = {
   <li><a href="#norms-and-loss-functions" id="toc-norms-and-loss-functions" class="nav-link" data-scroll-target="#norms-and-loss-functions">Norms and Loss Functions</a>
   <ul class="collapse">
   <li><a href="#l_1-and-mae-loss-function" id="toc-l_1-and-mae-loss-function" class="nav-link" data-scroll-target="#l_1-and-mae-loss-function"><span class="math inline">\(L_1\)</span> and <span class="math inline">\(MAE\)</span> Loss Function</a></li>
-  <li><a href="#cdot-example-mae" id="toc-cdot-example-mae" class="nav-link" data-scroll-target="#cdot-example-mae"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MAE\)</span></em></a></li>
+  <li><a href="#cdot-example-mae" id="toc-cdot-example-mae" class="nav-link" data-scroll-target="#cdot-example-mae"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MAE\)</span></a></li>
   <li><a href="#l_2-and-mse-loss-function" id="toc-l_2-and-mse-loss-function" class="nav-link" data-scroll-target="#l_2-and-mse-loss-function"><span class="math inline">\(L_2\)</span> and <span class="math inline">\(MSE\)</span> Loss Function</a></li>
-  <li><a href="#cdot-example-mse" id="toc-cdot-example-mse" class="nav-link" data-scroll-target="#cdot-example-mse"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MSE\)</span></em></a></li>
+  <li><a href="#cdot-example-mse" id="toc-cdot-example-mse" class="nav-link" data-scroll-target="#cdot-example-mse"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MSE\)</span></a></li>
   </ul></li>
   <li><a href="#norms-and-regularization" id="toc-norms-and-regularization" class="nav-link" data-scroll-target="#norms-and-regularization">Norms and Regularization</a></li>
   <li><a href="#take-away" id="toc-take-away" class="nav-link" data-scroll-target="#take-away">Take Away</a></li>
@@ -326,7 +330,7 @@ window.Quarto = {
 
 
 <style>
-/* Whatever that is inside this
+<p>/* Whatever that is inside this</p>
 <style> tag is all styling for your markup / content structure.
       /* The . with the boxed represents that it is a class */
       .boxed {
@@ -341,7 +345,7 @@ window.Quarto = {
       }
     </style></style>
 <style>
-/* Whatever that is inside this
+<p>/* Whatever that is inside this</p>
 <style> tag is all styling for your markup / content structure.
       /* The . with the boxed represents that it is a class */
       .boxed_gray {
@@ -356,7 +360,7 @@ window.Quarto = {
       }
     </style></style>
 <style>
-/* Whatever that is inside this
+<p>/* Whatever that is inside this</p>
 <style> tag is all styling for your markup / content structure.
       /* The . with the boxed represents that it is a class */
       .boxed_equation {
@@ -370,30 +374,33 @@ window.Quarto = {
         border-radius: 20px;
       }
     </style></style>
-<img src="vector_norms.png" alt="Image by DALL-E 3" width="100%" height="auto" style="border: none;">
+<p><img src="vector_norms.png" alt="Image by DALL-E 3" width="100%" height="auto" style="border: none;"></p>
 <figcaption>
 Image by DALL-E 3
 </figcaption>
 <section id="what-exactly-is-a-norm" class="level1">
 <h1>What exactly is a norm?</h1>
-Norms are a fundamental concept in linear algebra and machine learning.
+<p>Norms are a fundamental concept in linear algebra and machine learning. Here we’ll look at some common norms used in machine learning and how they’re applied.</p>
 <div class="boxed">
-<p><strong><em>Norms</em></strong> are a class of mathematical operations used to quantify or measure the length or size of vector or matrix. </p>
+<p><strong><em>Norms</em></strong> are a class of mathematical operations used to quantify or measure the length or size of vector or matrix or distance between vectors or matrices. </p>
 <ul>
-<li>They can be extended to higher dimensions</li>
-<li>Since norms calculate lengths or magnitudes these values are typically <span class="math inline">\(\geq 0\)</span></li>
+<li><p>Since norms measure lengths, distances, or magnitudes they are typically ≥ 0.</p></li>
+<li><p>This is useful in machine learning in cases where you want to build models where you minimize error between predictions and ground truth.</p></li>
 </ul>
 </div>
+</section>
+<section id="how-are-norms-applied-in-machine-learning" class="level1">
+<h1><strong>How are norms applied in machine learning?</strong></h1>
 <div class="boxed_gray">
 <p>In machine learning norms are applied in:</p>
 <ul>
 <li><strong>Distance metrics</strong>:
 <ul>
-<li>Since norms measure lengths and distances, they can be applied to measure the length of a vector or distances between vectors (<span class="math inline">\(d(u, v)\)</span>). They are used in various algorithms that rely on datapoint distance calculations like k-Nearest Neighbor or k-Means clustering.</li>
+<li>Since norms measure lengths, distances, magnitudes they can be applied to measure the length of a vector or distances between vectors (<span class="math inline">\(d(u, v)\)</span>). They are used in various algorithms that rely on datapoint distance calculations like <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">k-Nearest Neighbor</a> or <a href="https://en.wikipedia.org/wiki/K-means_clustering">k-Means Clustering</a>.</li>
 </ul></li>
 <li><strong>Loss functions</strong>:
 <ul>
-<li>Since norms help in calculating distances they are widely used in error or loss calculations like the Mean Squared Error (MSE) and Mean Absolute Error (MAE).</li>
+<li>Since norms help in calculating distances and are widely adapted in error or loss calculations like the Mean Squared Error (MSE) and Mean Absolute Error (MAE).</li>
 </ul></li>
 <li><strong>Regularization</strong>:
 <ul>
@@ -401,30 +408,35 @@ Norms are a fundamental concept in linear algebra and machine learning.
 </ul></li>
 <li><strong>Feature selection</strong>:
 <ul>
-<li>Norms like the <span class="math inline">\(L_1\)</span> can help with feature selection by zeroing out unimportant features or creating a sparse solution (some elements in the solution are zero).</li>
+<li>Norms like the <span class="math inline">\(L_1\)</span> can help with feature selection by zeroing out unimportant features or creating a sparse solution (some elements in the solution are zero). <a href="https://www.youtube.com/watch?v=76B5cMEZA4Y">Check out Dr.&nbsp;Steve Brunton’s explanation</a>.</li>
 </ul></li>
 </ul>
 </div>
-<p>Here we’ll look at some common norms used in machine learning and how they’re applied.</p>
 </section>
 <section id="common-norms-in-machine-learning" class="level1">
 <h1>Common Norms in Machine Learning</h1>
+<ul>
+<li><p><strong><em>L₁</em></strong> <strong>Norm</strong> (Manhattan Norm or Taxicab norm)</p></li>
+<li><p><strong><em>L₂</em></strong> <strong>Norm</strong> (Euclidean Norm or Magnitude)</p></li>
+<li><p><strong>𝐿∞ Norm</strong> (Max Norm or Chebyshev Norm)</p></li>
+<li><p><strong><em>Lₚ</em></strong> <strong>(<em>0</em></strong><em>≤<strong>p&lt;1</strong></em><strong>) “Norm” (</strong>Not very common, but can show up)</p></li>
+</ul>
 <section id="norm-notation" class="level2">
 <h2 class="anchored" data-anchor-id="norm-notation">Norm Notation</h2>
-<p>Norms are typically denoted with double vertical lines around a transformation being applied (here a <span class="math inline">\(\cdot\)</span> is used as a space holder) and the norm type as a subscript on the outside (<span class="math inline">\(p\)</span>, where <span class="math inline">\(p\)</span> can be <span class="math inline">\(p = 1, 2, 3, ...,\infty\)</span>). If <span class="math inline">\(p\)</span> is not explicitly given, it’s assumed to be <span class="math inline">\(p=2\)</span> since it is the most commonly used. Norms can also be denoted with either a capital letter <span class="math inline">\(L\)</span> or a lower case <span class="math inline">\(\ell\)</span> with either a superscript (<span class="math inline">\(L^p\)</span>) or subscript (<span class="math inline">\(L_p\)</span>), <span class="math inline">\(p\)</span>.<br>
+<p>Norms are typically denoted with double vertical lines around a transformation being applied (here a <span class="math inline">\(\cdot\)</span> is used as a space holder) and the norm type as a subscript on the outside (<span class="math inline">\(p\)</span>, where <span class="math inline">\(p\)</span> can be <span class="math inline">\(p \geq 0, 1, 2, 3, ...,\infty\)</span>). If <span class="math inline">\(p\)</span> is not explicitly given, the norm is assumed to be <span class="math inline">\(p=2\)</span> since it is the most commonly used norm. Norms can also be denoted with either a capital letter <span class="math inline">\(L\)</span> or a lower case <span class="math inline">\(\ell\)</span> with the letter 𝑝 as either a superscript (<span class="math inline">\(L^p\)</span>) or subscript (<span class="math inline">\(L_p\)</span>) .<br>
 <span class="math display">\[
 L_p = \ell_p = \Vert \cdot \Vert_p
 \]</span></p>
 <p>Typical transformations can be:</p>
 <ul>
-<li>Absolute value <span class="math inline">\(|\mathbf{x}|\)</span></li>
-<li>Squaring <span class="math inline">\(|\mathbf{x}|^2\)</span></li>
-<li>Min/Max operations: <span class="math inline">\(min(|\mathbf{x}|)\)</span> or <span class="math inline">\(max(|\mathbf{x}|)\)</span></li>
+<li>Absolute value&nbsp; — &nbsp; <span class="math inline">\(|\mathbf{x}|\)</span></li>
+<li>Squaring&nbsp; — &nbsp; <span class="math inline">\(|\mathbf{x}|^2\)</span></li>
+<li>Min/Max operations&nbsp; — &nbsp; <span class="math inline">\(min(|\mathbf{x}|)\)</span> or <span class="math inline">\(max(|\mathbf{x}|)\)</span></li>
 </ul>
 </section>
 <section id="l_1-norm-manhattan-norm" class="level2">
 <h2 class="anchored" data-anchor-id="l_1-norm-manhattan-norm"><span class="math inline">\(L_1\)</span> Norm (Manhattan Norm)</h2>
-The <span class="math inline">\(L_1\)</span> norm or <span class="math inline">\(\ell_1\)</span>, also known as Manhattan norm or Taxicab norm, is defined as the sum of the absolute values of the vector components. It’s referred to as the Manhattan norm because distance is calculated in a gridwise format similar to the grided blocks in Manhattan.
+<p>The <span class="math inline">\(L_1\)</span> norm or <span class="math inline">\(\ell_1\)</span>, also known as Manhattan norm or Taxicab norm, is defined as the sum of the absolute values of the vector components. It’s referred to as the Manhattan norm because distance is calculated in a gridwise format similar to the gridded blocks in Manhattan.</p>
 <div class="boxed_equation">
 <p><span class="math display">\[
 \textcolor{teal}{L_1 := ||\mathbf{x}||_{p=1} := \sum_{i=1}^n  |x_i|}
@@ -449,34 +461,52 @@ or
 <p><span class="math display">\[
 ||\mathbf{x}||_{p=1} := |x_1| + |x_2| + |x_3| + ... + |x_N|
 \]</span></p>
-<p><strong><span class="math inline">\(\textcolor{darkorange}{Note}\)</span></strong>: A number to the power of 1 is just that number returned (i.e.&nbsp;<span class="math inline">\(3^1 = 3\)</span>, <span class="math inline">\(x^1 = x\)</span>). Here the powers are added for demonstration and later generalization.</p>
+<p><span class="math inline">\(\textcolor{darkorange}{Note}\)</span>: A number to the power of 1 is just that number returned (i.e.&nbsp;<span class="math inline">\(3^1 = 3\)</span>, <span class="math inline">\(x^1 = x\)</span>). Here the powers are added for demonstration and later generalization.</p>
+<p><img src="L1_norm.gif" alt="$L_1$ Norm visualized as the distance from 0." width="100%" height="auto" style="border: none;"></p>
 <section id="cdot-example-l_1-norm" class="level3">
-<h3 class="anchored" data-anchor-id="cdot-example-l_1-norm"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_1\)</span> Norm</em></h3>
+<h3 class="anchored" data-anchor-id="cdot-example-l_1-norm"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_1\)</span> Norm</h3>
 <details>
 <summary>
 Example
 </summary>
 <section id="l_1-example" class="level4">
-<h4 class="anchored" data-anchor-id="l_1-example"><strong>1. <span class="math inline">\(L_1\)</span> Example</strong></h4>
+<h4 class="anchored" data-anchor-id="l_1-example"><strong>1.</strong> <span class="math inline">\(L_1\)</span> Example</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_\textcolor{red}1\)</span> norm.</p>
 <p><span class="math display">\[
 ||\mathbf{x}||_{1} := \sum_{i=1}^n  |x_i| := \left[ \sum_{i=1}^n  |x_i|^\textcolor{red}1 \right]^\frac{1}{\textcolor{red}1}
 \]</span> <span class="math display">\[
-||\mathbf{x}||_{1} = \left[ \sum_{i=1}^{n=2}  |x_i|^\textcolor{red}1 \right]^\frac{1}{\textcolor{red}1} = (|3|^\textcolor{red}1 + |4|^\textcolor{red}1)^\frac{1}{\textcolor{red}1} = ( 3 + 4)^\frac{1}{\textcolor{red}1} := ( 7)^1 = 7
+\begin{align*}
+||\mathbf{x}||_{1} &amp; = \left[ \sum_{i=1}^{n=2}  |x_i|^\textcolor{red}1 \right]^\frac{1}{\textcolor{red}1} \\
+&amp; = (|3|^\textcolor{red}1 + |4|^\textcolor{red}1)^\frac{1}{\textcolor{red}1}\\
+&amp; = ( 3 + 4)^\frac{1}{\textcolor{red}1}\\
+&amp; = ( 7)^1 \\
+&amp; = 7
+\end{align*}
 \]</span></p>
 <p><span class="math display">\[
 or
 \]</span> <span class="math display">\[
 ||\mathbf{x}||_{1} = |3| + |4| =  3 + 4 = 7
 \]</span></p>
-<div id="2a75fa33" class="cell" data-execution_count="2">
+<div id="da48614d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(x))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="dv">1</span>, val<span class="op">=</span>norm_l1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(x))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l1)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l1 : 7</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> norm(x, <span class="dv">1</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l1)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l1 : 7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{1}-norm: 7\)</span></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{1}-norm: 7.0\)</span></p>
 </div>
 </div>
 </section>
@@ -497,15 +527,27 @@ or
 &amp; = 9\\
 \end{align*}
 \]</span></p>
-<div id="0d45f8d4" class="cell" data-execution_count="3">
+<div id="5c28c6e6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(x))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="dv">1</span>, val<span class="op">=</span>norm_l1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(x))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l1)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l1 : 9</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>norm_l1 <span class="op">=</span> norm(x, <span class="dv">1</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l1)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l1 : 9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{1}-norm: 9\)</span></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{1}-norm: 9.0\)</span></p>
 </div>
 </div>
 </section></details>
@@ -532,27 +574,44 @@ or
 <p><span class="math display">\[
 ||\mathbf{x}||_{p=2} := (|x_1|^2 + |x_2|^2 + |x_3|^2 + ... + |x_N|^2)^\frac{1}{2}
 \]</span></p>
-<p><strong><span class="math inline">\(\textcolor{darkorange}{Note}\)</span></strong>: Values raised to the power of a fraction are equivalent to the <span class="math inline">\(n^{th}\)</span> root (i.e.&nbsp;<span class="math inline">\(x^\frac{1}{n} = \sqrt[n]{x}\)</span> or <span class="math inline">\(25^\frac{1}{2} = \sqrt[2]{25} = 5\)</span>). Here the powers are added for demonstration and later generalization.</p>
+<p><span class="math inline">\(\textcolor{darkorange}{Note}\)</span>: Values raised to the power of a fraction are equivalent to the <span class="math inline">\(n^{th}\)</span> root (i.e.&nbsp;<span class="math inline">\(x^\frac{1}{n} = \sqrt[n]{x}\)</span> or <span class="math inline">\(25^\frac{1}{2} = \sqrt[2]{25} = 5\)</span>). Here the powers are added for demonstration and later generalization.</p>
+<p><img src="L2_norm.gif" alt="$L_2$ Norm visualized as the distance from 0." width="100%" height="auto" style="border: none;"></p>
 <section id="cdot-example-l_2-norm" class="level3">
-<h3 class="anchored" data-anchor-id="cdot-example-l_2-norm"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_2\)</span> Norm</em></h3>
+<h3 class="anchored" data-anchor-id="cdot-example-l_2-norm"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_2\)</span> Norm</h3>
 <details>
 <summary>
 Example
 </summary>
 <section id="l_2-example" class="level4">
-<h4 class="anchored" data-anchor-id="l_2-example"><strong>1. <span class="math inline">\(L_2\)</span> Example</strong></h4>
+<h4 class="anchored" data-anchor-id="l_2-example"><strong>1.</strong> <span class="math inline">\(L_2\)</span> Example</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_\textcolor{red}2\)</span> norm</p>
 <p><span class="math display">\[
 ||\mathbf{x}||_{p=\textcolor{red}2} = \sqrt[\textcolor{red}2]{\sum_{i=1}^n  |x_i|^\textcolor{red}2 } : =  \left[ \sum_{i=1}^n  |x_i|^\textcolor{red}2 \right]^\frac{1}{\textcolor{red}2}
 \]</span> <span class="math display">\[
-||\mathbf{x}||_{2} := \sqrt[2]{ |3|^2 + |4|^2 } := \sqrt[2]{ 9 + 16 } := \sqrt[2]{25} := 5
+\begin{align*}
+||\mathbf{x}||_{\textcolor{red}{2}} &amp; = \sqrt[\textcolor{red}{2}]{ |3|^\textcolor{red}{2} + |4|^\textcolor{red}{2} }\\
+&amp; = \sqrt[\textcolor{red}{2}]{ 9 + 16 }\\
+&amp; = \sqrt[\textcolor{red}{2}]{25} \\
+&amp; = 5
+\end{align*}
 \]</span></p>
-<div id="2c459e70" class="cell" data-execution_count="4">
+<div id="176f7c20" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="dv">2</span>, val<span class="op">=</span>norm_l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l2)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l2 : 5</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> norm(x, <span class="dv">2</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l2)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l2 : 5 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{2}-norm: 5.0\)</span></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{2}-norm: 5.0\)</span></p>
 </div>
@@ -570,21 +629,32 @@ Example
 </ul>
 <p><span class="math display">\[
 \begin{align*}
-||\mathbf{x}||_{1} &amp; = (|1-4|^2 + |2-5|^2 + |3-6|^2)^{\frac{1}{2}} \\
-&amp; = (|-3|^2 + |-3|^2 + |-3|^2)^{\frac{1}{2}} \\
-&amp; = (9 + 9 + 9)^{\frac{1}{2}} \\
-&amp; = (27)^{\frac{1}{2}}\\
+||\mathbf{x}||_{\textcolor{red}{2}} &amp; = (|1-4|^\textcolor{red}{2} + |2-5|^\textcolor{red}{2} + |3-6|^\textcolor{red}{2})^{\frac{1}{\textcolor{red}{2}}} \\
+&amp; = (|-3|^\textcolor{red}{2} + |-3|^\textcolor{red}{2} + |-3|^\textcolor{red}{2})^{\frac{1}{\textcolor{red}{2}}} \\
+&amp; = (9 + 9 + 9)^{\frac{1}{\textcolor{red}{2}}} \\
+&amp; = (27)^{\frac{1}{\textcolor{red}{2}}}\\
 &amp; = 5.196\\
 \end{align*}
 \]</span></p>
-<div id="cce0cbe8" class="cell" data-execution_count="5">
+<div id="c8dc1d32" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="dv">2</span>, val<span class="op">=</span>norm_l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l2)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l2 : 5.196</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>norm_l2 <span class="op">=</span> norm(x, <span class="dv">2</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_l2)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_l2 : 5.196</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{2}-norm: 5.196152422706632\)</span></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{2}-norm: 5.196152422706632\)</span></p>
 </div>
@@ -595,7 +665,7 @@ Example
 
 <section id="l_infty-norm-max-norm" class="level2">
 <h2 class="anchored" data-anchor-id="l_infty-norm-max-norm"><span class="math inline">\(L_\infty\)</span> Norm (Max Norm)</h2>
-<p>The <span class="math inline">\(L_\infty\)</span> norm or <span class="math inline">\(\ell_\infty\)</span>, also known as the Max norm is defined as the maximum value of a vector. It is useful when the largest deviation is of interest like in outlier or anomaly detection.</p>
+<p>The <span class="math inline">\(L_\infty\)</span> norm or <span class="math inline">\(\ell_\infty\)</span>, also known as the Max norm is defined as the maximum value of a vector. It is sometimes referred to as <a href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev distance</a> or Chebyshev norm. It is useful when the largest deviation is of interest like in outlier or anomaly detection.</p>
 <div class="boxed_equation">
 <p><span class="math display">\[
 \textcolor{teal}{ \\
@@ -603,28 +673,40 @@ Example
 }
 \]</span></p>
 </div>
+<p><img src="L_infinity_norm.gif" alt="$L_\infty$ Norm visualized as the distance from 0." width="100%" height="auto" style="border: none;"></p>
 <section id="cdotexample-l_infty-norm" class="level3">
-<h3 class="anchored" data-anchor-id="cdotexample-l_infty-norm"><em><span class="math inline">\(\cdot\)</span>Example: <span class="math inline">\(L_\infty\)</span> Norm</em></h3>
+<h3 class="anchored" data-anchor-id="cdotexample-l_infty-norm"><span class="math inline">\(\cdot\)</span>Example: <span class="math inline">\(L_\infty\)</span> Norm</h3>
 <details>
 <summary>
 Example
 </summary>
 <section id="l_infty-example" class="level4">
-<h4 class="anchored" data-anchor-id="l_infty-example"><strong>1. <span class="math inline">\(L_\infty\)</span> Example</strong></h4>
+<h4 class="anchored" data-anchor-id="l_infty-example"><strong>1.</strong> <span class="math inline">\(L_\infty\)</span> Example</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_\infty\)</span> norm</p>
 <p><span class="math display">\[
 ||\mathbf{x}||_{p=\infty} = {max_{1 \leq i \leq N}} |x_i|
 \]</span> <span class="math display">\[
 ||\mathbf{x}||_{\infty} := max [|3|, |4|] := 4
 \]</span></p>
-<div id="a2d40120" class="cell" data-execution_count="6">
+<div id="4d8eec74" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(x))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="st">'\infty'</span>, val<span class="op">=</span>norm_linf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="st">'\infty'</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(x))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_linf)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_linf : 4</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> norm(x, np.inf)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_linf)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_linf : 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{\infty}-norm: 4\)</span></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{\infty}-norm: 4.0\)</span></p>
 </div>
 </div>
 </section>
@@ -645,16 +727,27 @@ Example
 &amp; = 3
 \end{align*}
 \]</span></p>
-<div id="2033dbf2" class="cell" data-execution_count="7">
+<div id="a27a8d0b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(x))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span><span class="st">'\infty'</span>, val<span class="op">=</span>norm_linf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>norm_type <span class="op">=</span> <span class="st">'\infty'</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.subtract(u,v)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(x))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_linf)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_linf : 3</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>norm_linf <span class="op">=</span> norm(x, np.inf)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>print_result(type_in<span class="op">=</span>norm_type, val<span class="op">=</span>norm_linf)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># norm_linf : 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><span class="math inline">\(\displaystyle L_{\infty}-norm: 3\)</span></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle L_{\infty}-norm: 3.0\)</span></p>
 </div>
 </div>
 </section></details>
@@ -683,7 +776,7 @@ L_p := ||\mathbf{x}||_{p} := \sqrt[p]{\sum_{i=1}^n  |x_i|^p} := \left[ \sum_{i=1
 ||\mathbf{u}||_{p} = 0   \quad only \quad if \quad \mathbf{u} = 0
 \]</span></p>
 <ul>
-<li><p><strong>Triangle inequality</strong>: The norm of the sum of two vectors <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> is not more than the sum of their norms. This is similar to the <em>Pythagorean Theorem</em> where <span class="math inline">\(||\mathbf{u}||\)</span> and <span class="math inline">\(||\mathbf{v}||\)</span> are the sides (or catheti) of a triangle and <span class="math inline">\(||\mathbf{u} + \mathbf{v} ||\)</span> is the hypothenuse of the triangle. It is sometimes referred to as <a href="https://en.wikipedia.org/wiki/Triangle_inequality">Minkowski’s Inequality</a>. Mathematically this is: <span class="math display">\[
+<li><p><strong>Triangle inequality</strong>: The norm of the sum of two vectors <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> (||𝐮+𝐯||) is not more than the sum of their norms (||𝐮|| + ||𝐯||). This is similar to the <em>Pythagorean Theorem</em> where <span class="math inline">\(||\mathbf{u}||\)</span> and <span class="math inline">\(||\mathbf{v}||\)</span> are the sides of a triangle and <span class="math inline">\(||\mathbf{u} + \mathbf{v} ||\)</span> is the hypotenuse of the triangle. It is sometimes referred to as <a href="https://en.wikipedia.org/wiki/Triangle_inequality">Minkowski’s Inequality</a>. Mathematically this is: <span class="math display">\[
 ||\mathbf{u} + \mathbf{v} ||_p \leq ||\mathbf{u} ||_p + ||\mathbf{v}||_p
 \]</span></p></li>
 <li><p><strong>Homogeneity</strong>: If you multiply a vector <span class="math inline">\(\mathbf{u}\)</span> by a scalar <span class="math inline">\(k\)</span> and compute the norm its equivalent to multiplying the norm of the vector <span class="math inline">\(\mathbf{u}\)</span> by the absolute value of that scalar <span class="math inline">\(k\)</span>:</p></li>
@@ -693,19 +786,25 @@ L_p := ||\mathbf{x}||_{p} := \sqrt[p]{\sum_{i=1}^n  |x_i|^p} := \left[ \sum_{i=1
 \]</span></p>
 </div>
 <section id="cdot-example-l_p-norms" class="level3">
-<h3 class="anchored" data-anchor-id="cdot-example-l_p-norms"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_p\)</span> Norms</em></h3>
+<h3 class="anchored" data-anchor-id="cdot-example-l_p-norms"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(L_p\)</span> Norms</h3>
 <details>
 <summary>
 Example
 </summary>
 <section id="l_3-norm" class="level4">
-<h4 class="anchored" data-anchor-id="l_3-norm"><strong>1. <span class="math inline">\(L_3\)</span> Norm</strong></h4>
+<h4 class="anchored" data-anchor-id="l_3-norm"><strong>1.</strong> <span class="math inline">\(L_3\)</span> Norm</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_\textcolor{red}3\)</span> norm <span class="math display">\[
 ||\mathbf{x}||_{p=\textcolor{red}3} = \left[ \sum_{i=1}^n  |x_i|^\textcolor{red}3 \right]^\frac{1}{\textcolor{red}3}  :=  \sqrt[\textcolor{red}3]{\sum_{i=1}^n  |x_i|^\textcolor{red}3}
 \]</span> <span class="math display">\[
-||\mathbf{x}||_{3} := \sqrt[3]{ |3|^3 + |4|^3 } := \sqrt[3]{ 27 + 64 } := \sqrt[3]{91} := {91}^\frac{1}{3} := 4.498
+\begin{align*}
+||\mathbf{x}||_{3} &amp; = \sqrt[3]{ |3|^3 + |4|^3 } \\
+&amp; = \sqrt[3]{ 27 + 64 }\\
+&amp; = \sqrt[3]{91}\\
+&amp; = {91}^\frac{1}{3}\\
+&amp; = 4.498
+\end{align*}
 \]</span></p>
-<div id="9a420da7" class="cell" data-execution_count="8">
+<div id="992479bb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -720,13 +819,19 @@ Example
 </div>
 </section>
 <section id="l_4-norm" class="level4">
-<h4 class="anchored" data-anchor-id="l_4-norm"><strong>2. <span class="math inline">\(L_4\)</span> Norm</strong></h4>
+<h4 class="anchored" data-anchor-id="l_4-norm"><strong>2.</strong> <span class="math inline">\(L_4\)</span> Norm</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_\textcolor{red}4\)</span> norm <span class="math display">\[
 ||\mathbf{x}||_{p=\textcolor{red}4} = \left[ \sum_{i=1}^n  |x_i|^\textcolor{red}4 \right]^\frac{1}{\textcolor{red}4}  :=  \sqrt[\textcolor{red}4]{\sum_{i=1}^n  |x_i|^\textcolor{red}4}
 \]</span> <span class="math display">\[
-||\mathbf{x}||_{4} := \sqrt[4]{ |3|^4 + |4|^4 } := \sqrt[4]{ 81 + 256 } := \sqrt[4]{337} := {337}^\frac{1}{4} :=  4.285
+\begin{align*}
+||\mathbf{x}||_{4} &amp; = \sqrt[4]{ |3|^4 + |4|^4 }\\
+&amp; = \sqrt[4]{ 81 + 256 }\\
+&amp; = \sqrt[4]{337}\\
+&amp; = {337}^\frac{1}{4}\\
+&amp; =  4.285
+\end{align*}
 \]</span></p>
-<div id="7f2c430e" class="cell" data-execution_count="9">
+<div id="e5b13351" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -742,10 +847,15 @@ Example
 </section></details>
 </section>
 </section>
+
+<section id="other-l_p-norms" class="level2">
+<h2 class="anchored" data-anchor-id="other-l_p-norms">Other <span class="math inline">\(L_p\)</span> “Norms”</h2>
+<p><strong>What happens to norms when <em>0 ≤ p&lt;1</em>?</strong><br>
+Well, we get a calculated length back, however these cases are not strictly norms (hence “norms”) since we get a violation of the triangle inequality (<em>0&lt;p&lt;1</em>) or homogeneity (<em>p=0</em>).</p>
 <section id="l_p-for-0p1-norm" class="level3">
 <h3 class="anchored" data-anchor-id="l_p-for-0p1-norm"><span class="math inline">\(L_p\)</span> for <span class="math inline">\(0&lt;p&lt;1\)</span> Norm</h3>
 <p>What happens when <span class="math inline">\(p\)</span> is between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> (<span class="math inline">\(0&lt;p&lt;1\)</span>)?</p>
-<p>In this case (<span class="math inline">\(0&lt;p&lt;1\)</span>) the triangle inequality is violated. The means that, strictly speaking, <strong><span class="math inline">\(L_{0&lt;p&lt;1}\)</span> is not actually a norm</strong> but it still returns a measurement of size of a vector. The same generalized formula can be used:</p>
+<p>In this case (<span class="math inline">\(0&lt;p&lt;1\)</span>) the triangle inequality is violated. The means that, strictly speaking, <span class="math inline">\(L_{0&lt;p&lt;1}\)</span> is not actually a norm but it still returns a measurement of size of a vector. The same generalized formula can be used:</p>
 <div class="boxed_equation">
 <p><span class="math display">\[
 \textcolor{teal}{ \\
@@ -758,7 +868,7 @@ L_{0 \lt p \lt 1} := ||\mathbf{x}||_{0 \lt p \lt 1} := \sqrt[p]{\sum_{i=1}^n  |x
 Example
 </summary>
 <section id="l_0.5-example" class="level4">
-<h4 class="anchored" data-anchor-id="l_0.5-example"><strong>1. <span class="math inline">\(L_{0.5}\)</span> Example</strong></h4>
+<h4 class="anchored" data-anchor-id="l_0.5-example"><strong>1.</strong> <span class="math inline">\(L_{0.5}\)</span> Example</h4>
 <p>Given a vector <span class="math inline">\(\mathbf{x} = [3,4]\)</span>, compute the <span class="math inline">\(\ell_{\textcolor{red}{0.5}}\)</span> norm <span class="math display">\[
 ||\mathbf{x}||_{p={\textcolor{red}{0.5}}} = \left[ \sum_{i=1}^n  |x_i|^{\textcolor{red}{0.5}}\right]^\frac{1}{\textcolor{red}{0.5}}  :=  \sqrt[\textcolor{red}{0.5}]{\sum_{i=1}^n  |x_i|^\textcolor{red}{0.5}}
 \]</span></p>
@@ -780,12 +890,14 @@ Simplifying:
 \end{align*}
 \]</span></p>
 <p><span class="math display">\[
-||\mathbf{x}||_{0.5} = ( \sqrt[2]{|3|} + \sqrt[2]{|4|} )^2
-                     = (1.73 + 2)^2  
-                     = (3.73)^2
-                     =  13.93
+\begin{align*}
+||\mathbf{x}||_{0.5} &amp; = ( \sqrt[2]{|3|} + \sqrt[2]{|4|} )^2 \\
+                     &amp; = (1.73 + 2)^2  \\
+                     &amp; = (3.73)^2 \\
+                     &amp; =  13.93 \\
+\end{align*}
 \]</span></p>
-<div id="e4139016" class="cell" data-execution_count="10">
+<div id="3af2f783" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -819,7 +931,7 @@ Simplifying:
 &amp; = 27\\
 \end{align*}
 \]</span></p>
-<div id="bcec37bc" class="cell" data-execution_count="11">
+<div id="c78ec447" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -837,7 +949,7 @@ Simplifying:
 </div>
 </section>
 <section id="l_0.5-violates-triangle-inequality-example" class="level4">
-<h4 class="anchored" data-anchor-id="l_0.5-violates-triangle-inequality-example"><strong>3. <span class="math inline">\(L_{0.5}\)</span> Violates Triangle Inequality Example</strong></h4>
+<h4 class="anchored" data-anchor-id="l_0.5-violates-triangle-inequality-example"><strong>3.</strong> <span class="math inline">\(L_{0.5}\)</span> Violates Triangle Inequality Example</h4>
 <p>Given two vectors show that <span class="math inline">\(L_{0.5}\)</span> norm violates the triangle inequality. <br> <span class="math inline">\(\mathbf{u} = [1, 2, 3]\)</span> <span class="math inline">\(\mathbf{v} = [4, 5, 6]\)</span></p>
 <p>Remember that the triangle inequality states: * The <span class="math inline">\(p\)</span> norm of the sum of two vectors is less than or equal to the sum of the <span class="math inline">\(p\)</span> of each vector</p>
 <p><span class="math display">\[
@@ -879,7 +991,7 @@ Simplifying:
         62.123 &amp; \leq 61.888  (\textcolor{red}{Violation!})   \\     
 \end{align*}
 \]</span></p>
-<div id="836fc60a" class="cell" data-execution_count="12">
+<div id="6407d932" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
@@ -920,10 +1032,10 @@ Simplifying:
 </div>
 </section></details>
 </section>
-
+</section>
 <section id="l_0-norm" class="level3">
 <h3 class="anchored" data-anchor-id="l_0-norm"><span class="math inline">\(L_0\)</span> “Norm”</h3>
-<p>The <strong><span class="math inline">\(L_0\)</span> “norm” is not actually a norm</strong> but sometimes mentioned in the context of norms. It violates the homogeneity rule above. When applied, the <span class="math inline">\(L_0\)</span> “norm” counts the number of non-zero elements in a vector. This operation can be used to apply regularization, signal compression etc.</p>
+<p>The <span class="math inline">\(L_0\)</span> “norm” is not actually a norm but sometimes mentioned in the context of norms. It violates the homogeneity rule above. When applied, the <span class="math inline">\(L_0\)</span> “norm” counts the number of non-zero elements in a vector. This operation can be used to apply regularization, signal compression etc.</p>
 <div class="boxed_equation">
 <p><span class="math display">\[
 \textcolor{teal}{ \\
@@ -963,7 +1075,7 @@ Example
 \end{align*}
 \]</span></p>
 <p>This means there are <span class="math inline">\(2\)</span> non-zero elements in the vector <span class="math inline">\(\mathbf{x}\)</span></p>
-<div id="55320cc7" class="cell" data-execution_count="13">
+<div id="65d83b9a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">0</span>])</span>
@@ -979,8 +1091,8 @@ Example
 
 <section id="norms-and-loss-functions" class="level1">
 <h1>Norms and Loss Functions</h1>
-<p><strong>Loss functions</strong> are functions developed to help <strong>minimize the error between actual and predicted outcomes</strong>. Both the commonly used <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> norms are connected to some widely used loss functions or cost functions. Namely the computation of the Mean Absolute Error (MAE) and Mean Squared Error (MSE). We’ll see how.</p>
-<p>When norms are adapted as loss functions, one aspect that is important is that they are <strong>convex</strong>. This aids in convex optimization techniques like gradient descent. It allows these functions to converge to a global minimum, which means they find values for a function that minimized the error between predictions and ground truth. This means that:</p>
+<p><strong>Loss functions</strong> are functions developed to help <strong>minimize the error between actual and predicted outcomes</strong>. Both the commonly used <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> norms are connected to some widely used loss functions or cost functions. Namely the computation of the Mean Absolute Error (MAE) and Mean Squared Error (MSE).</p>
+<p>When norms are adapted as loss functions, one aspect that is important is that they are <strong>convex</strong>. This aids in convex optimization techniques like gradient descent. It allows these functions to converge to a global minimum. This means that:</p>
 <ul>
 <li><em>Typically</em>, norms adapted for loss functions are <span class="math inline">\(L_{p \geq 1}\)</span> and are convex for all <span class="math inline">\(p \geq 1\)</span>.</li>
 <li>Norms where <span class="math inline">\(0 \lt p \lt 1\)</span> can be non-convex, making it unsuitable for convex optimization.</li>
@@ -989,15 +1101,15 @@ Example
 <summary>
 Comparing Convexity between <span class="math inline">\(L_{0.5}\)</span>, <span class="math inline">\(L_1\)</span>, and <span class="math inline">\(L_2\)</span>
 </summary>
-<p>To compare the concavity or the convexity between transformations within the <span class="math inline">\(L_{0.5}\)</span>, <span class="math inline">\(L_1\)</span>, and <span class="math inline">\(L_2\)</span> norms, we can compute the derivatives of the functions used within each norm.</p>
+<p>To compare the convexity between transformations within the <span class="math inline">\(L_{0.5}\)</span>, <span class="math inline">\(L_1\)</span>, and <span class="math inline">\(L_2\)</span> norms, we can compute the derivatives of the functions used within each norm.</p>
 <p>It’s important to note that all norms for <span class="math inline">\(p \geq 1\)</span> are convex.</p>
 <table class="table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 23%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 39%">
+<col style="width: 27%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1063,8 +1175,8 @@ L_1 &amp; :=  \textcolor{steelblue}{\left[ \sum_{i=1}^n  |x_i|^1 \right]^\frac{1
 L_1 &amp; :=  \textcolor{steelblue}{|x_1| + |x_2| + |x_3| + ... + |x_N|} \\
 \quad\\
 \quad\\
-L_1 &amp; := \textcolor{steelblue}{||x_i||_{1}} \\
-MAE &amp; := \textcolor{purple}{\frac{1}{n}}\textcolor{steelblue}{||x_i||_{1}^{\textcolor{purple}{1}}} \\
+L_1 &amp; := \textcolor{steelblue}{||\mathbf{x}||_{1}} \\
+MAE &amp; := \textcolor{purple}{\frac{1}{n}}\textcolor{steelblue}{||\mathbf{x}||_{1}^{\textcolor{purple}{1}}} \\
 \quad\\
 \quad\\
 MAE &amp; := \textcolor{purple}{\frac{1}{n}}\textcolor{steelblue}{\sum_{i=1}^n  |x_i| } \\
@@ -1075,7 +1187,7 @@ MAE &amp; := \textcolor{purple}{\frac{1}{n}}(\textcolor{steelblue}{|x_1| + |x_2|
 </details>
 </section>
 <section id="cdot-example-mae" class="level3">
-<h3 class="anchored" data-anchor-id="cdot-example-mae"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MAE\)</span></em></h3>
+<h3 class="anchored" data-anchor-id="cdot-example-mae"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MAE\)</span></h3>
 <details>
 <summary>
 Example
@@ -1096,7 +1208,7 @@ or
 \]</span> <span class="math display">\[
 MAE = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{|3| + |4|}) = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{ 3 + 4}) = \textcolor{purple}{\frac{1}{2}}( \textcolor{steelblue}{7}) = 3.5
 \]</span></p>
-<div id="a82e0d31" class="cell" data-execution_count="14">
+<div id="e82eff3d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -1143,11 +1255,11 @@ MSE &amp; := \textcolor{purple}{\frac{1}{n}}(\textcolor{steelblue}{x_1^2 + x_2^2
 MSE &amp; := \textcolor{purple}{\frac{1}{n}}(\textcolor{steelblue}{x_1^2 + x_2^2 + x_3^2 + ... + x_N^2})\\
 \end{align*}
 \]</span></p>
-<p><strong><span class="math inline">\(\textcolor{darkorange}{Note}\)</span></strong>: The powers of <span class="math inline">\([...]^\frac{1}{2}\)</span> and <span class="math inline">\([...]^2\)</span> cancel each other out (<span class="math inline">\([...]^{\frac{1}{2} * 2}\)</span>). Values raised to the power of a fraction are equivalent to the <span class="math inline">\(n^{th}\)</span> root (i.e.&nbsp;<span class="math inline">\(x^\frac{1}{n} = \sqrt[n]{x}\)</span> or <span class="math inline">\(25^\frac{1}{2} = \sqrt[2]{25} = 5\)</span>). Here the powers are added for demonstration and later generalization.</p>
+<p><span class="math inline">\(\textcolor{darkorange}{Note}\)</span>: The powers of <span class="math inline">\([...]^\frac{1}{2}\)</span> and <span class="math inline">\([...]^2\)</span> cancel each other out (<span class="math inline">\([...]^{\frac{1}{2} * 2}\)</span>). Values raised to the power of a fraction are equivalent to the <span class="math inline">\(n^{th}\)</span> root (i.e.&nbsp;<span class="math inline">\(x^\frac{1}{n} = \sqrt[n]{x}\)</span> or <span class="math inline">\(25^\frac{1}{2} = \sqrt[2]{25} = 5\)</span>). Here the powers are added for demonstration and later generalization.</p>
 </details>
 </section>
 <section id="cdot-example-mse" class="level3">
-<h3 class="anchored" data-anchor-id="cdot-example-mse"><em><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MSE\)</span></em></h3>
+<h3 class="anchored" data-anchor-id="cdot-example-mse"><span class="math inline">\(\cdot\)</span> Example: <span class="math inline">\(MSE\)</span></h3>
 <details>
 <summary>
 Example
@@ -1168,7 +1280,7 @@ or
 \]</span> <span class="math display">\[
 MSE = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{3^2 + 4^2}) = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{ 9 + 16}) = \textcolor{purple}{\frac{1}{2}}( \textcolor{steelblue}{25}) = 12.5
 \]</span></p>
-<div id="13f60333" class="cell" data-execution_count="15">
+<div id="f9c85b57" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>])</span>
@@ -1193,7 +1305,7 @@ MSE = \textcolor{purple}{\frac{1}{2}}(\textcolor{steelblue}{3^2 + 4^2}) = \textc
 </ul>
 <p>The penalization works essentially by appending the penalization term (of the norm) to the end of the loss function.</p>
 <p><span class="math display">\[
-Modified \quad Loss := Loss\quad Function + \textcolor{red}{Regularization\quad Term}
+Modified \quad Loss := \textcolor{steelblue}{Loss\quad Function} + \textcolor{red}{Regularization\quad Term}
 \]</span></p>
 <details>
 <summary>
@@ -1204,19 +1316,19 @@ Let’s dig deeper!
 <li><p><span class="math inline">\(L_1\)</span> Regularization or LASSO regression: <br><span class="math inline">\(L_1\)</span> regularization forces weights within the model toward <span class="math inline">\(0\)</span> and in some cases forces weights to be equal to <span class="math inline">\(0\)</span>. This can eliminate some features since their weights approach <span class="math inline">\(0\)</span>, creating weight based feature selection. <span class="math display">\[
   \begin{align*}
   Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{||\mathbf{w}||_{1}}\\
-  Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{\sum_{i=1}^n  |w_i|}\\
+  Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{\sum_{j=1}^m  |w_j|}\\
   Loss &amp; := \textcolor{steelblue}{\frac{1}{n} \sum_{i=1}^n {(y - \hat{y})}^2} +
             \textcolor{purple}\lambda
-            \textcolor{red}{\sum_{i=1}^n  |w_i|}\\
+            \textcolor{red}{\sum_{j=1}^m  |w_j|}\\
   \end{align*}
   \]</span></p></li>
-<li><p><span class="math inline">\(L_2\)</span> Regularization or Ridge regression: <br> <span class="math inline">\(L_2\)</span> regularization similarly reduces the weights toward <span class="math inline">\(0\)</span>. In doing so the weights become scaled down and more evenly distributed. Note that we apply the squared <span class="math inline">\(L_2\)</span> norm or <span class="math inline">\(||x||_{2}\)</span> -&gt; <span class="math inline">\(||x||_{2}^{2}\)</span> eliminating the square root in the <span class="math inline">\(L_2\)</span> norm. <span class="math display">\[
+<li><p><span class="math inline">\(L_2\)</span> Regularization or Ridge regression: <br> <span class="math inline">\(L_2\)</span> regularization similarly reduces the weights toward <span class="math inline">\(0\)</span>. In doing so the weights become scaled down and more evenly distributed. Note that we apply the squared <span class="math inline">\(L_2\)</span> norm or <span class="math inline">\(||x||_{2}\)</span> &nbsp;⟶ <span class="math inline">\(||x||_{2}^{2}\)</span> eliminating the square root in the <span class="math inline">\(L_2\)</span> norm. <span class="math display">\[
   \begin{align*}
   Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{||\mathbf{w}||_{2}^{2}}\\
-  Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{\sum_{i=1}^n  |w_i|^2}\\
+  Loss &amp; := \textcolor{steelblue}{MSE} + \textcolor{purple}\lambda \textcolor{red}{\sum_{j=1}^m  |w_j|^2}\\
   Loss &amp; := \textcolor{steelblue}{\frac{1}{n} \sum_{i=1}^n {(y - \hat{y})}^2} +
             \textcolor{purple}\lambda
-            \textcolor{red}{\sum_{i=1}^n  |w_i|^2}\\
+            \textcolor{red}{\sum_{j=1}^m  |w_j|^2}\\
   \end{align*}
   \]</span></p></li>
 <li><p><span class="math inline">\(L_1\)</span> + <span class="math inline">\(L_2\)</span> Regularization or Elastic Net: <br> Here we add the term <span class="math inline">\(\textcolor{PineGreen}{\alpha}\)</span> and <span class="math inline">\(\textcolor{PineGreen}{(1 -\alpha)}\)</span> to weight the application of either <span class="math inline">\(L_1\)</span> or <span class="math inline">\(L_2\)</span> penalization. The <span class="math inline">\(\textcolor{PineGreen}{\alpha}\)</span> value is typically <span class="math inline">\(0 \lt \textcolor{PineGreen}{\alpha} \lt 1\)</span>. <span class="math display">\[
@@ -1231,15 +1343,15 @@ Let’s dig deeper!
   Loss &amp; := \textcolor{steelblue}{MSE} +
       \textcolor{purple}\lambda
       (
-      \textcolor{PineGreen}{\alpha}     \textcolor{red}{\sum_{i=1}^n  |w_i|} +
-      \textcolor{PineGreen}{(1- \alpha)}\textcolor{red}{\sum_{i=1}^n  |w_i|^2}
+      \textcolor{PineGreen}{\alpha}     \textcolor{red}{\sum_{j=1}^m  |w_j|} +
+      \textcolor{PineGreen}{(1- \alpha)}\textcolor{red}{\sum_{j=1}^m  |w_j|^2}
       )\\
   \quad
   Loss &amp; := \textcolor{steelblue}{\frac{1}{n} \sum_{i=1}^n {(y - \hat{y})}^2} +
       \textcolor{purple}\lambda
       (
-      \textcolor{PineGreen}{\alpha}     \textcolor{red}{\sum_{i=1}^n  |w_i|} +
-      \textcolor{PineGreen}{(1- \alpha)}\textcolor{red}{\sum_{i=1}^n  |w_i|^2}
+      \textcolor{PineGreen}{\alpha}     \textcolor{red}{\sum_{j=1}^m  |w_j|} +
+      \textcolor{PineGreen}{(1- \alpha)}\textcolor{red}{\sum_{j=1}^m  |w_j|^2}
       )\\
   \end{align*}
   \]</span></p></li>
@@ -1248,7 +1360,7 @@ Let’s dig deeper!
 </section>
 <section id="take-away" class="level1">
 <h1>Take Away</h1>
-<p>Norms play a crucial role in various aspects of machine learning, from distance calculations to regularization to error calculation. Understanding their properties and applications is essential for developing effective machine learning models and algorithms. While <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> norms are the most commonly used, exploring other norms can provide insights into the behavior of different mathematical structures in machine learning.</p>
+<p>Norms play an important role in machine learning from distance calculations to regularization and error calculation. Understanding their properties and applications is essential for developing effective machine learning models and algorithms.</p>
 
 
 </section>
