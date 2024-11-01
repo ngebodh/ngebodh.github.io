@@ -1,0 +1,24 @@
+---
+title: "Why Does My LLM Have A Temperature?"
+subtitle: "Understanding the basic application of norms in machine learning with Python examples"
+author: "Nigel Gebodh"
+categories: [ML, Deep Learning, Linear Algebra, Math]
+date: "2024-07-30"
+# reference-location: margin
+twitter-card:
+  card-style: summary_large_image
+  image: "landscape.png"
+  title: "Norms in Machine Learning"  # less than 55 chars
+  description: "Exploring the hierarchy with different types of neuromodulation"  # less than 125 chars
+open-graph:   
+  image: "landscape.png"
+  title: "Norms in Machine Learning"  # less than 55 chars
+  description: "Understanding the application of norms in machine learning"  # less than 125 chars
+back-to-top-navigation: false
+format: 
+  html:
+    page-layout: full
+execute:
+  freeze: true
+# jupyter: python3
+---
