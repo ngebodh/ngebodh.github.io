@@ -1089,7 +1089,7 @@ The most probable word is: mat (Prob: 0.20436)</code></pre>
 <li>Input sentence: The cat slept on the ______.</li>
 </ul>
 <div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>temps <span class="op">=</span> [<span class="fl">0.001</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">5.</span>, <span class="fl">10.</span>, <span class="fl">100.</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>temps <span class="op">=</span> [<span class="fl">0.1</span>,  <span class="fl">0.5</span>, <span class="fl">1.</span>, <span class="fl">5.</span>, <span class="fl">10.</span>, <span class="fl">100.</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ii <span class="kw">in</span> temps:</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  word_out <span class="op">=</span> next_word_prediction(prompt, temp<span class="op">=</span>ii)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -1178,12 +1178,14 @@ Generated word:  right         ( token index: 826,          logit:-87.17,       
 </div>
 </div>
 <p><strong>What does this mean?</strong></p>
-<p>[ADD STUFF HERE ]</p>
+<p>As the temperature increases from 0.1 to 100.0 the output words that were generated, generally all seem plausible.</p>
+<p>Looking at the distribution of words we see that going from 0.1 to 100.0 the distribution goes from being very “peaky” around the most likely word to flat across all words.</p>
+<p>This demonstrates how the temperature parameter affects the probability distribution of words from the LLM’s vocabulary so that some are more or less likely to be selected as the next generated word in a sequence.</p>
 </section>
 <section id="continuous-next-word-generation" class="level4">
 <h4 class="anchored" data-anchor-id="continuous-next-word-generation">Continuous next word generation</h4>
 <p>With continuous next word generation the model is given a sentence and is tasked with predicting the next most likely word in an autoregressive manner. The predicted word is added to the sentence and passed for the next iteration of prediction unit an end of sentence token (<code>&lt;EOS&gt;</code> or <code>\n</code>) is generated or the max number of iterations is reached.</p>
-<p><br> <br> We’ll pass the same sentence we’ve been looking at to the LLM to see what it will <span style="color:green"> output </span> over a number of iterations like below.</p>
+<p><br> We’ll pass the same sentence we’ve been looking at to the LLM to see what it will <span style="color:green"> output </span> over a number of iterations like below.</p>
 <ul>
 <li>Input sentence: The cat slept on the ______</li>
 <li>1: The cat slept on the <span style="color:green">floor</span> ______</li>
@@ -1439,7 +1441,7 @@ Generated word:  right         ( token index: 826,          logit:-87.17,       
 </details>
 <p><strong>What does this mean?</strong></p>
 <p>If we look at the outputs between a temperature of 0.5 vs 10.0, we see that at a temperature of 0.5 the output text is more coherent whereas for a temperature of 10.0 the output is more incoherent and does not make sense to a human reader.</p>
-<p>This demonstrates how temperature can influence the next generated word by adjusting the probability distribution of words within the LLM’s vocabulary.</p>
+<p>This demonstrates how the temperature parameter can influence the next generated word by adjusting the probability distribution of words within the LLM’s vocabulary.</p>
 </section>
 </section>
 </section>
