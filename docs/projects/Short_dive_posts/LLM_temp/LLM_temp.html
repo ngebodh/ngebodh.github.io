@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nigel Gebodh">
+<meta name="dcterms.date" content="2024-10-24">
+
+<title>Nigel Gebodh - Why Does My LLM Have A Temperature?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../favicon_1.svg" rel="icon" type="image/svg+xml">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E4M44W57FR"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+<meta property="og:title" content="LLM Temperature">
+<meta property="og:description" content="Understanding the temperature parameter in LLMs">
+<meta property="og:image" content="LLM_cover_0.PNG">
+<meta property="og:site_name" content="Nigel **Gebodh**">
+<meta name="twitter:title" content="LLM Temperature">
+<meta name="twitter:description" content="Understanding the temperature parameter in LLMs">
+<meta name="twitter:image" content="LLM_cover_0.PNG">
+<meta name="twitter:creator" content="@nigelgebodh">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Nigel <strong>Gebodh</strong></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../publications/publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../media/media.html"> 
+<span class="menu-text">Talks &amp; Media</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-connect" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Connect</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-connect">    
+        <li>
+    <a class="dropdown-item" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl" target="_blank"><i class="bi bi-mortarboard-fill" role="img">
+</i> 
+ <span class="dropdown-text">Google Scholar</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61" target="_blank"><i class="bi bi-bi bi-linkedin" role="img">
+</i> 
+ <span class="dropdown-text">LinkedIn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://twitter.com/nigelgebodh" target="_blank"><i class="bi bi-bi bi-twitter-x" role="img">
+</i> 
+ <span class="dropdown-text">Twitter(X)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ngebodh" target="_blank"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA" target="_blank"><i class="bi bi-bi bi-youtube" role="img">
+</i> 
+ <span class="dropdown-text">YouTube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bsky.app/profile/nigelgebodh.bsky.social" target="_blank"><i class="bi bi-bi bi-butterfly" role="img">
+</i> 
+ <span class="dropdown-text">BlueSky</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:nigel.gebodh@gmail.com" target="_blank"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">nigel.gebodh@gmail.com</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="6">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-exactly-is-an-llms-temperature" id="toc-what-exactly-is-an-llms-temperature" class="nav-link active" data-scroll-target="#what-exactly-is-an-llms-temperature">What exactly is an LLM’s Temperature?</a></li>
+  <li><a href="#llm-recap" id="toc-llm-recap" class="nav-link" data-scroll-target="#llm-recap">LLM Recap</a></li>
+  <li><a href="#the-math" id="toc-the-math" class="nav-link" data-scroll-target="#the-math">The Math</a>
+  <ul class="collapse">
+  <li><a href="#the-softmax-function-and-temperature" id="toc-the-softmax-function-and-temperature" class="nav-link" data-scroll-target="#the-softmax-function-and-temperature">The Softmax Function and Temperature</a></li>
+  <li><a href="#llm-with-temperature-applied" id="toc-llm-with-temperature-applied" class="nav-link" data-scroll-target="#llm-with-temperature-applied">LLM with Temperature Applied</a></li>
+  </ul></li>
+  <li><a href="#take-away" id="toc-take-away" class="nav-link" data-scroll-target="#take-away">Take Away</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Why Does My LLM Have A Temperature?</h1>
+<p class="subtitle lead">Understanding the temperature parameter in LLMs</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLM</div>
+    <div class="quarto-category">NLP</div>
+    <div class="quarto-category">ML</div>
+    <div class="quarto-category">Deep Learning</div>
+    <div class="quarto-category">Math</div>
+    <div class="quarto-category">Hugging Face</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nigel Gebodh </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="LLM_cover_0.PNG" alt="Image by DALL-E 3" width="100%" height="auto" style="border: none;"></p>
+<figcaption>
+Image by DALL-E 3 and Nigel Gebodh
+</figcaption>
+<p><br> <br></p>
+<style> 
+      /* The . with the boxed represents that it is a class */
+      .boxed {
+        background: #e6fffe; /* C5F7F8 E5FAFA E1FCFC  #ecfffe #E5FAFA*/
+        color: #0b3357; /* gray navy*/
+        border: 3px solid #2980B9;
+        margin: 10% auto;
+        width: 95%;
+        height: 95%;
+        padding: 20px;
+        border-radius: 20px;
+      }
+    </style>
+<p>If you’ve interacted with <strong>AI assistants</strong> or <strong>LLMs (Large Language Models)</strong> in the past you may have noticed a parameter called <strong>Temperature</strong>. <br><br> Here we’ll look at how temperature affects LLM outputs, its calculation, and some examples of varying temperature values.</p>
+<section id="what-exactly-is-an-llms-temperature" class="level2">
+<h2 class="anchored" data-anchor-id="what-exactly-is-an-llms-temperature">What exactly is an LLM’s Temperature?</h2>
+<div class="boxed">
+<p><strong>LLM Temperature</strong> is a parameter that controls the probability distribution of the predicted next words of an LLM. It adds some randomness or variety to the LLM’s outputs by changing the likelihood of the next words being selected. It can influence the LLM’s outputs to be either more deterministic (predictable) or more stochastic (random). Parameters like temperature are used to simulate or mimic the inherent variation in human language generation.</p>
+<p>In production, temperature values can typically range between 0-2+.</p>
+<ul>
+<li><p><strong>Lower temperature</strong> values (&lt;1) can lead to more deterministic or predictable LLM outputs, referred to as making the LLM more “predictable”.</p></li>
+<li><p><strong>Temperature of 1</strong> defaults to the LLMs inherent word distribution learned during training, reflecting the unaltered output of the Softmax function (more on this later).</p></li>
+<li><p><strong>Higher temperature</strong> values (&gt;1) can lead to more stochastic or random and varied LLM outputs, referred to as making the LLM more “creative”. However, the term “creative” can be a misnomer since generating more varied output doesn’t necessarily equate to creativity.</p></li>
+</ul>
+</div>
+<style> 
+      /* The . with the boxed represents that it is a class */
+      .boxed_gray {
+        background: #f2f0ef /*#D3D3D3 #e6fffe */; /* C5F7F8 E5FAFA E1FCFC  #ecfffe #E5FAFA*/
+        color: #0b3357; /* gray navy*/
+        border: 3px solid #2980B9;
+        margin: 10% auto;
+        width: 95%;
+        height: 95%;
+        padding: 20px;
+        border-radius: 20px;
+      }
+    </style>
+<p>When the temperature value is set to 0, most systems trigger greedy sampling for next word predictions, which simply takes the word with the highest probability in the vocabulary (<em>Note</em>: other sampling methods exist for text generation see <a href="https://huggingface.co/docs/transformers/en/generation_strategies">here</a>). In some cases, if the temperature value is <strong>too high (&gt;&gt;2)</strong> or <strong>too low (=0)</strong> this can trigger degenerate behavior like repetitive loops or LLM hallucinations.</p>
+<div class="boxed_gray">
+<p><strong>Hallucinations</strong> in LLMs refer to outputs that seem plausible but are factually incorrect, or incoherent and nonsensical text. The term is metaphorically similar to how a person might perceive things that are not actually there or true.</p>
+<p>It’s important to note that temperature values between 0 and 2 don’t eliminate hallucinations; instead, they introduce randomness and diversity into the outputs, which may increase or decrease hallucinations depending on context. To mitigate hallucinations, strategies like Retrieval-Augmented Generation (RAG), Chain of Thought (CoT), and other techniques can be employed to enhance the accuracy and coherence of LLM-generated text.</p>
+</div>
+<p><br> <img src="LLM_temp_scale.gif" alt="Changing the temperature scale of the LLM adjusts the probability distribution of words predicted by the LLM" width="65%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;"> <br></p>
+</section>
+<section id="llm-recap" class="level2">
+<h2 class="anchored" data-anchor-id="llm-recap">LLM Recap</h2>
+<p>Before diving deeper into the math, let’s take a simplified look at how LLMs work. <br> <br> LLMs can be thought of as models that predict the next word based on patterns and associations they’ve learned from vast amounts of training data. During training, LLMs adjust their internal parameters through a process called backpropagation, learning patterns, syntax (arrangement of words), and meaning from vast amounts of text data. <br> Steps an LLM takes with input text:</p>
+<ul>
+<li><strong>Tokenization</strong>: The input text is broken down into smaller units (tokens), such as words or subwords, allowing the model to handle variable-length inputs.</li>
+<li><strong>Embedding</strong>: Each token is mapped to a unique numeric representation (using a lookup table or embedding layer), capturing semantic meaning.</li>
+<li><strong>Encoding</strong>: The token embeddings are processed through multiple layers of the model (e.g., transformers), which create contextualized vector representations that understand the relationships between words in context.</li>
+<li><strong>Logits Calculation</strong>: The decoder model (typically in autoregressive models like GPT) generates raw, unnormalized output scores (logits) for each token in the sequence, based on the processed input.</li>
+<li><strong>Softmax Activation</strong>: The logits are passed through a softmax function, transforming them into a probability distribution over possible next tokens, representing the likelihood of each token being the next in the sequence.</li>
+<li><strong>Word Selection</strong>: The model selects a word (or token) based on the probability distribution, typically by choosing the most likely token or sampling from the distribution for more diverse outputs.</li>
+</ul>
+<p><br> <img src="LLM_Recap.gif" alt="LLM word generation" width="65%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;"> <br></p>
+</section>
+<section id="the-math" class="level2">
+<h2 class="anchored" data-anchor-id="the-math">The Math</h2>
+<section id="the-softmax-function-and-temperature" class="level3">
+<h3 class="anchored" data-anchor-id="the-softmax-function-and-temperature">The Softmax Function and Temperature</h3>
+<p>The <strong>Softmax function</strong> is a mathematical transformation that takes a vector of raw scores and converts them into a probability distribution. It does this by exponentiating each value and normalizing the results but the sum of all exponentiated values so that they sum to 1. Originally applied in physics and statistics around 1868, it was known as the <a href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann or Gibbs distribution</a>. The term “<a href="https://en.wikipedia.org/wiki/Softmax_function">softmax</a>” was coined in 1989 by John S. Bridle.</p>
+<p>In <strong>Natural Language Processing (NLP)</strong>, the Softmax function is typically applied to the <strong>logits</strong> generated by an LLM to produce a <strong>probability distribution</strong> over possible next tokens. This distribution represents the likelihood of each token being the next word or subword in the sequence.</p>
+<p><br> The Softmax function is defined as:</p>
+<p><span class="math display">\[
+\mathbf{Softmax}(x_i) = \frac{ \textcolor{None}{  e^{x_i} } }{ \textcolor{None}{ \sum_{j=1}^{N} e^{x_j}  } }
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(x_i\)</span> value of each input (the logit value)</li>
+<li><span class="math inline">\(e^{x_i}\)</span> is the exponentiation of the value of each input (Euler’s number: <span class="math inline">\(e\)</span> ~ <span class="math inline">\(2.71828\)</span>)</li>
+<li><span class="math inline">\(\sum_{j=1}^{N} e^{x_j}\)</span> is the sum of all the exponentiated (<span class="math inline">\(e\)</span>) inputs (<span class="math inline">\(x\)</span>)</li>
+</ul>
+<p>The <strong>Temperature (T)</strong> parameters is a simple modification to the Softmax function that adjusts the inputs:</p>
+<p><span class="math display">\[
+\mathbf{Softmax}(x_i) = \frac{ \textcolor{None}{  e^{  \frac{x_i}{ \textcolor{red}{T} }     }}}
+                             { \textcolor{None}{ \sum_{j=1}^{N} e^{   \frac{x_j}{ \textcolor{red}{T} }    }  } }
+\]</span></p>
+<p>The term “Temperature” is borrowed from the field of physics. It comes from its relationship to the <a href="https://en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution">Boltzmann distribution</a>, which describes how energy states change with temperature. Early usage of the term “Temperature” in machine learning came from <a href="https://www.sciencedirect.com/science/article/pii/S0364021385800124">Ackley and colleagues in 1985</a>.</p>
+<p><br></p>
+<section id="examples" class="level4">
+<h4 class="anchored" data-anchor-id="examples">Examples</h4>
+<section id="example-1---simple-softmax-transformation-without-temperature" class="level5">
+<h5 class="anchored" data-anchor-id="example-1---simple-softmax-transformation-without-temperature">Example 1 - Simple Softmax Transformation without Temperature</h5>
+<details>
+<summary>
+Example
+</summary>
+<p>Given a list of numbers calculate their softmax probabilities. <br></p>
+<ul>
+<li><span class="math inline">\(list = [2.0, 4.0, 3.0]\)</span></li>
+</ul>
+<p><br></p>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="090a27eb" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating Softmax</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Using Our Function</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(input_vector)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>list_in <span class="op">=</span> [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>my_softmax(list_in)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#2) Using PyTorch Function</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert list to torch tensor</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>list_in_torch <span class="op">=</span> torch.tensor(list_in)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities (using Pytorch) are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>F<span class="sc">.</span>softmax(list_in_torch, dim<span class="op">=</span><span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+
+</section>
+<section id="example-2---simple-softmax-transformation-with-varying-temperatures" class="level5">
+<h5 class="anchored" data-anchor-id="example-2---simple-softmax-transformation-with-varying-temperatures">Example 2 - Simple Softmax Transformation with Varying Temperatures</h5>
+<details>
+<summary>
+Example
+</summary>
+<p>Given a list of numbers calculate their Softmax probabilities at termperatures of T=[0.5, 1, 2] <br></p>
+<p><br></p>
+<ul>
+<li><span class="math inline">\(list = [2.0, 4.0, 3.0]\)</span></li>
+</ul>
+<p><br></p>
+<details>
+<summary>
+<strong>Temperature: 0.5</strong>
+</summary>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="4824ee7e" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating Softmax</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Using Our Function</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function with temperature</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector, Temp<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(np.divide(input_vector,Temp))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Temp <span class="op">=</span><span class="fl">0.5</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>list_in <span class="op">=</span> [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities at a Temp = </span><span class="sc">{</span>Temp<span class="sc">}</span><span class="ss"> are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>my_softmax(list_in, Temp<span class="op">=</span>Temp)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#2) Using PyTorch Function</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert list to torch tensor</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>list_in_torch <span class="op">=</span> torch.tensor(list_in)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply temperature scaling </span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>scaled_logits <span class="op">=</span> list_in_torch <span class="op">/</span> Temp</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities (using Pytorch) are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>F<span class="sc">.</span>softmax(scaled_logits, dim<span class="op">=</span><span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>Temperature: 1.0</strong>
+</summary>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="f674d8b3" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating Softmax</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Using Our Function</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function with temperature</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector, Temp<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(np.divide(input_vector,Temp))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>Temp <span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>list_in <span class="op">=</span> [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities at a Temp = </span><span class="sc">{</span>Temp<span class="sc">}</span><span class="ss"> are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>my_softmax(list_in, Temp<span class="op">=</span>Temp)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#2) Using PyTorch Function</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert list to torch tensor</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>list_in_torch <span class="op">=</span> torch.tensor(list_in)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply temperature scaling </span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>scaled_logits <span class="op">=</span> list_in_torch <span class="op">/</span> Temp</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities (using Pytorch) are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>F<span class="sc">.</span>softmax(scaled_logits, dim<span class="op">=</span><span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>Temperature: 2.0</strong>
+</summary>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="f26c23a5" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating Softmax</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Using Our Function</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function with temperature</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector, Temp<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(np.divide(input_vector,Temp))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Temp <span class="op">=</span><span class="fl">2.0</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>list_in <span class="op">=</span> [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities at a Temp = </span><span class="sc">{</span>Temp<span class="sc">}</span><span class="ss"> are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>my_softmax(list_in, Temp<span class="op">=</span>Temp)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#2) Using PyTorch Function</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert list to torch tensor</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>list_in_torch <span class="op">=</span> torch.tensor(list_in)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply temperature scaling </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>scaled_logits <span class="op">=</span> list_in_torch <span class="op">/</span> Temp</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The softmax probabilities (using Pytorch) are: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>F<span class="sc">.</span>softmax(scaled_logits, dim<span class="op">=</span><span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+</details>
+
+</section>
+<section id="example-3---llm-output-softmax-transformation-with-varying-temperatures" class="level5">
+<h5 class="anchored" data-anchor-id="example-3---llm-output-softmax-transformation-with-varying-temperatures">Example 3 - LLM Output Softmax Transformation with Varying Temperatures</h5>
+<details>
+<summary>
+Example
+</summary>
+<p>Given a list of logit outputs from an LLM, find the most probable word and its probability. <br> Assume the the LLM only knows 5 words (LLM vocabularies typically contain thousands of words). <br> Calculate the probabilities for temperatures of 1.0 and 100.0</p>
+<ul>
+<li><span class="math inline">\(index = [0, 1, 2, 3, 4]\)</span></li>
+<li><span class="math inline">\(words = [ceiling, floor, mat, car, grass]\)</span></li>
+<li><span class="math inline">\(logits = [-49.82, -46.40, -45.25, -47.30, -48.32]\)</span></li>
+</ul>
+<p><br></p>
+<details>
+<summary>
+<strong>Temperature: 1.0</strong>
+</summary>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="8fdec6e0" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Softmax Calculation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume for simplicity:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># * The model only knows the 5 words listed below (it has a vocabulary of 5).</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Example model output</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>model_output_vals <span class="op">=</span> {<span class="st">"word_index"</span>:[i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"words"</span>:[<span class="st">"ceiling"</span>, <span class="st">"floor"</span>, <span class="st">"mat"</span>, <span class="st">"car"</span>, <span class="st">"grass"</span>], </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"logits"</span>:[<span class="op">-</span><span class="fl">49.82</span>, <span class="op">-</span><span class="fl">46.40</span>, <span class="op">-</span><span class="fl">45.25</span>, <span class="op">-</span><span class="fl">47.30</span>, <span class="op">-</span><span class="fl">48.32</span>]}</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert the data to a DataFrame</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>model_output <span class="op">=</span> pd.DataFrame(model_output_vals)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function with temperature</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector, Temp<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(np.divide(input_vector,Temp))</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the probabilities</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span>  my_softmax(model_output[<span class="st">"logits"</span>], Temp<span class="op">=</span>temp)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>model_output[<span class="st">"softmax_prob"</span>] <span class="op">=</span> probs </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Select the most probable word</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>most_prob <span class="op">=</span> np.argmax(probs)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The index of the most probable word is: </span><span class="sc">{</span>most_prob<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Pull out the most probable word</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The most probable word is: </span><span class="sc">{</span> model_output[<span class="st">'words'</span>][most_prob] <span class="sc">}</span><span class="ss">"</span> \</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f" (Prob: </span><span class="sc">{</span>model_output[<span class="st">'softmax_prob'</span>][most_prob]<span class="sc">:.5f}</span><span class="ss">)"</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#Style our table</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> sns.light_palette(<span class="st">"orange"</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> model_output</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> s1.style.background_gradient(subset<span class="op">=</span>[<span class="st">"logits"</span>],cmap<span class="op">=</span>cm)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> sns.light_palette(<span class="st">"green"</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>s1.background_gradient(subset<span class="op">=</span>[<span class="st">"softmax_prob"</span>],cmap<span class="op">=</span>cm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>Temperature: 100.0</strong>
+</summary>
+<p><strong>By Hand:</strong></p>
+<p><strong>Using Python:</strong></p>
+<div id="897b308b" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Softmax Calculation</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume for simplicity:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># * The model only knows the 5 words listed below (it has a vocabulary of 5).</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Example model output</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>model_output_vals <span class="op">=</span> {<span class="st">"word_index"</span>:[i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)],</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"words"</span>:[<span class="st">"ceiling"</span>, <span class="st">"floor"</span>, <span class="st">"mat"</span>, <span class="st">"car"</span>, <span class="st">"grass"</span>], </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"logits"</span>:[<span class="op">-</span><span class="fl">49.82</span>, <span class="op">-</span><span class="fl">46.40</span>, <span class="op">-</span><span class="fl">45.25</span>, <span class="op">-</span><span class="fl">47.30</span>, <span class="op">-</span><span class="fl">48.32</span>]}</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">100.0</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert the data to a DataFrame</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>model_output <span class="op">=</span> pd.DataFrame(model_output_vals)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Define a softmax function with temperature</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_softmax(input_vector, Temp<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    e <span class="op">=</span> np.exp(np.divide(input_vector,Temp))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> e.<span class="bu">sum</span>()</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the probabilities</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span>  my_softmax(model_output[<span class="st">"logits"</span>], Temp<span class="op">=</span>temp)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>model_output[<span class="st">"softmax_prob"</span>] <span class="op">=</span> probs </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Select the most probable word</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>most_prob <span class="op">=</span> np.argmax(probs)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The index of the most probable word is: </span><span class="sc">{</span>most_prob<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Pull out the most probable word</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">The most probable word is: </span><span class="sc">{</span> model_output[<span class="st">'words'</span>][most_prob] <span class="sc">}</span><span class="ss">"</span> \</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f" (Prob: </span><span class="sc">{</span>model_output[<span class="st">'softmax_prob'</span>][most_prob]<span class="sc">:.5f}</span><span class="ss">)"</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#Style our table</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> sns.light_palette(<span class="st">"orange"</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> model_output</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> s1.style.background_gradient(subset<span class="op">=</span>[<span class="st">"logits"</span>],cmap<span class="op">=</span>cm)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> sns.light_palette(<span class="st">"green"</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>s1.background_gradient(subset<span class="op">=</span>[<span class="st">"softmax_prob"</span>],cmap<span class="op">=</span>cm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>What does this mean?</strong>
+</summary>
+<p>As the temperature increases from <strong>1.0</strong> to <strong>100.0</strong>, the probability distribution shifts from being more concentrated (or “peaky”) to more spread out (or “flat”), meaning that words with low probabilities at lower temperatures gain a higher chance of being selected.</p>
+<p>Using <strong>greedy sampling</strong>, where the word with the highest probability is always chosen, the model consistently selects the top-ranked word. However, if we modify the sampling method to randomly pick a word from the top 3 highest-probability words, the potential options expand to include words like <strong>[‘mat’, ‘floor’, ‘car’]</strong>.</p>
+</details>
+</details>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="llm-with-temperature-applied" class="level3">
+<h3 class="anchored" data-anchor-id="llm-with-temperature-applied">LLM with Temperature Applied</h3>
+<p>To see how the temperature parameter affects the outputs of a Large Language Model (LLM), we’ll use <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">GPT-2</a>, an open-source text generation model developed by OpenAI. GPT-2 is available through platforms like <a href="https://huggingface.co/docs/transformers/model_doc/gpt2">Hugging Face</a> and is known for being a moderately sized model. <br> GPT-2 has the following characteristics:</p>
+<ul>
+<li><p><strong>1.5 billion parameters</strong>: These are the learnable weights of the model, which help it make predictions based on the input data.</p></li>
+<li><p><strong>50,257 vocabulary size</strong>: The model’s vocabulary consists of a set of tokens (words or subwords) that GPT-2 is trained to recognize and generate.</p></li>
+<li><p><strong>768-dimensional vector embedding size</strong>: This refers to the size of the dense vector representations used to encode each token.</p></li>
+<li><p><strong>12 attention heads</strong>: These are the parallel attention mechanisms used in each transformer layer to capture different aspects of the input sequence’s relationships.</p></li>
+<li><p><strong>12 layers</strong>: The model has 12 transformer layers, which allow it to process and understand more complex patterns in the data.</p></li>
+</ul>
+<p><br> We’ll look at using the LLM for two types of tasks:</p>
+<ul>
+<li><strong>Single next-word generation</strong>: Predicting the next word based on the context of the given input.</li>
+<li><strong>Continuous next-word generation</strong>: Generating a sequence of words, where each new word is predicted based on the previously generated words.</li>
+</ul>
+
+<details>
+<summary>
+<strong>Model Set up</strong>
+</summary>
+<p>To get the model(<code>gpt2</code>) we download it from Hugging Face and set the model’s task to <code>text-generation</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model_to_load <span class="op">=</span> <span class="st">"openai-community/gpt2"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>model_to_load_task <span class="op">=</span> <span class="st">"text-generation"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the model's pretrained tokenizer</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_to_load)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the pretrained model</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    model_to_load,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    device_map <span class="op">=</span> device, <span class="co">#CPU or GPU</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    torch_dtype <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    trust_remote_code <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To pass inputs to the model we can run the following:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Input sentence</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat sat on the"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize/encode input prompt</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> tokenizer.encode(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the output with adjusted temperature</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(input_ids,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                        max_new_tokens<span class="op">=</span><span class="dv">1</span>, <span class="co">#Just want one word generated</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                        temperature<span class="op">=</span>temperature, <span class="co">#Set temp</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                        output_scores<span class="op">=</span><span class="va">True</span>, <span class="co">#Output model word scores</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                        output_logits<span class="op">=</span><span class="va">True</span>, <span class="co">#Outout logits</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                        return_dict_in_generate<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                        do_sample<span class="op">=</span><span class="va">True</span>, <span class="co">#Perform sampling for next word</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                        pad_token_id<span class="op">=</span>tokenizer.eos_token_id)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the generated token ID/next word</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>generated_token_id <span class="op">=</span> outputs.sequences[<span class="dv">0</span>][<span class="op">-</span><span class="dv">1</span>].item()    </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Decode the generated token ID to a word</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>generated_word <span class="op">=</span> tokenizer.decode([generated_token_id])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="single-next-word-generation" class="level4">
+<h4 class="anchored" data-anchor-id="single-next-word-generation">Single next-word generation</h4>
+<p>In single next-word generation, GPT-2 is given an initial input sequence (such as a partial sentence) and predicts the most likely next word. The model makes this prediction based on the context provided by the preceding words in the sequence. Once the next word is predicted, it is outputted and the process stops, meaning <strong>only one word is generated at a time</strong>. The word is selected based on the highest probability according to the model’s learned associations, and no further prediction occurs unless the process is repeated with a new input. <br> We’ll pass the same sentence we’ve been looking at to the LLM to see what it will output.</p>
+<ul>
+<li>Input sentence: The cat slept on the ______.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>temps <span class="op">=</span> [<span class="fl">0.1</span>,  <span class="fl">0.5</span>, <span class="fl">1.</span>, <span class="fl">5.</span>, <span class="fl">10.</span>, <span class="fl">100.</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ii <span class="kw">in</span> temps:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  word_out <span class="op">=</span> next_word_prediction(prompt, temp<span class="op">=</span>ii)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f"LLM Temperature: </span><span class="sc">{</span>ii<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>prompt<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>word_out<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we pass the same input sentence to the LLM with different temperature values and look at the probability distribution of select words in the model’s vocabulary.</p>
+<section id="examples-1" class="level5">
+<h5 class="anchored" data-anchor-id="examples-1">Examples</h5>
+<details>
+<summary>
+<strong>See examples</strong>
+</summary>
+</details>
+<details>
+<summary>
+<strong>What does this mean?</strong>
+</summary>
+<p>As the temperature increases from <strong>0.1</strong> and <strong>100.0</strong>, the probability distribution shifts from being more concentrated (or “peaky”) to more spread out (or “flat”), meaning that words with low probabilities at lower temperatures gain a higher chance of being selected. Note that as the temperature increases, each word results in a lower probability.</p>
+</details>
+</section>
+</section>
+<section id="continuous-next-word-generation" class="level4">
+<h4 class="anchored" data-anchor-id="continuous-next-word-generation">Continuous next-word generation</h4>
+<p>In continuous next-word generation, GPT-2 is given an initial input sentence and predicts the next most likely word in an <strong>autoregressive</strong> manner. The model generates each word based on the previous words it has already predicted, using the context it has built up. After predicting the next word, it is added to the sentence, and the updated sequence is passed back into the model for the next iteration. This process continues until one of two conditions is met: the model generates an end-of-sequence token (such as <code>&lt;EOS&gt;</code> or <code>\n</code>), or the maximum number of iterations (or tokens) is reached.</p>
+<p><br> We’ll pass the same sentence we’ve been looking at to the LLM to see what it will <span style="color:green"> output </span> over a number of iterations like below.</p>
+<ul>
+<li>Input sentence: The cat slept on the ______</li>
+<li>1: The cat slept on the <span style="color:green">floor</span> ______</li>
+<li>2: The cat slept on the floor <span style="color:green">next</span> ______</li>
+<li>3: The cat slept on the floor next <span style="color:green">to</span> ______</li>
+<li>4: The cat slept on the floor next to <span style="color:green">the</span> ______</li>
+<li>5: The cat slept on the floor next to the <span style="color:green">window</span> ______</li>
+<li>6: The cat slept on the floor next to the window <span style="color:green">.</span> ______</li>
+<li>7: The cat slept on the floor next to the window . <span style="color:green">&lt; EOS &gt;</span></li>
+</ul>
+<p>We’ll pass the <code>prompt</code> to the LLM and append its predicted output (<code>word_out</code>) to the prompt and keep iterating until we reach the max number of iterations (<code>max_gen_iteration</code>) or and end of sentence token (<code>&lt;EOS&gt;</code> or <code>\n</code>) is predicted.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>max_gen_iteration <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ii <span class="kw">in</span> <span class="bu">range</span>(max_gen_iteration):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  word_out, probs_out <span class="op">=</span> next_word_prediction(prompt, temp<span class="op">=</span>temp)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(prompt <span class="op">+</span> word_out)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  prompt <span class="op">+=</span> word_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we pass the same input sentence to the LLM with different temperature values and look at the probability distribution of select words in the model’s vocabulary.</p>
+<section id="examples-2" class="level5">
+<h5 class="anchored" data-anchor-id="examples-2">Examples</h5>
+<details>
+<summary>
+<strong>Temp: 0.5</strong>
+</summary>
+<p>Parameters:</p>
+<ul>
+<li>Input text: “The cat slept on the”</li>
+<li>Temperature: 0.5</li>
+<li>Max iterations: 20</li>
+</ul>
+<div id="6f39e205" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>gen_next_word_loop(prompt, temp <span class="op">=</span> temp, max_iter <span class="op">=</span> max_iter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>Temp: 2.0</strong>
+</summary>
+<p>Parameters:</p>
+<ul>
+<li>Input text: “The cat slept on the”</li>
+<li>Temperature: 2.0</li>
+<li>Max iterations: 20</li>
+</ul>
+<div id="71ceaf0b" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">2.0</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>gen_next_word_loop(prompt, temp <span class="op">=</span> temp, max_iter <span class="op">=</span> max_iter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+<details>
+<summary>
+<strong>Temp: 10.0</strong>
+</summary>
+<p>Parameters:</p>
+<ul>
+<li>Input text: “The cat slept on the”</li>
+<li>Temperature: 10.0</li>
+<li>Max iterations: 20</li>
+</ul>
+<div id="f241e284" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The cat slept on the"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fl">10.0</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>gen_next_word_loop(prompt, temp <span class="op">=</span> temp, max_iter <span class="op">=</span> max_iter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</details>
+
+<details>
+<summary>
+<strong>What does this mean?</strong>
+</summary>
+<p>When comparing outputs at temperatures of <strong>0.5</strong> and <strong>10.0</strong>, we observe that the text generated at a temperature of 0.5 is more <strong>coherent</strong>, while at a temperature of 10.0, the output becomes increasingly <strong>incoherent</strong> and less understandable to a human reader.</p>
+<p>This highlights how the temperature parameter affects continuous word generation by altering the probability distribution of possible next words within the model’s vocabulary.</p>
+</details>
+</section>
+</section>
+</section>
+</section>
+<section id="take-away" class="level2">
+<h2 class="anchored" data-anchor-id="take-away">Take Away</h2>
+<p>The <strong>temperature parameter</strong> in LLMs controls the randomness of generated text. Lower values lead to more deterministic and coherent outputs, while higher values increase diversity but may reduce coherence.</p>
+<p>Beyond basic applications, ongoing research explores dynamic temperature adjustment based on input context, optimizing it for specific tasks like multi-task learning, controlling coherence and text length, and influencing emotional tone.</p>
+<p>With future advancements we can expect to see enhanced model flexibility, allowing for more context-sensitive, adaptive, and creative outputs across diverse applications.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Nigel Gebodh, Made on Earth by a Human</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
