@@ -3,11 +3,10 @@ title: "Nigel Gebodh, PhD"
 subtitle: "Engineer | Artist | Scientist"
 image: img/ProfileImage_1.jpg
 
-
 about:
   id: hero-heading
   template: trestles
-  #image: img/ProfileImage_1.jpg
+  # image: img/ProfileImage_1.jpg
   image-width: 15em
   image-shape: round
 
