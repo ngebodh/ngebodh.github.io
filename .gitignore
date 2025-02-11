@@ -2,3 +2,6 @@
 /_site/
 venv
 projects/Short_dive_posts/ML_reg_norm/.venv
+projects/Short_dive_posts/ECG_analysis/venv_ecg/
+projects/Short_dive_posts/ECG_analysis/temp_data/
+docs/projects/Short_dive_posts/ECG_analysis/venv_ecg/
