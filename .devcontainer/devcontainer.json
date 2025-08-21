@@ -1,0 +1,10 @@
+{
+    "name": "UbuntuDevContainer",
+
+    // Get a Ubuntu container
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+    // "postCreateCommand": "python -m pip install nox pre-commit && pre-commit install"
+    //Used the Makefile to download and install quarto
+    "postCreateCommand": "make install"
+  }

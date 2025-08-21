@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nigel Gebodh">
+<meta name="dcterms.date" content="2022-01-01">
+
+<title>Nigel Gebodh - Image Recognition &amp; Classification with ResNet50</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon_1.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E4M44W57FR"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Nigel Gebodh - Image Recognition &amp; Classification with ResNet50">
+<meta property="og:description" content="Using the ResNet50 model to classify images">
+<meta property="og:site_name" content="Nigel **Gebodh**">
+<meta name="twitter:title" content="Nigel Gebodh - Image Recognition &amp; Classification with ResNet50">
+<meta name="twitter:description" content="Using the ResNet50 model to classify images">
+<meta name="twitter:image" content="./img/ProfileImage_1.jpg">
+<meta name="twitter:creator" content="@nigelgebodh">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Nigel <strong>Gebodh</strong></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications/publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../media/media.html"> 
+<span class="menu-text">Talks &amp; Media</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-connect" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Connect</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-connect">    
+        <li>
+    <a class="dropdown-item" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl" target="_blank"><i class="bi bi-mortarboard-fill" role="img">
+</i> 
+ <span class="dropdown-text">Google Scholar</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61" target="_blank"><i class="bi bi-bi bi-linkedin" role="img">
+</i> 
+ <span class="dropdown-text">LinkedIn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://twitter.com/nigelgebodh" target="_blank"><i class="bi bi-bi bi-twitter-x" role="img">
+</i> 
+ <span class="dropdown-text">Twitter(X)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ngebodh" target="_blank"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA" target="_blank"><i class="bi bi-bi bi-youtube" role="img">
+</i> 
+ <span class="dropdown-text">YouTube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bsky.app/profile/nigelgebodh.bsky.social" target="_blank"><i class="bi bi-bi bi-butterfly" role="img">
+</i> 
+ <span class="dropdown-text">BlueSky</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:nigel.gebodh@gmail.com" target="_blank"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">nigel.gebodh@gmail.com</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="6">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-this-project" id="toc-about-this-project" class="nav-link active" data-scroll-target="#about-this-project">About this project</a></li>
+  <li><a href="#import-and-set-up-model" id="toc-import-and-set-up-model" class="nav-link" data-scroll-target="#import-and-set-up-model">Import and set up model</a>
+  <ul class="collapse">
+  <li><a href="#details-of-the-model-layers" id="toc-details-of-the-model-layers" class="nav-link" data-scroll-target="#details-of-the-model-layers">Details of the model layers</a></li>
+  </ul></li>
+  <li><a href="#load-image-to-predict" id="toc-load-image-to-predict" class="nav-link" data-scroll-target="#load-image-to-predict">Load image to predict</a>
+  <ul class="collapse">
+  <li><a href="#downsample-the-image" id="toc-downsample-the-image" class="nav-link" data-scroll-target="#downsample-the-image">Downsample the image</a></li>
+  <li><a href="#more-preprocessing-steps" id="toc-more-preprocessing-steps" class="nav-link" data-scroll-target="#more-preprocessing-steps">More Preprocessing steps</a></li>
+  <li><a href="#run-neural-network-and-make-prediction" id="toc-run-neural-network-and-make-prediction" class="nav-link" data-scroll-target="#run-neural-network-and-make-prediction">Run neural network and make prediction</a></li>
+  </ul></li>
+  <li><a href="#put-it-all-into-a-function" id="toc-put-it-all-into-a-function" class="nav-link" data-scroll-target="#put-it-all-into-a-function">Put it all into a function!</a></li>
+  <li><a href="#classify-image" id="toc-classify-image" class="nav-link" data-scroll-target="#classify-image">Classify Image</a>
+  <ul class="collapse">
+  <li><a href="#archived" id="toc-archived" class="nav-link" data-scroll-target="#archived">Archived</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Image Recognition &amp; Classification with ResNet50</h1>
+<p class="subtitle lead">Using the ResNet50 model to classify images</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Deep Learning</div>
+    <div class="quarto-category">ML</div>
+    <div class="quarto-category">Computer Vision</div>
+    <div class="quarto-category">Image Recognition</div>
+    <div class="quarto-category">TensorFlow</div>
+    <div class="quarto-category">Keras</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nigel Gebodh </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<br>
+<figure style="text-align: center;" class="figure">
+<img src="resnet50.jpg" alt="Cover_image" width="95%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;" class="figure-img">
+<figcaption style="margin-top: 5px; font-style: italic; color: #555;">
+Resnet50. <a href="https://resize.latenode.com/cdn-cgi/image/width=960,format=auto,fit=scale-down/https://cdn.prod.website-files.com/62c40e4513da320b60f32941/66a8c8f98dad82efb9a4e315_%D0%A1%D0%9C%D0%98%20(5)-p-1080.jpg">Image source</a>
+</figcaption>
+</figure>
+<p><br></p>
+<section id="about-this-project" class="level2">
+<h2 class="anchored" data-anchor-id="about-this-project">About this project</h2>
+<p>We’re going to use a pretrained model included in Keras to do image recognition. Keras comes with several image recognition models including</p>
+<ul>
+<li>VGG (<a href="http://www.robots.ox.ac.uk/~vgg/" target="_blank">Visual Geometry Group at the University of Oxford</a>)</li>
+<li>ResNet50 (MS research)</li>
+<li>Inception-v3 (Google)</li>
+<li>Xception (Keras)</li>
+</ul>
+<p>We’ll use the ResNet50 in this project. <a href="https://arxiv.org/pdf/1512.03385.pdf" target="_blank">This</a> paper describes ResNets. Check out this <a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Convolutional%20Neural%20Networks/Residual%20Networks%20-%20v1.ipynb" target="_blank">link</a> for details on the model and ResNets in general.</p>
+<p>We have a few images to pick from to see how well the image classifier performs</p>
+</section>
+<section id="import-and-set-up-model" class="level2">
+<h2 class="anchored" data-anchor-id="import-and-set-up-model">Import and set up model</h2>
+<div id="cell-3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from tensorflow.keras import backend</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.preprocessing <span class="im">import</span> image</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.applications <span class="im">import</span> resnet50 <span class="co"># &lt;model</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Image visualization</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pylab inline</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using TensorFlow backend.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Populating the interactive namespace from numpy and matplotlib</code></pre>
+</div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we load the imported model </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span>resnet50.ResNet50() <span class="co">#Create a new instance of the model </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="details-of-the-model-layers" class="level3">
+<h3 class="anchored" data-anchor-id="details-of-the-model-layers">Details of the model layers</h3>
+<p>After we load the model we can use <code>summary()</code> to look at the model’s layers and data flow structure.</p>
+<div id="cell-7" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model: "resnet50"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            [(None, 224, 224, 3) 0                                            
+__________________________________________________________________________________________________
+conv1_pad (ZeroPadding2D)       (None, 230, 230, 3)  0           input_1[0][0]                    
+__________________________________________________________________________________________________
+conv1 (Conv2D)                  (None, 112, 112, 64) 9472        conv1_pad[0][0]                  
+__________________________________________________________________________________________________
+bn_conv1 (BatchNormalizationV1) (None, 112, 112, 64) 256         conv1[0][0]                      
+__________________________________________________________________________________________________
+activation (Activation)         (None, 112, 112, 64) 0           bn_conv1[0][0]                   
+__________________________________________________________________________________________________
+pool1_pad (ZeroPadding2D)       (None, 114, 114, 64) 0           activation[0][0]                 
+__________________________________________________________________________________________________
+max_pooling2d (MaxPooling2D)    (None, 56, 56, 64)   0           pool1_pad[0][0]                  
+__________________________________________________________________________________________________
+res2a_branch2a (Conv2D)         (None, 56, 56, 64)   4160        max_pooling2d[0][0]              
+__________________________________________________________________________________________________
+bn2a_branch2a (BatchNormalizati (None, 56, 56, 64)   256         res2a_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 56, 56, 64)   0           bn2a_branch2a[0][0]              
+__________________________________________________________________________________________________
+res2a_branch2b (Conv2D)         (None, 56, 56, 64)   36928       activation_1[0][0]               
+__________________________________________________________________________________________________
+bn2a_branch2b (BatchNormalizati (None, 56, 56, 64)   256         res2a_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_2 (Activation)       (None, 56, 56, 64)   0           bn2a_branch2b[0][0]              
+__________________________________________________________________________________________________
+res2a_branch2c (Conv2D)         (None, 56, 56, 256)  16640       activation_2[0][0]               
+__________________________________________________________________________________________________
+res2a_branch1 (Conv2D)          (None, 56, 56, 256)  16640       max_pooling2d[0][0]              
+__________________________________________________________________________________________________
+bn2a_branch2c (BatchNormalizati (None, 56, 56, 256)  1024        res2a_branch2c[0][0]             
+__________________________________________________________________________________________________
+bn2a_branch1 (BatchNormalizatio (None, 56, 56, 256)  1024        res2a_branch1[0][0]              
+__________________________________________________________________________________________________
+add (Add)                       (None, 56, 56, 256)  0           bn2a_branch2c[0][0]              
+                                                                 bn2a_branch1[0][0]               
+__________________________________________________________________________________________________
+activation_3 (Activation)       (None, 56, 56, 256)  0           add[0][0]                        
+__________________________________________________________________________________________________
+res2b_branch2a (Conv2D)         (None, 56, 56, 64)   16448       activation_3[0][0]               
+__________________________________________________________________________________________________
+bn2b_branch2a (BatchNormalizati (None, 56, 56, 64)   256         res2b_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_4 (Activation)       (None, 56, 56, 64)   0           bn2b_branch2a[0][0]              
+__________________________________________________________________________________________________
+res2b_branch2b (Conv2D)         (None, 56, 56, 64)   36928       activation_4[0][0]               
+__________________________________________________________________________________________________
+bn2b_branch2b (BatchNormalizati (None, 56, 56, 64)   256         res2b_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_5 (Activation)       (None, 56, 56, 64)   0           bn2b_branch2b[0][0]              
+__________________________________________________________________________________________________
+res2b_branch2c (Conv2D)         (None, 56, 56, 256)  16640       activation_5[0][0]               
+__________________________________________________________________________________________________
+bn2b_branch2c (BatchNormalizati (None, 56, 56, 256)  1024        res2b_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_1 (Add)                     (None, 56, 56, 256)  0           bn2b_branch2c[0][0]              
+                                                                 activation_3[0][0]               
+__________________________________________________________________________________________________
+activation_6 (Activation)       (None, 56, 56, 256)  0           add_1[0][0]                      
+__________________________________________________________________________________________________
+res2c_branch2a (Conv2D)         (None, 56, 56, 64)   16448       activation_6[0][0]               
+__________________________________________________________________________________________________
+bn2c_branch2a (BatchNormalizati (None, 56, 56, 64)   256         res2c_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_7 (Activation)       (None, 56, 56, 64)   0           bn2c_branch2a[0][0]              
+__________________________________________________________________________________________________
+res2c_branch2b (Conv2D)         (None, 56, 56, 64)   36928       activation_7[0][0]               
+__________________________________________________________________________________________________
+bn2c_branch2b (BatchNormalizati (None, 56, 56, 64)   256         res2c_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_8 (Activation)       (None, 56, 56, 64)   0           bn2c_branch2b[0][0]              
+__________________________________________________________________________________________________
+res2c_branch2c (Conv2D)         (None, 56, 56, 256)  16640       activation_8[0][0]               
+__________________________________________________________________________________________________
+bn2c_branch2c (BatchNormalizati (None, 56, 56, 256)  1024        res2c_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_2 (Add)                     (None, 56, 56, 256)  0           bn2c_branch2c[0][0]              
+                                                                 activation_6[0][0]               
+__________________________________________________________________________________________________
+activation_9 (Activation)       (None, 56, 56, 256)  0           add_2[0][0]                      
+__________________________________________________________________________________________________
+res3a_branch2a (Conv2D)         (None, 28, 28, 128)  32896       activation_9[0][0]               
+__________________________________________________________________________________________________
+bn3a_branch2a (BatchNormalizati (None, 28, 28, 128)  512         res3a_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_10 (Activation)      (None, 28, 28, 128)  0           bn3a_branch2a[0][0]              
+__________________________________________________________________________________________________
+res3a_branch2b (Conv2D)         (None, 28, 28, 128)  147584      activation_10[0][0]              
+__________________________________________________________________________________________________
+bn3a_branch2b (BatchNormalizati (None, 28, 28, 128)  512         res3a_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_11 (Activation)      (None, 28, 28, 128)  0           bn3a_branch2b[0][0]              
+__________________________________________________________________________________________________
+res3a_branch2c (Conv2D)         (None, 28, 28, 512)  66048       activation_11[0][0]              
+__________________________________________________________________________________________________
+res3a_branch1 (Conv2D)          (None, 28, 28, 512)  131584      activation_9[0][0]               
+__________________________________________________________________________________________________
+bn3a_branch2c (BatchNormalizati (None, 28, 28, 512)  2048        res3a_branch2c[0][0]             
+__________________________________________________________________________________________________
+bn3a_branch1 (BatchNormalizatio (None, 28, 28, 512)  2048        res3a_branch1[0][0]              
+__________________________________________________________________________________________________
+add_3 (Add)                     (None, 28, 28, 512)  0           bn3a_branch2c[0][0]              
+                                                                 bn3a_branch1[0][0]               
+__________________________________________________________________________________________________
+activation_12 (Activation)      (None, 28, 28, 512)  0           add_3[0][0]                      
+__________________________________________________________________________________________________
+res3b_branch2a (Conv2D)         (None, 28, 28, 128)  65664       activation_12[0][0]              
+__________________________________________________________________________________________________
+bn3b_branch2a (BatchNormalizati (None, 28, 28, 128)  512         res3b_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_13 (Activation)      (None, 28, 28, 128)  0           bn3b_branch2a[0][0]              
+__________________________________________________________________________________________________
+res3b_branch2b (Conv2D)         (None, 28, 28, 128)  147584      activation_13[0][0]              
+__________________________________________________________________________________________________
+bn3b_branch2b (BatchNormalizati (None, 28, 28, 128)  512         res3b_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_14 (Activation)      (None, 28, 28, 128)  0           bn3b_branch2b[0][0]              
+__________________________________________________________________________________________________
+res3b_branch2c (Conv2D)         (None, 28, 28, 512)  66048       activation_14[0][0]              
+__________________________________________________________________________________________________
+bn3b_branch2c (BatchNormalizati (None, 28, 28, 512)  2048        res3b_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_4 (Add)                     (None, 28, 28, 512)  0           bn3b_branch2c[0][0]              
+                                                                 activation_12[0][0]              
+__________________________________________________________________________________________________
+activation_15 (Activation)      (None, 28, 28, 512)  0           add_4[0][0]                      
+__________________________________________________________________________________________________
+res3c_branch2a (Conv2D)         (None, 28, 28, 128)  65664       activation_15[0][0]              
+__________________________________________________________________________________________________
+bn3c_branch2a (BatchNormalizati (None, 28, 28, 128)  512         res3c_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_16 (Activation)      (None, 28, 28, 128)  0           bn3c_branch2a[0][0]              
+__________________________________________________________________________________________________
+res3c_branch2b (Conv2D)         (None, 28, 28, 128)  147584      activation_16[0][0]              
+__________________________________________________________________________________________________
+bn3c_branch2b (BatchNormalizati (None, 28, 28, 128)  512         res3c_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_17 (Activation)      (None, 28, 28, 128)  0           bn3c_branch2b[0][0]              
+__________________________________________________________________________________________________
+res3c_branch2c (Conv2D)         (None, 28, 28, 512)  66048       activation_17[0][0]              
+__________________________________________________________________________________________________
+bn3c_branch2c (BatchNormalizati (None, 28, 28, 512)  2048        res3c_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_5 (Add)                     (None, 28, 28, 512)  0           bn3c_branch2c[0][0]              
+                                                                 activation_15[0][0]              
+__________________________________________________________________________________________________
+activation_18 (Activation)      (None, 28, 28, 512)  0           add_5[0][0]                      
+__________________________________________________________________________________________________
+res3d_branch2a (Conv2D)         (None, 28, 28, 128)  65664       activation_18[0][0]              
+__________________________________________________________________________________________________
+bn3d_branch2a (BatchNormalizati (None, 28, 28, 128)  512         res3d_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_19 (Activation)      (None, 28, 28, 128)  0           bn3d_branch2a[0][0]              
+__________________________________________________________________________________________________
+res3d_branch2b (Conv2D)         (None, 28, 28, 128)  147584      activation_19[0][0]              
+__________________________________________________________________________________________________
+bn3d_branch2b (BatchNormalizati (None, 28, 28, 128)  512         res3d_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_20 (Activation)      (None, 28, 28, 128)  0           bn3d_branch2b[0][0]              
+__________________________________________________________________________________________________
+res3d_branch2c (Conv2D)         (None, 28, 28, 512)  66048       activation_20[0][0]              
+__________________________________________________________________________________________________
+bn3d_branch2c (BatchNormalizati (None, 28, 28, 512)  2048        res3d_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_6 (Add)                     (None, 28, 28, 512)  0           bn3d_branch2c[0][0]              
+                                                                 activation_18[0][0]              
+__________________________________________________________________________________________________
+activation_21 (Activation)      (None, 28, 28, 512)  0           add_6[0][0]                      
+__________________________________________________________________________________________________
+res4a_branch2a (Conv2D)         (None, 14, 14, 256)  131328      activation_21[0][0]              
+__________________________________________________________________________________________________
+bn4a_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4a_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_22 (Activation)      (None, 14, 14, 256)  0           bn4a_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4a_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_22[0][0]              
+__________________________________________________________________________________________________
+bn4a_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4a_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_23 (Activation)      (None, 14, 14, 256)  0           bn4a_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4a_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_23[0][0]              
+__________________________________________________________________________________________________
+res4a_branch1 (Conv2D)          (None, 14, 14, 1024) 525312      activation_21[0][0]              
+__________________________________________________________________________________________________
+bn4a_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4a_branch2c[0][0]             
+__________________________________________________________________________________________________
+bn4a_branch1 (BatchNormalizatio (None, 14, 14, 1024) 4096        res4a_branch1[0][0]              
+__________________________________________________________________________________________________
+add_7 (Add)                     (None, 14, 14, 1024) 0           bn4a_branch2c[0][0]              
+                                                                 bn4a_branch1[0][0]               
+__________________________________________________________________________________________________
+activation_24 (Activation)      (None, 14, 14, 1024) 0           add_7[0][0]                      
+__________________________________________________________________________________________________
+res4b_branch2a (Conv2D)         (None, 14, 14, 256)  262400      activation_24[0][0]              
+__________________________________________________________________________________________________
+bn4b_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4b_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_25 (Activation)      (None, 14, 14, 256)  0           bn4b_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4b_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_25[0][0]              
+__________________________________________________________________________________________________
+bn4b_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4b_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_26 (Activation)      (None, 14, 14, 256)  0           bn4b_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4b_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_26[0][0]              
+__________________________________________________________________________________________________
+bn4b_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4b_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_8 (Add)                     (None, 14, 14, 1024) 0           bn4b_branch2c[0][0]              
+                                                                 activation_24[0][0]              
+__________________________________________________________________________________________________
+activation_27 (Activation)      (None, 14, 14, 1024) 0           add_8[0][0]                      
+__________________________________________________________________________________________________
+res4c_branch2a (Conv2D)         (None, 14, 14, 256)  262400      activation_27[0][0]              
+__________________________________________________________________________________________________
+bn4c_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4c_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_28 (Activation)      (None, 14, 14, 256)  0           bn4c_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4c_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_28[0][0]              
+__________________________________________________________________________________________________
+bn4c_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4c_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_29 (Activation)      (None, 14, 14, 256)  0           bn4c_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4c_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_29[0][0]              
+__________________________________________________________________________________________________
+bn4c_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4c_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_9 (Add)                     (None, 14, 14, 1024) 0           bn4c_branch2c[0][0]              
+                                                                 activation_27[0][0]              
+__________________________________________________________________________________________________
+activation_30 (Activation)      (None, 14, 14, 1024) 0           add_9[0][0]                      
+__________________________________________________________________________________________________
+res4d_branch2a (Conv2D)         (None, 14, 14, 256)  262400      activation_30[0][0]              
+__________________________________________________________________________________________________
+bn4d_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4d_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_31 (Activation)      (None, 14, 14, 256)  0           bn4d_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4d_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_31[0][0]              
+__________________________________________________________________________________________________
+bn4d_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4d_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_32 (Activation)      (None, 14, 14, 256)  0           bn4d_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4d_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_32[0][0]              
+__________________________________________________________________________________________________
+bn4d_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4d_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_10 (Add)                    (None, 14, 14, 1024) 0           bn4d_branch2c[0][0]              
+                                                                 activation_30[0][0]              
+__________________________________________________________________________________________________
+activation_33 (Activation)      (None, 14, 14, 1024) 0           add_10[0][0]                     
+__________________________________________________________________________________________________
+res4e_branch2a (Conv2D)         (None, 14, 14, 256)  262400      activation_33[0][0]              
+__________________________________________________________________________________________________
+bn4e_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4e_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_34 (Activation)      (None, 14, 14, 256)  0           bn4e_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4e_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_34[0][0]              
+__________________________________________________________________________________________________
+bn4e_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4e_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_35 (Activation)      (None, 14, 14, 256)  0           bn4e_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4e_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_35[0][0]              
+__________________________________________________________________________________________________
+bn4e_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4e_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_11 (Add)                    (None, 14, 14, 1024) 0           bn4e_branch2c[0][0]              
+                                                                 activation_33[0][0]              
+__________________________________________________________________________________________________
+activation_36 (Activation)      (None, 14, 14, 1024) 0           add_11[0][0]                     
+__________________________________________________________________________________________________
+res4f_branch2a (Conv2D)         (None, 14, 14, 256)  262400      activation_36[0][0]              
+__________________________________________________________________________________________________
+bn4f_branch2a (BatchNormalizati (None, 14, 14, 256)  1024        res4f_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_37 (Activation)      (None, 14, 14, 256)  0           bn4f_branch2a[0][0]              
+__________________________________________________________________________________________________
+res4f_branch2b (Conv2D)         (None, 14, 14, 256)  590080      activation_37[0][0]              
+__________________________________________________________________________________________________
+bn4f_branch2b (BatchNormalizati (None, 14, 14, 256)  1024        res4f_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_38 (Activation)      (None, 14, 14, 256)  0           bn4f_branch2b[0][0]              
+__________________________________________________________________________________________________
+res4f_branch2c (Conv2D)         (None, 14, 14, 1024) 263168      activation_38[0][0]              
+__________________________________________________________________________________________________
+bn4f_branch2c (BatchNormalizati (None, 14, 14, 1024) 4096        res4f_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_12 (Add)                    (None, 14, 14, 1024) 0           bn4f_branch2c[0][0]              
+                                                                 activation_36[0][0]              
+__________________________________________________________________________________________________
+activation_39 (Activation)      (None, 14, 14, 1024) 0           add_12[0][0]                     
+__________________________________________________________________________________________________
+res5a_branch2a (Conv2D)         (None, 7, 7, 512)    524800      activation_39[0][0]              
+__________________________________________________________________________________________________
+bn5a_branch2a (BatchNormalizati (None, 7, 7, 512)    2048        res5a_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_40 (Activation)      (None, 7, 7, 512)    0           bn5a_branch2a[0][0]              
+__________________________________________________________________________________________________
+res5a_branch2b (Conv2D)         (None, 7, 7, 512)    2359808     activation_40[0][0]              
+__________________________________________________________________________________________________
+bn5a_branch2b (BatchNormalizati (None, 7, 7, 512)    2048        res5a_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_41 (Activation)      (None, 7, 7, 512)    0           bn5a_branch2b[0][0]              
+__________________________________________________________________________________________________
+res5a_branch2c (Conv2D)         (None, 7, 7, 2048)   1050624     activation_41[0][0]              
+__________________________________________________________________________________________________
+res5a_branch1 (Conv2D)          (None, 7, 7, 2048)   2099200     activation_39[0][0]              
+__________________________________________________________________________________________________
+bn5a_branch2c (BatchNormalizati (None, 7, 7, 2048)   8192        res5a_branch2c[0][0]             
+__________________________________________________________________________________________________
+bn5a_branch1 (BatchNormalizatio (None, 7, 7, 2048)   8192        res5a_branch1[0][0]              
+__________________________________________________________________________________________________
+add_13 (Add)                    (None, 7, 7, 2048)   0           bn5a_branch2c[0][0]              
+                                                                 bn5a_branch1[0][0]               
+__________________________________________________________________________________________________
+activation_42 (Activation)      (None, 7, 7, 2048)   0           add_13[0][0]                     
+__________________________________________________________________________________________________
+res5b_branch2a (Conv2D)         (None, 7, 7, 512)    1049088     activation_42[0][0]              
+__________________________________________________________________________________________________
+bn5b_branch2a (BatchNormalizati (None, 7, 7, 512)    2048        res5b_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_43 (Activation)      (None, 7, 7, 512)    0           bn5b_branch2a[0][0]              
+__________________________________________________________________________________________________
+res5b_branch2b (Conv2D)         (None, 7, 7, 512)    2359808     activation_43[0][0]              
+__________________________________________________________________________________________________
+bn5b_branch2b (BatchNormalizati (None, 7, 7, 512)    2048        res5b_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_44 (Activation)      (None, 7, 7, 512)    0           bn5b_branch2b[0][0]              
+__________________________________________________________________________________________________
+res5b_branch2c (Conv2D)         (None, 7, 7, 2048)   1050624     activation_44[0][0]              
+__________________________________________________________________________________________________
+bn5b_branch2c (BatchNormalizati (None, 7, 7, 2048)   8192        res5b_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_14 (Add)                    (None, 7, 7, 2048)   0           bn5b_branch2c[0][0]              
+                                                                 activation_42[0][0]              
+__________________________________________________________________________________________________
+activation_45 (Activation)      (None, 7, 7, 2048)   0           add_14[0][0]                     
+__________________________________________________________________________________________________
+res5c_branch2a (Conv2D)         (None, 7, 7, 512)    1049088     activation_45[0][0]              
+__________________________________________________________________________________________________
+bn5c_branch2a (BatchNormalizati (None, 7, 7, 512)    2048        res5c_branch2a[0][0]             
+__________________________________________________________________________________________________
+activation_46 (Activation)      (None, 7, 7, 512)    0           bn5c_branch2a[0][0]              
+__________________________________________________________________________________________________
+res5c_branch2b (Conv2D)         (None, 7, 7, 512)    2359808     activation_46[0][0]              
+__________________________________________________________________________________________________
+bn5c_branch2b (BatchNormalizati (None, 7, 7, 512)    2048        res5c_branch2b[0][0]             
+__________________________________________________________________________________________________
+activation_47 (Activation)      (None, 7, 7, 512)    0           bn5c_branch2b[0][0]              
+__________________________________________________________________________________________________
+res5c_branch2c (Conv2D)         (None, 7, 7, 2048)   1050624     activation_47[0][0]              
+__________________________________________________________________________________________________
+bn5c_branch2c (BatchNormalizati (None, 7, 7, 2048)   8192        res5c_branch2c[0][0]             
+__________________________________________________________________________________________________
+add_15 (Add)                    (None, 7, 7, 2048)   0           bn5c_branch2c[0][0]              
+                                                                 activation_45[0][0]              
+__________________________________________________________________________________________________
+activation_48 (Activation)      (None, 7, 7, 2048)   0           add_15[0][0]                     
+__________________________________________________________________________________________________
+avg_pool (GlobalAveragePooling2 (None, 2048)         0           activation_48[0][0]              
+__________________________________________________________________________________________________
+fc1000 (Dense)                  (None, 1000)         2049000     avg_pool[0][0]                   
+==================================================================================================
+Total params: 25,636,712
+Trainable params: 25,583,592
+Non-trainable params: 53,120
+__________________________________________________________________________________________________</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="load-image-to-predict" class="level2">
+<h2 class="anchored" data-anchor-id="load-image-to-predict">Load image to predict</h2>
+<section id="downsample-the-image" class="level3">
+<h3 class="anchored" data-anchor-id="downsample-the-image">Downsample the image</h3>
+<div id="cell-10" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load in the sample image we want to predict</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>imgloc<span class="op">=</span><span class="st">'shark.jpg'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span>image.load_img(imgloc) <span class="co">#Load in the image</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shape(img))<span class="co">#Size of image</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at loaded image</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.imshow(img) </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Original'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># display it</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Because the image is too big we need to downsample it in order to </span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#pass it to Keras. Keras needs imagesize to be matched to </span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#the number of input nodes in the model in this case 224x224 pxls </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>imgName <span class="op">=</span> imgloc<span class="co">#'bay.jpg'</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Re- Load in the sample image we want to predict</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span>image.load_img(imgName, target_size<span class="op">=</span>(<span class="dv">224</span>,<span class="dv">224</span>)) <span class="co">#Load in the image and resize</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shape(img))<span class="co">#Size of image</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at loaded image</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>plt.imshow(img) </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Downsampled'</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># display it</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(351, 624, 3)
+(224, 224, 3)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_ResNet50_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_ResNet50_files/figure-html/cell-5-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="more-preprocessing-steps" class="level3">
+<h3 class="anchored" data-anchor-id="more-preprocessing-steps">More Preprocessing steps</h3>
+<div id="cell-12" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert image to array (flatten)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span>image.img_to_array(img)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#The neural network is actually expecting (a list) more than 1 image so we will trick it</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Add a 4th dimension to the array</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span> np.expand_dims(x,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Normalize data to 0-1 instead of 0-255</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span>resnet50.preprocess_input(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-neural-network-and-make-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="run-neural-network-and-make-prediction">Run neural network and make prediction</h3>
+<div id="cell-14" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we run the normalized data through the network and predict</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span>model.predict(x)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#We will get back a predictions object with 1000 element array. </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Each element reps a probability that the input matches each of the 1000 objects </span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#that the network was trained on.</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Here we use a function to tell us the names of the objects that </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#the network predicted. We only want to top 10 so we ask for ony 10</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>prediction_classes <span class="op">=</span>resnet50.decode_predictions(predictions, top<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Print out all the predictions</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> imagenet_id, name, likelihood <span class="kw">in</span> prediction_classes[<span class="dv">0</span>]:</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"-</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{:2f}</span><span class="st"> </span><span class="sc">% li</span><span class="st">kelihood"</span>.<span class="bu">format</span>(name, likelihood<span class="op">*</span><span class="dv">100</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at loaded image</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.imshow(img) </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Downsampled'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># display it</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-hammerhead: 65.850562 % likelihood
+-great_white_shark: 21.884859 % likelihood
+-tiger_shark: 12.248133 % likelihood
+-electric_ray: 0.006338 % likelihood
+-albatross: 0.002689 % likelihood
+-sturgeon: 0.002292 % likelihood
+-stingray: 0.001961 % likelihood
+-killer_whale: 0.001225 % likelihood
+-grey_whale: 0.000721 % likelihood
+-loggerhead: 0.000335 % likelihood</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_ResNet50_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="put-it-all-into-a-function" class="level2">
+<h2 class="anchored" data-anchor-id="put-it-all-into-a-function">Put it all into a function!</h2>
+<div id="cell-16" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> imgClasser(locc):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    imgName <span class="op">=</span> locc</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Re- Load in the sample image we want to predict</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span>image.load_img(imgName, target_size<span class="op">=</span>(<span class="dv">224</span>,<span class="dv">224</span>)) <span class="co">#Load in the image and resize</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Convert image to array (flatten)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>image.img_to_array(img)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#The neural network is actually expecting (a list) more than 1 image so we will trick it</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Add a 4th dimension to the array</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span> np.expand_dims(x,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Normalize data to 0-1 instead of 0-255</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>resnet50.preprocess_input(x)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Now we run the normalized data through the network and predict</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span>model.predict(x)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#We will get back a predictions object with 1000 element array. </span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Each element reps a probability that the input matches each of the 1000 objects </span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#that the network was trained on.</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Here we use a function to tell us the names of the objects that </span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#the network predicted. We only want to top 10 so we ask for ony 10</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    prediction_classes <span class="op">=</span>resnet50.decode_predictions(predictions, top<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Print out all the predictions</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> imagenet_id, name, likelihood <span class="kw">in</span> prediction_classes[<span class="dv">0</span>]:</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"-</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{:2f}</span><span class="st"> </span><span class="sc">% li</span><span class="st">kelihood"</span>.<span class="bu">format</span>(name, likelihood<span class="op">*</span><span class="dv">100</span>))</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Look at loaded image</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    plt.imshow(img) </span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Downsampled'</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    plt.show()  <span class="co"># display it</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="classify-image" class="level1">
+<h1>Classify Image</h1>
+<p>Finally, we use the model to identify an object in a new image. We pass the image to the model and print the top 10 most likely objects that the model thinks it is.</p>
+<div id="cell-18" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>imgClasser(<span class="st">'burger.jpg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-cheeseburger: 99.906200 % likelihood
+-bagel: 0.070201 % likelihood
+-hotdog: 0.012809 % likelihood
+-bakery: 0.003466 % likelihood
+-plate: 0.002827 % likelihood
+-French_loaf: 0.002641 % likelihood
+-chocolate_sauce: 0.000375 % likelihood
+-ice_cream: 0.000308 % likelihood
+-guacamole: 0.000269 % likelihood
+-meat_loaf: 0.000222 % likelihood</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_ResNet50_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that the model is able to successfully identify the image as containing a <strong>cheeseburger</strong> with a <strong>99.9% liklihood</strong>!</p>
+<hr>
+<section id="archived" class="level2">
+<h2 class="anchored" data-anchor-id="archived">Archived</h2>
+<p><strong>Project Archive Note:</strong></p>
+<p>This project is archived. <br> Please note that library and framework versions may be outdated.<br> Last updated:</p>
+<ul>
+<li>April 2025</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Nigel Gebodh, Made on Earth by a Human</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

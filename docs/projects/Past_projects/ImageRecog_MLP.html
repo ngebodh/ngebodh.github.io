@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nigel Gebodh">
+<meta name="dcterms.date" content="2022-01-01">
+
+<title>Nigel Gebodh - Digit Recognition with MLP from Scratch</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon_1.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E4M44W57FR"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Nigel Gebodh - Digit Recognition with MLP from Scratch">
+<meta property="og:description" content="Using a MLP to classify digits">
+<meta property="og:site_name" content="Nigel **Gebodh**">
+<meta name="twitter:title" content="Nigel Gebodh - Digit Recognition with MLP from Scratch">
+<meta name="twitter:description" content="Using a MLP to classify digits">
+<meta name="twitter:image" content="./img/ProfileImage_1.jpg">
+<meta name="twitter:creator" content="@nigelgebodh">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Nigel <strong>Gebodh</strong></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications/publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../media/media.html"> 
+<span class="menu-text">Talks &amp; Media</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-connect" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Connect</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-connect">    
+        <li>
+    <a class="dropdown-item" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl" target="_blank"><i class="bi bi-mortarboard-fill" role="img">
+</i> 
+ <span class="dropdown-text">Google Scholar</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61" target="_blank"><i class="bi bi-bi bi-linkedin" role="img">
+</i> 
+ <span class="dropdown-text">LinkedIn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://twitter.com/nigelgebodh" target="_blank"><i class="bi bi-bi bi-twitter-x" role="img">
+</i> 
+ <span class="dropdown-text">Twitter(X)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ngebodh" target="_blank"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA" target="_blank"><i class="bi bi-bi bi-youtube" role="img">
+</i> 
+ <span class="dropdown-text">YouTube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bsky.app/profile/nigelgebodh.bsky.social" target="_blank"><i class="bi bi-bi bi-butterfly" role="img">
+</i> 
+ <span class="dropdown-text">BlueSky</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:nigel.gebodh@gmail.com" target="_blank"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">nigel.gebodh@gmail.com</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="6">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link" data-scroll-target="#import-libraries">Import Libraries</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the Data</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
+  <li><a href="#build-the-model" id="toc-build-the-model" class="nav-link" data-scroll-target="#build-the-model">Build the Model</a></li>
+  <li><a href="#compile-the-model" id="toc-compile-the-model" class="nav-link" data-scroll-target="#compile-the-model">Compile the Model</a></li>
+  <li><a href="#calculating-the-number-of-parameters-for-each-layer" id="toc-calculating-the-number-of-parameters-for-each-layer" class="nav-link" data-scroll-target="#calculating-the-number-of-parameters-for-each-layer">Calculating the number of parameters for each layer</a>
+  <ul class="collapse">
+  <li><a href="#layer-1" id="toc-layer-1" class="nav-link" data-scroll-target="#layer-1"><em>Layer 1</em></a></li>
+  <li><a href="#layer-2" id="toc-layer-2" class="nav-link" data-scroll-target="#layer-2"><em>Layer 2</em></a></li>
+  <li><a href="#layer-3" id="toc-layer-3" class="nav-link" data-scroll-target="#layer-3"><em>Layer 3</em></a></li>
+  </ul></li>
+  <li><a href="#train-the-model" id="toc-train-the-model" class="nav-link" data-scroll-target="#train-the-model">Train the model</a>
+  <ul class="collapse">
+  <li><a href="#training-accuracy-visualization" id="toc-training-accuracy-visualization" class="nav-link" data-scroll-target="#training-accuracy-visualization">Training Accuracy Visualization</a></li>
+  <li><a href="#plot-the-accuracy-of-the-training-model" id="toc-plot-the-accuracy-of-the-training-model" class="nav-link" data-scroll-target="#plot-the-accuracy-of-the-training-model">Plot the accuracy of the training model</a></li>
+  <li><a href="#training-vs.-validation-accuracy" id="toc-training-vs.-validation-accuracy" class="nav-link" data-scroll-target="#training-vs.-validation-accuracy">Training vs.&nbsp;Validation Accuracy</a></li>
+  <li><a href="#training-vs.-validation-accuracy-and-loss" id="toc-training-vs.-validation-accuracy-and-loss" class="nav-link" data-scroll-target="#training-vs.-validation-accuracy-and-loss">Training vs.&nbsp;Validation: Accuracy and Loss</a></li>
+  <li><a href="#model-evaluation-on-test-data" id="toc-model-evaluation-on-test-data" class="nav-link" data-scroll-target="#model-evaluation-on-test-data">Model Evaluation on Test Data</a></li>
+  </ul></li>
+  <li><a href="#archived" id="toc-archived" class="nav-link" data-scroll-target="#archived">Archived</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Digit Recognition with MLP from Scratch</h1>
+<p class="subtitle lead">Using a MLP to classify digits</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Deep Learning</div>
+    <div class="quarto-category">ML</div>
+    <div class="quarto-category">Computer Vision</div>
+    <div class="quarto-category">Image Recognition</div>
+    <div class="quarto-category">TensorFlow</div>
+    <div class="quarto-category">Keras</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nigel Gebodh </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<br>
+<figure style="text-align: center;" class="figure">
+<img src="digit_recog.jpg" alt="Cover_image" width="65%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;" class="figure-img">
+<figcaption style="margin-top: 5px; font-style: italic; color: #555;">
+<p>Digit Recognition. Photo by <a href="https://unsplash.com/@nhillier?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Nick Hillier</a> on <a href="https://unsplash.com/photos/assorted-numbers-photography-yD5rv8_WzxA?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</figcaption>
+</figure>
+<p><br></p>
+<!-- ## About this project
+Our goal with this notebook is to build a neural network classifier in Keras to recognize hand-written digits. We will use the MNIST data set that consists of thousands of hand writtent numbers that span 0-9
+
+Similar to the process shown below: -->
+<!-- <img src="https://i.ytimg.com/vi/ur6JY2Hl-MM/hqdefault.jpg" width="25%" hight="50%"> -->
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>This notebook demonstrates the development of a neural network classifier using Keras to recognize handwritten digits from the MNIST dataset. The MNIST dataset is a widely used benchmark in machine learning, consisting of 70,000 grayscale images of handwritten digits (0-9). We will preprocess the images, build a multi-layer perceptron (MLP) model, train it, and evaluate its performance.</p>
+<p>The process involves:</p>
+<ol type="1">
+<li><strong>Data Loading:</strong> Importing the MNIST dataset.</li>
+<li><strong>Data Exploration:</strong> Understanding the structure and format of the image data.</li>
+<li><strong>Data Preprocessing:</strong> Reshaping, normalizing, and one-hot encoding the data.</li>
+<li><strong>Model Building:</strong> Constructing a neural network architecture.</li>
+<li><strong>Model Compilation:</strong> Configuring the learning process.</li>
+<li><strong>Model Training:</strong> Fitting the model to the training data.</li>
+<li><strong>Model Evaluation:</strong> Assessing the model’s accuracy on the test data.</li>
+<li><strong>Visualization:</strong> Plotting training and validation accuracy and loss.</li>
+</ol>
+</section>
+<section id="import-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="import-libraries">Import Libraries</h2>
+<p>We begin by importing the necessary libraries:</p>
+<ul>
+<li><strong>NumPy:</strong> For numerical operations.</li>
+<li><strong>Keras (TensorFlow):</strong> For building and training the neural network.</li>
+<li><strong>Matplotlib:</strong> For data visualization.</li>
+</ul>
+<div id="cell-5" class="cell" data-outputid="23a111f9-04d8-4279-e3b0-3767f6e6d73b" data-trusted="true">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.datasets <span class="im">import</span> mnist</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.preprocessing.image <span class="im">import</span> load_img, array_to_img</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.utils.np_utils <span class="im">import</span> to_categorical</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.models <span class="im">import</span> Sequential</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.layers <span class="im">import</span> Dense</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using TensorFlow backend.</code></pre>
+</div>
+</div>
+</section>
+<section id="load-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-data">Load the Data</h2>
+<p>We load the MNIST dataset, which is conveniently provided by Keras.</p>
+<div id="cell-7" class="cell" data-outputid="e9e9361c-464e-409f-840e-960741361605" data-trusted="true">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(X_train, y_train), (X_test, y_test) <span class="op">=</span> mnist.load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading data from https://s3.amazonaws.com/img-datasets/mnist.npz
+11493376/11490434 [==============================] - 1s 0us/step</code></pre>
+</div>
+</div>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
+<p>Let’s examine the shape of the loaded data.</p>
+<div id="cell-9" class="cell" data-outputid="3b27fd04-95cb-41a0-c0af-696cdcb90ed8" data-trusted="true">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(X_train))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_train.shape)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_train.shape) <span class="co">#60k is the answers</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_test.shape)  <span class="co">#10K entries</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_test.shape)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'numpy.ndarray'&gt;
+(60000, 28, 28)
+(60000,)
+(10000, 28, 28)
+(10000,)</code></pre>
+</div>
+</div>
+<p>This shows that we have 60,000 training images and 10,000 test images, each of size 28x28 pixels.</p>
+<p>Let’s visualize a sample image and its corresponding label.</p>
+<div id="cell-11" class="cell" data-outputid="4e5b1aa8-12f7-4d9b-cc5b-e78dcb7c62e0" data-trusted="true">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Lets look at the data to see what it looks like</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_train[<span class="dv">0</span>].shape) <span class="co">#Look at the size of the 1st entry</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot it to see what it looks like</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train[<span class="dv">0</span>])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Print the answer</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The answer is </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(y_train[<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(28, 28)
+The answer is 5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_MLP_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="data-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
+<p>We need to preprocess the image data before feeding it into the neural network.</p>
+<ul>
+<li><strong>Reshape:</strong> Flatten the 28x28 images into 784-dimensional vectors.</li>
+<li><strong>Normalize:</strong> Scale the pixel values to the range [0, 1].</li>
+<li><strong>One-Hot Encode:</strong> Convert the labels into a categorical format.</li>
+</ul>
+<div id="cell-13" class="cell" data-trusted="true">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>image_height, image_width <span class="op">=</span><span class="dv">28</span>, <span class="dv">28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell" data-trusted="true">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Lets reshape each image to be a single vector rather than a matrix</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Have to flatten to plug into neural net</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X_train  <span class="op">=</span>X_train.reshape(<span class="dv">60000</span>,image_height<span class="op">*</span>image_width)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>X_test   <span class="op">=</span>X_test.reshape(<span class="dv">10000</span>,image_height<span class="op">*</span>image_width)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-15" class="cell" data-outputid="e69eeec2-2cf7-4963-95da-f0b8b85b29a0" data-trusted="true">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_train.shape) <span class="co">#28X28 =784</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_test.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(60000, 784)
+(10000, 784)</code></pre>
+</div>
+</div>
+<div id="cell-16" class="cell" data-outputid="2d5ed22d-255e-43fb-a893-ba08bb8b34ea" data-trusted="true">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check to see if image is between 0-255</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">min</span>(X_train[<span class="dv">0</span>]), <span class="bu">max</span>(X_train[<span class="dv">0</span>])) <span class="co">#it is! so we need to normalize</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#We will convert data to float (insead of int) to scale the data betwn 0-1 (not 0-255)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X_train.astype(<span class="st">'float32'</span>) <span class="co">#Convert to float</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>X_test  <span class="op">=</span> X_test.astype(<span class="st">'float32'</span>) <span class="co">#Convert to float</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0 255</code></pre>
+</div>
+</div>
+<div id="cell-17" class="cell" data-outputid="912bf857-10ab-46c4-f8e4-20384c1a047a" data-trusted="true">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Normalize the data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">/=</span> <span class="fl">255.0</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>X_test  <span class="op">/=</span> <span class="fl">255.0</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">min</span>(X_train[<span class="dv">0</span>]), <span class="bu">max</span>(X_train[<span class="dv">0</span>])) <span class="co">#Normalized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.0 1.0</code></pre>
+</div>
+</div>
+<div id="cell-18" class="cell" data-outputid="0cb20ce6-93e9-49f2-8e6f-76a1849c8bdb" data-trusted="true">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We want the output to be in one of 9 bins to rep each of the 0-9 numbers</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#In order to do this we can convert the answers to a categorical value</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#We do this using the 'to_categorical' method</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span>to_categorical(y_train, <span class="dv">10</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>y_test  <span class="op">=</span>to_categorical(y_test, <span class="dv">10</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_train.shape)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_test.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(60000, 10)
+(10000, 10)</code></pre>
+</div>
+</div>
+<div id="cell-19" class="cell" data-outputid="4c22e6ff-71ea-4b89-fabd-67d3b7b1f7ab" data-trusted="true">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_test[<span class="dv">0</span>])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_test[<span class="dv">0</span>].reshape(image_height, image_width))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0. 0. 0. 0. 0. 0. 0. 1. 0. 0.]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_MLP_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="build-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="build-the-model">Build the Model</h2>
+<p>We construct a sequential neural network model with three dense layers.</p>
+<div id="cell-21" class="cell" data-outputid="9557807b-2953-42ea-c74f-7f56a14c8262" data-trusted="true">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Assign the model type</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Sequential()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING: Logging before flag parsing goes to stderr.
+W0820 07:17:37.393794 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:74: The name tf.get_default_graph is deprecated. Please use tf.compat.v1.get_default_graph instead.
+</code></pre>
+</div>
+</div>
+<div id="cell-22" class="cell" data-outputid="046e1a5e-f1ae-47eb-8b8d-4edf41d60ee5" data-trusted="true">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add layers to the model</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">512</span>, activation<span class="op">=</span><span class="st">'relu'</span>,input_shape<span class="op">=</span>(<span class="dv">784</span>,)))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">512</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">'softmax'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>W0820 07:17:37.444703 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:517: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+W0820 07:17:37.461894 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:4138: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+</code></pre>
+</div>
+</div>
+</section>
+<section id="compile-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="compile-the-model">Compile the Model</h2>
+<p>We compile the model with the Adam optimizer, categorical cross-entropy loss, and accuracy metric.</p>
+<div id="cell-24" class="cell" data-outputid="74847074-481e-40bc-c76e-53e1b25abfff" data-trusted="true">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>W0820 07:17:37.521929 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/optimizers.py:790: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+W0820 07:17:37.561933 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:3295: The name tf.log is deprecated. Please use tf.math.log instead.
+</code></pre>
+</div>
+</div>
+<div id="cell-25" class="cell" data-outputid="87f77004-dc1d-4c05-9474-065e647af177" data-trusted="true">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_1 (Dense)              (None, 512)               401920    
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               262656    
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                5130      
+=================================================================
+Total params: 669,706
+Trainable params: 669,706
+Non-trainable params: 0
+_________________________________________________________________</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-the-number-of-parameters-for-each-layer" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-the-number-of-parameters-for-each-layer">Calculating the number of parameters for each layer</h2>
+<section id="layer-1" class="level3">
+<h3 class="anchored" data-anchor-id="layer-1"><em>Layer 1</em></h3>
+<ul>
+<li>After flattening each image we get:
+<ul>
+<li>28 X 28=784</li>
+</ul></li>
+<li>We then pass the 784 into 512 nodes in the model plus a bias layer 512 (zeros)</li>
+<li>This gives:
+<ul>
+<li>784(pixels) X 512(neurons) X 512(bias)=401920</li>
+</ul></li>
+</ul>
+</section>
+<section id="layer-2" class="level3">
+<h3 class="anchored" data-anchor-id="layer-2"><em>Layer 2</em></h3>
+<ul>
+<li>We have 512 (output from previous), going into another 512 nodes (in new layer), plus another 512</li>
+<li>This gives:
+<ul>
+<li>512 (input) X 512 (this layer) X 512 =262656</li>
+</ul></li>
+</ul>
+</section>
+<section id="layer-3" class="level3">
+<h3 class="anchored" data-anchor-id="layer-3"><em>Layer 3</em></h3>
+<ul>
+<li>We have 512 (incoming from last layer), going into 10 nodes (in this layer), 10 bias units</li>
+<li>This gives:
+<ul>
+<li>512 (last layer) X 10 (nodes in this layer) + 10 (bias) =5130</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="train-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="train-the-model">Train the model</h2>
+<p>Now we can train our model. To do this we have to pass: * Training data * Number of epochs (the number of times that model passes through the training data) * Validation data (testing data)</p>
+<div id="cell-29" class="cell" data-outputid="9d619d22-ed7e-4a6f-e2bc-d40d36cb8b83" data-trusted="true">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span>model.fit(X_train, y_train, epochs <span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>(X_test, y_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>W0820 07:17:37.736055 140395328268160 deprecation.py:323] From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.&lt;locals&gt;.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+W0820 07:17:37.796303 140395328268160 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:986: The name tf.assign_add is deprecated. Please use tf.compat.v1.assign_add instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Train on 60000 samples, validate on 10000 samples
+Epoch 1/20
+60000/60000 [==============================] - 24s 394us/step - loss: 0.1828 - acc: 0.9440 - val_loss: 0.0929 - val_acc: 0.9705
+Epoch 2/20
+60000/60000 [==============================] - 23s 386us/step - loss: 0.0808 - acc: 0.9757 - val_loss: 0.0827 - val_acc: 0.9743
+Epoch 3/20
+60000/60000 [==============================] - 23s 389us/step - loss: 0.0565 - acc: 0.9828 - val_loss: 0.0695 - val_acc: 0.9786
+Epoch 4/20
+60000/60000 [==============================] - 23s 381us/step - loss: 0.0429 - acc: 0.9864 - val_loss: 0.0832 - val_acc: 0.9774
+Epoch 5/20
+60000/60000 [==============================] - 23s 386us/step - loss: 0.0353 - acc: 0.9887 - val_loss: 0.0921 - val_acc: 0.9745
+Epoch 6/20
+60000/60000 [==============================] - 23s 387us/step - loss: 0.0287 - acc: 0.9910 - val_loss: 0.0819 - val_acc: 0.9782
+Epoch 7/20
+60000/60000 [==============================] - 23s 387us/step - loss: 0.0272 - acc: 0.9914 - val_loss: 0.0807 - val_acc: 0.9802
+Epoch 8/20
+60000/60000 [==============================] - 24s 395us/step - loss: 0.0237 - acc: 0.9924 - val_loss: 0.1136 - val_acc: 0.9771
+Epoch 9/20
+60000/60000 [==============================] - 23s 390us/step - loss: 0.0201 - acc: 0.9938 - val_loss: 0.1083 - val_acc: 0.9800
+Epoch 10/20
+60000/60000 [==============================] - 23s 381us/step - loss: 0.0202 - acc: 0.9939 - val_loss: 0.1016 - val_acc: 0.9798
+Epoch 11/20
+60000/60000 [==============================] - 23s 390us/step - loss: 0.0170 - acc: 0.9951 - val_loss: 0.1167 - val_acc: 0.9783
+Epoch 12/20
+60000/60000 [==============================] - 23s 387us/step - loss: 0.0175 - acc: 0.9948 - val_loss: 0.1026 - val_acc: 0.9805
+Epoch 13/20
+60000/60000 [==============================] - 23s 381us/step - loss: 0.0179 - acc: 0.9950 - val_loss: 0.1039 - val_acc: 0.9811
+Epoch 14/20
+60000/60000 [==============================] - 23s 377us/step - loss: 0.0155 - acc: 0.9956 - val_loss: 0.1173 - val_acc: 0.9809
+Epoch 15/20
+60000/60000 [==============================] - 22s 374us/step - loss: 0.0179 - acc: 0.9947 - val_loss: 0.1135 - val_acc: 0.9801
+Epoch 16/20
+60000/60000 [==============================] - 25s 415us/step - loss: 0.0126 - acc: 0.9965 - val_loss: 0.1391 - val_acc: 0.9792
+Epoch 17/20
+60000/60000 [==============================] - 24s 397us/step - loss: 0.0151 - acc: 0.9964 - val_loss: 0.1211 - val_acc: 0.9819
+Epoch 18/20
+60000/60000 [==============================] - 24s 400us/step - loss: 0.0159 - acc: 0.9962 - val_loss: 0.1208 - val_acc: 0.9800
+Epoch 19/20
+60000/60000 [==============================] - 24s 403us/step - loss: 0.0166 - acc: 0.9960 - val_loss: 0.1309 - val_acc: 0.9808
+Epoch 20/20
+60000/60000 [==============================] - 24s 397us/step - loss: 0.0133 - acc: 0.9965 - val_loss: 0.1310 - val_acc: 0.9813</code></pre>
+</div>
+</div>
+<section id="training-accuracy-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="training-accuracy-visualization">Training Accuracy Visualization</h3>
+<p>To understand how well our model learned during the training phase, we can visualize the training accuracy over each epoch. The <code>history</code> object, returned by the <code>model.fit()</code> method, stores the training metrics. We’ll plot the ‘acc’ key from this dictionary, which represents the training accuracy, against the epoch number.</p>
+<p>This graph will show us how the model’s accuracy improved as it was exposed to more training data. Ideally, we should see a steady increase in accuracy over epochs.</p>
+</section>
+<section id="plot-the-accuracy-of-the-training-model" class="level3">
+<h3 class="anchored" data-anchor-id="plot-the-accuracy-of-the-training-model">Plot the accuracy of the training model</h3>
+<div id="cell-33" class="cell" data-outputid="86cce339-8f00-4f65-c8ad-69255eef9c4f" data-trusted="true">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at the attributes in the history object to find the accuracy</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>history.__dict__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>{'epoch': [0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19],
+ 'history': {'acc': [0.9439666666666666,
+   0.9757333333333333,
+   0.9827833333333333,
+   0.9864166666666667,
+   0.9886666666666667,
+   0.9910333333333333,
+   0.9914,
+   0.99245,
+   0.9938166666666667,
+   0.9939,
+   0.99515,
+   0.9948,
+   0.9950166666666667,
+   0.9956333333333334,
+   0.9947333333333334,
+   0.9965166666666667,
+   0.9963833333333333,
+   0.9962166666666666,
+   0.99595,
+   0.99645],
+  'loss': [0.1827596818920225,
+   0.08079896697839722,
+   0.05645396511411139,
+   0.04291815567353721,
+   0.03526910000597515,
+   0.02873079521368248,
+   0.02715607473684601,
+   0.023650182965393438,
+   0.020055528101623546,
+   0.02019607128013062,
+   0.016955279541049723,
+   0.017472221146037314,
+   0.017864977817751575,
+   0.015457480643335983,
+   0.017869793417473495,
+   0.012631182595215281,
+   0.015135916414613901,
+   0.015882995463786898,
+   0.016569432756344288,
+   0.013335457366452594],
+  'val_acc': [0.9705,
+   0.9743,
+   0.9786,
+   0.9774,
+   0.9745,
+   0.9782,
+   0.9802,
+   0.9771,
+   0.98,
+   0.9798,
+   0.9783,
+   0.9805,
+   0.9811,
+   0.9809,
+   0.9801,
+   0.9792,
+   0.9819,
+   0.98,
+   0.9808,
+   0.9813],
+  'val_loss': [0.09286645495379343,
+   0.08266143489209934,
+   0.069480553943431,
+   0.08320518101718044,
+   0.09206652115154429,
+   0.08190068501315655,
+   0.08067529291427782,
+   0.11358439496830543,
+   0.10833151409866154,
+   0.10160923933375093,
+   0.11671308373045626,
+   0.10255490619101375,
+   0.10387474813488247,
+   0.11728941089477675,
+   0.11347036018394005,
+   0.13906407877868832,
+   0.12108565404413693,
+   0.120797497302599,
+   0.1309188434239974,
+   0.13095201672244552]},
+ 'model': &lt;keras.engine.sequential.Sequential at 0x7fb0320f3400&gt;,
+ 'params': {'batch_size': 32,
+  'do_validation': True,
+  'epochs': 20,
+  'metrics': ['loss', 'acc', 'val_loss', 'val_acc'],
+  'samples': 60000,
+  'steps': None,
+  'verbose': 1},
+ 'validation_data': [array([[0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.]], dtype=float32),
+  array([[0., 0., 0., ..., 1., 0., 0.],
+         [0., 0., 1., ..., 0., 0., 0.],
+         [0., 1., 0., ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.],
+         [0., 0., 0., ..., 0., 0., 0.]], dtype=float32),
+  array([1., 1., 1., ..., 1., 1., 1.], dtype=float32)]}</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-outputid="e13ffeb1-9f2e-45dc-9ebe-764dc8c4375c" data-trusted="true">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the accuracy</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'acc'</span>],label<span class="op">=</span><span class="st">'train'</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch Number'</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Model Accuracy Over Epoch'</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_MLP_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="training-vs.-validation-accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="training-vs.-validation-accuracy">Training vs.&nbsp;Validation Accuracy</h3>
+<p>To assess if our model is generalizing well to unseen data, we’ll compare the training accuracy with the validation accuracy. The validation accuracy is calculated on the test dataset during training, providing insights into how the model performs on data it hasn’t been explicitly trained on.</p>
+<p>By plotting both training and validation accuracies, we can identify potential overfitting. If the training accuracy is significantly higher than the validation accuracy, it might indicate that the model is memorizing the training data rather than learning general patterns.</p>
+<div id="cell-36" class="cell" data-outputid="a463ab6c-b3fd-48df-d238-454d83377d94" data-trusted="true">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the accuracy of training data and validation data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'acc'</span>],label<span class="op">=</span><span class="st">'train'</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_acc'</span>],label<span class="op">=</span><span class="st">'val'</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch Number'</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Model Accuracy Over Epoch'</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_MLP_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="training-vs.-validation-accuracy-and-loss" class="level3">
+<h3 class="anchored" data-anchor-id="training-vs.-validation-accuracy-and-loss">Training vs.&nbsp;Validation: Accuracy and Loss</h3>
+<p>In addition to accuracy, the loss function provides valuable information about the model’s performance. The loss represents the error between the model’s predictions and the actual labels.</p>
+<div id="cell-38" class="cell" data-outputid="20dc2f33-ec3d-45f0-f72d-4e7f81df1516" data-trusted="true">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the accuracy of training data and validation data AND loss</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'acc'</span>],label<span class="op">=</span><span class="st">'train'</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_acc'</span>],label<span class="op">=</span><span class="st">'val'</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'loss'</span>],label<span class="op">=</span><span class="st">'loss'</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch Number'</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Model Accuracy Over Epoch'</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.yscale('log')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_MLP_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-evaluation-on-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="model-evaluation-on-test-data">Model Evaluation on Test Data</h3>
+<p>After training our model, we need to evaluate its performance on unseen data to assess its generalization ability.</p>
+<div id="cell-40" class="cell" data-outputid="1a740989-b51b-4e2c-a08a-381f39e46af9" data-trusted="true">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>score<span class="op">=</span>model.evaluate(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10000/10000 [==============================] - 1s 84us/step</code></pre>
+</div>
+</div>
+<div id="cell-41" class="cell" data-outputid="05586442-a066-4006-a87d-fc4c29c68426" data-trusted="true">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We get score as a list</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co">#The second item in score gives us the accuracy of or model</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>[0.13095201672244552, 0.9813]</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="archived" class="level2">
+<h2 class="anchored" data-anchor-id="archived">Archived</h2>
+<p><strong>Project Archive Note:</strong></p>
+<p>This project is archived. <br> Please note that library and framework versions may be outdated.<br> Last updated:</p>
+<ul>
+<li>April 2025</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Nigel Gebodh, Made on Earth by a Human</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

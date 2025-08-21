@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nigel Gebodh">
+<meta name="dcterms.date" content="2022-01-01">
+
+<title>Nigel Gebodh - Image Recognition &amp; Classification with VGG16</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon_1.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E4M44W57FR"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-E4M44W57FR', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Nigel Gebodh - Image Recognition &amp; Classification with VGG16">
+<meta property="og:description" content="Using the VGG16 model to classify images">
+<meta property="og:site_name" content="Nigel **Gebodh**">
+<meta name="twitter:title" content="Nigel Gebodh - Image Recognition &amp; Classification with VGG16">
+<meta name="twitter:description" content="Using the VGG16 model to classify images">
+<meta name="twitter:image" content="./img/ProfileImage_1.jpg">
+<meta name="twitter:creator" content="@nigelgebodh">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Nigel <strong>Gebodh</strong></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications/publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../media/media.html"> 
+<span class="menu-text">Talks &amp; Media</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-connect" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Connect</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-connect">    
+        <li>
+    <a class="dropdown-item" href="https://scholar.google.com/citations?user=ys2YCxIAAAAJ&amp;hl" target="_blank"><i class="bi bi-mortarboard-fill" role="img">
+</i> 
+ <span class="dropdown-text">Google Scholar</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/nigel-gebodh-1b670a61" target="_blank"><i class="bi bi-bi bi-linkedin" role="img">
+</i> 
+ <span class="dropdown-text">LinkedIn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://twitter.com/nigelgebodh" target="_blank"><i class="bi bi-bi bi-twitter-x" role="img">
+</i> 
+ <span class="dropdown-text">Twitter(X)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ngebodh" target="_blank"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/channel/UCXyZEefDuZFzZDdV40sXkpA" target="_blank"><i class="bi bi-bi bi-youtube" role="img">
+</i> 
+ <span class="dropdown-text">YouTube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bsky.app/profile/nigelgebodh.bsky.social" target="_blank"><i class="bi bi-bi bi-butterfly" role="img">
+</i> 
+ <span class="dropdown-text">BlueSky</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:nigel.gebodh@gmail.com" target="_blank"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">nigel.gebodh@gmail.com</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="6">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-this-project" id="toc-about-this-project" class="nav-link active" data-scroll-target="#about-this-project">About this project</a></li>
+  <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link" data-scroll-target="#import-libraries">Import Libraries</a></li>
+  <li><a href="#load-an-image" id="toc-load-an-image" class="nav-link" data-scroll-target="#load-an-image">Load an Image</a></li>
+  <li><a href="#predict-and-pull-out-predicted-class" id="toc-predict-and-pull-out-predicted-class" class="nav-link" data-scroll-target="#predict-and-pull-out-predicted-class">Predict and Pull Out Predicted Class</a></li>
+  <li><a href="#combine-into-a-function" id="toc-combine-into-a-function" class="nav-link" data-scroll-target="#combine-into-a-function">Combine into a function!</a></li>
+  <li><a href="#archived" id="toc-archived" class="nav-link" data-scroll-target="#archived">Archived</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Image Recognition &amp; Classification with VGG16</h1>
+<p class="subtitle lead">Using the VGG16 model to classify images</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Deep Learning</div>
+    <div class="quarto-category">ML</div>
+    <div class="quarto-category">Computer Vision</div>
+    <div class="quarto-category">Image Recognition</div>
+    <div class="quarto-category">TensorFlow</div>
+    <div class="quarto-category">Keras</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nigel Gebodh </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<br>
+<figure style="text-align: center;" class="figure">
+<img src="obj_detection.jpg" alt="Cover_image" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;" class="figure-img">
+<figcaption style="margin-top: 5px; font-style: italic; color: #555;">
+<p>Image Classification. Photo by <a href="https://unsplash.com/@photophotostock?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Kirill Tonkikh</a> on <a href="https://unsplash.com/photos/an-aerial-view-of-a-beach-with-palm-trees-VHMOjviPgcU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</figcaption>
+</figure>
+<p><br></p>
+<section id="about-this-project" class="level2">
+<h2 class="anchored" data-anchor-id="about-this-project">About this project</h2>
+<p>Our goal with this library is to leverage a pretrained model to perform image classification. We will use the VGG16 model trained on the ImageNet dataset to perform some simple image classification.</p>
+<p>The process will work similar to the image below:</p>
+<hr>
+<!-- <img src="https://miro.medium.com/v2/resize:fit:1200/1*ATIx1SmkEH0FaL_5fMvX2w.jpeg" width="50%" hight="10%"> -->
+<br>
+<figure style="text-align: center;" class="figure">
+<img src="https://miro.medium.com/v2/resize:fit:1200/1*ATIx1SmkEH0FaL_5fMvX2w.jpeg" alt="Cover_image" width="65%" height="auto" style="display: block; margin-left: auto; margin-right: auto; border: none;" class="figure-img">
+<figcaption style="margin-top: 5px; font-style: italic; color: #555;">
+Image Classification
+</figcaption>
+</figure>
+<p><br></p>
+</section>
+<section id="import-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="import-libraries">Import Libraries</h2>
+<p>Here we import the libraries that we will be using throughout the notebook.</p>
+<p>The libraries that we will be using include:<br></p>
+<ul>
+<li><a href="https://www.numpy.org/">Numpy</a></li>
+<li><a href="https://keras.io/">Keras</a> using the <a href="https://www.tensorflow.org/">Tensorflow</a> backend:
+<ul>
+<li>Keras-<a href="https://neurohive.io/en/popular-networks/vgg16/">VGG16</a></li>
+<li>Keras-image processing library</li>
+</ul></li>
+<li><a href="https://matplotlib.org/">Matplotlib</a> &lt;-for plotting and visualizations</li>
+</ul>
+<div id="cell-4" class="cell" data-outputid="4bc749fc-58ef-45f7-ca2d-a66b9fc58d68" data-trusted="true" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Import</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.applications <span class="im">import</span> vgg16</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.preprocessing <span class="im">import</span> image</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Image visualization</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pylab inline</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using TensorFlow backend.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Populating the interactive namespace from numpy and matplotlib</code></pre>
+</div>
+</div>
+<div id="cell-5" class="cell" data-outputid="1354a92e-8d28-4cc4-8891-721d6bb6a7a7" data-trusted="true" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> vgg16.VGG16(weights<span class="op">=</span><span class="st">'imagenet'</span>) <span class="co">#Load the model weights</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING: Logging before flag parsing goes to stderr.
+W0820 06:55:47.559752 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:74: The name tf.get_default_graph is deprecated. Please use tf.compat.v1.get_default_graph instead.
+
+W0820 06:55:47.580525 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:517: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+W0820 06:55:47.584277 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:4138: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+W0820 06:55:47.619110 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:3976: The name tf.nn.max_pool is deprecated. Please use tf.nn.max_pool2d instead.
+
+W0820 06:55:49.527782 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:174: The name tf.get_default_session is deprecated. Please use tf.compat.v1.get_default_session instead.
+
+W0820 06:55:49.529251 139747390875520 deprecation_wrapper.py:119] From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:181: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+</code></pre>
+</div>
+</div>
+</section>
+<section id="load-an-image" class="level2">
+<h2 class="anchored" data-anchor-id="load-an-image">Load an Image</h2>
+<p>Now we’re going to load an image in and walk through the processing steps so that we can successfully load the image into Keras. We’re going to pick an image that’s a little tricky to see how the model does at predicting what’s in the image.</p>
+<div id="cell-7" class="cell" data-outputid="df7fc6de-a1ff-4016-e6ea-7d6d84e9f00e" data-trusted="true" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>imgaddress<span class="op">=</span><span class="st">'panda.jpeg'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> image.load_img(imgaddress,target_size<span class="op">=</span>(<span class="dv">224</span>,<span class="dv">224</span>)) <span class="co">#Try loading an image with the size specified </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img <span class="co">#Show image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_VGG16_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-8" class="cell" data-outputid="9c7c1288-d687-4745-d793-7bc52a631b2e" data-trusted="true" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to Numpy array</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> image.img_to_array(img) <span class="co">#Here we convert the image to a numpy array inorder to do further numeric manipulations to it.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>arr.shape <span class="co">#Height X Width X Color channel (RGB)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(224, 224, 3)</code></pre>
+</div>
+</div>
+<div id="cell-9" class="cell" data-outputid="fbd154e5-06ba-4688-edfd-80a80d6677e1" data-trusted="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expand dimension</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> np.expand_dims(arr,axis<span class="op">=</span><span class="dv">0</span>) <span class="co">#Here we add an additional dimension to satisfy the input parameters for keras</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>arr.shape <span class="co">#print out shape of image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(1, 224, 224, 3)</code></pre>
+</div>
+</div>
+<div id="cell-10" class="cell" data-outputid="258cc4d6-2884-420d-8036-e3e64dc25b1d" data-trusted="true" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocessing</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> vgg16.preprocess_input(arr) <span class="co">#Normalize data.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>arr </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array([[[[126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         ...,
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ]],
+
+        [[126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         ...,
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ]],
+
+        [[126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         [126.061, 113.221, 106.32 ],
+         ...,
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ],
+         [127.061, 114.221, 107.32 ]],
+
+        ...,
+
+        [[121.061, 108.221, 101.32 ],
+         [121.061, 108.221, 101.32 ],
+         [121.061, 108.221, 101.32 ],
+         ...,
+         [121.061, 108.221, 101.32 ],
+         [121.061, 108.221, 101.32 ],
+         [119.061, 106.221,  99.32 ]],
+
+        [[119.061, 106.221,  99.32 ],
+         [119.061, 106.221,  99.32 ],
+         [119.061, 106.221,  99.32 ],
+         ...,
+         [121.061, 108.221, 101.32 ],
+         [121.061, 108.221, 101.32 ],
+         [124.061, 111.221, 104.32 ]],
+
+        [[119.061, 106.221,  99.32 ],
+         [118.061, 105.221,  98.32 ],
+         [115.061, 102.221,  95.32 ],
+         ...,
+         [120.061, 107.221, 100.32 ],
+         [123.061, 110.221, 103.32 ],
+         [113.061, 100.221,  93.32 ]]]], dtype=float32)</code></pre>
+</div>
+</div>
+</section>
+<section id="predict-and-pull-out-predicted-class" class="level2">
+<h2 class="anchored" data-anchor-id="predict-and-pull-out-predicted-class">Predict and Pull Out Predicted Class</h2>
+<p>Now that we’ve set up out model and image let’s now use it to predict what’s depicted in the image.</p>
+<div id="cell-12" class="cell" data-outputid="d1b9e103-54c0-412f-cf16-8f7fe7cb86fc" data-trusted="true" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> model.predict(arr)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>preds <span class="co">#Prints out all the prections for a number of classes. We just want to top predctions. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([[2.30740028e-07, 2.09631480e-07, 1.16082921e-09, 3.73188147e-09,
+        8.20546209e-09, 2.03246824e-08, 2.84081003e-09, 6.54241177e-08,
+        9.36755953e-08, 2.08457944e-08, 6.61266029e-08, 1.06568439e-06,
+        2.21695558e-07, 1.14869820e-08, 3.40318365e-07, 2.71161067e-08,
+        1.96107976e-07, 1.51007441e-07, 2.22093831e-07, 1.83282197e-07,
+        7.00448854e-09, 3.47982336e-07, 1.48229120e-07, 1.64141980e-07,
+        1.41322687e-07, 1.68453028e-06, 1.67549302e-07, 2.24668202e-06,
+        6.26418750e-06, 1.27461942e-06, 2.70466984e-07, 3.85677049e-06,
+        1.08100730e-05, 5.89471334e-08, 3.55724090e-08, 1.06533427e-07,
+        4.32566225e-07, 7.23472127e-08, 3.31999900e-07, 2.48433025e-08,
+        4.63609311e-08, 7.92857691e-09, 1.24308713e-07, 3.48936915e-08,
+        4.36078409e-08, 2.84841406e-07, 9.13415121e-08, 2.05572917e-07,
+        2.11722515e-08, 1.17623493e-08, 4.48982096e-09, 4.73372864e-07,
+        1.25886459e-07, 8.65207937e-07, 3.21610294e-08, 6.76665408e-08,
+        1.22866857e-06, 8.04934874e-09, 4.57685800e-08, 9.89627580e-08,
+        1.37686982e-07, 3.21550374e-07, 4.67060985e-08, 6.20166929e-07,
+        4.29578932e-08, 7.61357910e-08, 1.06795767e-07, 2.93389135e-08,
+        1.04514939e-07, 1.26362840e-08, 3.92909669e-08, 5.12591569e-08,
+        1.12368596e-07, 1.36531881e-07, 3.62430974e-08, 5.80957874e-07,
+        1.08994712e-07, 1.32111069e-07, 6.31206831e-07, 1.52073994e-07,
+        9.38977280e-07, 1.74692811e-08, 1.16386765e-07, 6.56322712e-08,
+        7.57403384e-09, 2.86673838e-07, 1.46441849e-07, 6.07505740e-07,
+        6.70098188e-07, 6.49351421e-07, 5.35652873e-07, 3.84898762e-08,
+        4.12868353e-08, 1.78363649e-07, 7.06433241e-08, 1.89389411e-08,
+        2.25836686e-07, 2.97790592e-08, 1.72217494e-08, 4.68255372e-08,
+        4.74925876e-08, 1.86267741e-07, 6.03362196e-08, 3.32126888e-07,
+        8.38132497e-09, 1.27715211e-07, 7.55305436e-08, 8.77682105e-09,
+        2.55688269e-06, 2.67960019e-08, 1.59058033e-07, 2.93469043e-07,
+        4.56972060e-07, 3.80638312e-07, 4.43869823e-07, 9.52950302e-07,
+        2.98638660e-08, 1.68837229e-08, 7.52986011e-08, 2.10233097e-07,
+        1.76909126e-07, 3.41121087e-08, 9.37658697e-08, 6.87844661e-08,
+        8.40257712e-08, 4.46965629e-07, 3.03340840e-07, 7.24343652e-09,
+        1.86818339e-09, 4.12252810e-09, 5.67342795e-08, 4.39383552e-09,
+        1.85187901e-08, 7.27469995e-09, 5.36931921e-09, 8.79188367e-09,
+        1.06165512e-08, 8.51799413e-08, 1.66270713e-08, 1.31700411e-08,
+        2.37485480e-08, 3.62283581e-09, 3.14623594e-09, 4.51901494e-09,
+        9.81340698e-09, 4.32230763e-06, 5.90467160e-08, 7.22333482e-09,
+        5.42055574e-08, 4.06835063e-08, 2.02358681e-08, 8.14627947e-06,
+        1.11762461e-06, 1.67708788e-06, 2.01941702e-06, 4.33945019e-07,
+        5.72450531e-08, 4.98712780e-07, 5.06023639e-07, 2.48144261e-07,
+        1.57320116e-07, 9.26459833e-08, 1.54363818e-07, 8.92200589e-08,
+        1.99415751e-07, 1.19492498e-07, 1.43114079e-07, 7.50381659e-08,
+        2.48550919e-07, 3.68729403e-08, 3.25495684e-08, 6.59341936e-07,
+        6.72650970e-07, 1.35678704e-07, 1.31095161e-08, 8.72792967e-08,
+        1.48460288e-07, 2.54546592e-07, 1.42769181e-07, 2.28453132e-06,
+        5.91747096e-07, 3.34318457e-08, 1.32749688e-06, 6.22414655e-06,
+        6.25722180e-07, 7.02322177e-06, 1.24519261e-06, 2.63988181e-06,
+        1.14330044e-06, 5.72108661e-07, 1.09037808e-06, 5.82663517e-07,
+        4.01251242e-07, 1.14455497e-06, 1.54444507e-07, 2.27040709e-06,
+        1.79260965e-07, 3.04547513e-07, 1.41533235e-07, 1.39204815e-07,
+        3.44765624e-07, 2.18203127e-07, 6.97724090e-07, 5.08941469e-07,
+        2.43415741e-07, 2.06829299e-07, 1.41577118e-07, 2.99716163e-07,
+        1.32351238e-06, 1.32063192e-07, 1.15778327e-07, 4.94967196e-07,
+        1.58050444e-08, 6.66455620e-08, 6.01057479e-08, 6.06416108e-08,
+        6.37214299e-08, 9.23016827e-08, 4.50936533e-08, 1.54943152e-07,
+        4.27466716e-07, 3.79468865e-08, 2.67693224e-07, 4.73522334e-07,
+        8.52471445e-08, 1.78649131e-07, 1.22580516e-07, 1.89995717e-07,
+        2.70702181e-08, 3.90288591e-07, 5.53862165e-08, 3.21281846e-07,
+        4.33772470e-07, 1.41284957e-07, 4.31418840e-07, 3.65242201e-08,
+        1.86620866e-07, 1.28293914e-06, 5.09924348e-07, 3.84684427e-08,
+        9.01986539e-07, 3.60616269e-07, 9.11655036e-07, 5.40120766e-07,
+        2.34421602e-08, 2.93961449e-07, 2.18722931e-07, 3.94994792e-08,
+        6.48091429e-08, 4.13592716e-08, 5.62787044e-08, 2.19680282e-06,
+        6.90981096e-07, 1.17152535e-06, 4.16749526e-06, 2.86457791e-08,
+        2.96173795e-07, 5.87741269e-08, 1.72613881e-07, 1.66389850e-06,
+        1.53144427e-07, 4.87860490e-08, 8.40172925e-06, 8.18051831e-08,
+        3.47647301e-07, 1.29341572e-06, 1.72425317e-07, 1.31130236e-07,
+        5.66247934e-07, 9.04584674e-09, 1.73176371e-08, 2.41903990e-08,
+        9.35978584e-09, 3.29720791e-07, 4.32366143e-09, 3.89148482e-08,
+        1.22352546e-07, 1.39844500e-08, 2.98412601e-08, 8.49396571e-08,
+        1.47494932e-08, 1.40953617e-07, 1.63191260e-07, 1.93809015e-07,
+        4.50804087e-08, 6.14120211e-07, 2.03362376e-08, 8.31917433e-08,
+        8.38911021e-08, 1.10642153e-08, 1.22347060e-07, 1.46274076e-07,
+        1.87119866e-07, 2.53398298e-07, 8.59659011e-08, 2.66953020e-08,
+        3.05486793e-07, 4.33444747e-08, 5.80405185e-07, 1.00526711e-06,
+        1.67631060e-06, 2.97465022e-06, 7.26791143e-07, 1.72061721e-06,
+        2.95490372e-06, 4.75534762e-07, 1.79628223e-05, 6.66515064e-07,
+        4.02796907e-08, 4.09895371e-08, 2.17734382e-07, 3.82573511e-08,
+        2.04364113e-07, 6.79272683e-09, 1.33294876e-07, 4.56201512e-08,
+        1.10466658e-07, 6.80765879e-08, 1.40555283e-08, 5.87065117e-08,
+        1.44609018e-08, 8.24203369e-07, 6.52484644e-08, 4.94799863e-08,
+        2.63742805e-08, 1.64423586e-08, 1.88935260e-07, 2.74232264e-07,
+        4.55387799e-08, 1.43832821e-07, 3.07482679e-08, 2.44847946e-08,
+        9.27687349e-09, 9.74918294e-07, 7.54552687e-09, 4.95618764e-08,
+        1.93481675e-08, 4.52532234e-08, 2.22582457e-06, 7.28586436e-09,
+        1.17542257e-07, 9.28539379e-08, 5.74220991e-08, 1.08532824e-07,
+        4.70160693e-08, 1.01746657e-07, 5.20004733e-08, 2.97083709e-08,
+        9.96368286e-08, 1.69071850e-08, 4.82118772e-08, 2.06702389e-08,
+        2.61470809e-08, 1.18879555e-08, 3.00920640e-08, 1.42195011e-08,
+        1.55393093e-06, 1.25310208e-07, 2.62512600e-07, 3.60448496e-07,
+        1.24466723e-07, 1.33048798e-06, 2.70772694e-06, 3.58778109e-08,
+        1.21350851e-07, 2.23774563e-08, 8.82985134e-08, 9.88200739e-08,
+        1.15604109e-07, 3.82766139e-08, 4.83422411e-07, 5.71778628e-07,
+        3.34457354e-07, 1.92857442e-07, 2.31056688e-07, 1.54931627e-07,
+        1.61167790e-07, 6.56304337e-07, 1.04844730e-06, 1.80460461e-07,
+        4.64523453e-07, 1.31840210e-07, 2.42890280e-07, 1.42358999e-07,
+        5.03785088e-07, 1.66625099e-07, 7.28182457e-08, 6.08862152e-08,
+        1.51019975e-07, 2.32699389e-08, 1.24165950e-07, 8.44717789e-08,
+        4.49987766e-07, 3.67735794e-07, 2.21215188e-08, 2.39472762e-08,
+        5.08758760e-08, 3.79272755e-08, 1.35908245e-08, 1.79140997e-07,
+        4.60847183e-08, 1.49218835e-07, 2.11217497e-08, 3.51093754e-09,
+        7.35311279e-09, 1.68405066e-07, 9.53853601e-08, 2.92592091e-07,
+        4.96845644e-07, 8.54975860e-06, 2.13233209e-09, 5.07116397e-07,
+        1.62518154e-05, 2.23540695e-07, 6.32358569e-06, 9.54755524e-06,
+        4.96491133e-08, 2.12956238e-07, 2.98555256e-06, 1.22388847e-05,
+        5.07114706e-08, 2.09368824e-08, 2.14847034e-07, 8.61394369e-07,
+        5.76402996e-08, 9.51128065e-09, 6.84745558e-08, 2.61448768e-05,
+        1.92413609e-07, 9.08089646e-07, 1.16331220e-08, 2.05686160e-06,
+        5.34091704e-08, 6.96576535e-07, 9.27639633e-07, 7.85441443e-06,
+        3.78948108e-08, 1.98729921e-08, 1.87666103e-06, 8.78381707e-06,
+        2.86733575e-06, 1.25621427e-05, 3.66315902e-08, 7.50137303e-07,
+        1.16340374e-07, 1.06631411e-07, 1.17933006e-07, 1.92094958e-05,
+        2.02627220e-07, 2.22119434e-09, 2.33889580e-07, 6.88466514e-07,
+        1.91087543e-06, 2.56423675e-07, 8.63026060e-08, 5.15929014e-06,
+        4.71249081e-07, 1.43907328e-05, 9.59242552e-09, 6.33050590e-08,
+        7.11355863e-09, 1.90989704e-06, 7.04786629e-08, 5.86291681e-05,
+        6.22968189e-04, 7.09655183e-07, 5.36632250e-08, 9.96110305e-09,
+        4.09386132e-07, 5.33454644e-04, 1.37213457e-04, 1.91851640e-07,
+        3.06269854e-08, 3.45783446e-05, 4.97320684e-07, 1.12767043e-06,
+        3.57932777e-07, 2.15330215e-06, 5.25317887e-07, 1.56554743e-05,
+        4.78038320e-09, 7.46765409e-07, 3.28704687e-06, 1.56892966e-07,
+        1.03753877e-08, 7.85365387e-07, 4.84578457e-08, 8.91920718e-06,
+        1.16398587e-06, 8.63011351e-08, 2.24844271e-07, 6.31793137e-06,
+        5.70030352e-07, 6.19336831e-08, 1.16691396e-07, 2.69378603e-07,
+        4.77650076e-07, 1.17892123e-08, 2.42671607e-08, 1.49556274e-06,
+        1.61047549e-08, 2.74794075e-07, 1.08856548e-05, 1.12808026e-04,
+        5.09483039e-01, 8.45756568e-03, 1.62210870e-06, 3.57126260e-06,
+        1.33839535e-07, 1.00126343e-07, 3.68348445e-08, 3.32293055e-08,
+        1.26010436e-05, 8.26668440e-08, 5.91857497e-06, 2.72094144e-06,
+        7.18639683e-07, 1.22508766e-07, 5.74260193e-05, 1.22780122e-07,
+        4.23249773e-08, 3.77007891e-05, 6.21546832e-08, 4.93676907e-07,
+        6.86424926e-07, 6.96312874e-09, 1.65719584e-07, 1.07889377e-07,
+        3.86126958e-05, 1.21791545e-05, 1.01053211e-05, 1.63983168e-05,
+        8.64890737e-08, 7.18710567e-08, 4.84098337e-07, 1.01615951e-05,
+        5.42548939e-08, 5.81623922e-08, 1.74807457e-08, 2.67341932e-07,
+        5.00734600e-08, 5.36412745e-06, 1.85197720e-07, 1.31648176e-06,
+        1.62742504e-06, 1.20514540e-06, 3.09547659e-07, 1.69230248e-08,
+        1.99864605e-08, 5.18494403e-08, 2.25793221e-03, 7.12145675e-06,
+        1.05833351e-06, 2.99498275e-08, 2.14378758e-07, 2.91862623e-08,
+        1.25276983e-07, 1.74415149e-08, 2.53638859e-07, 4.18758646e-08,
+        1.09169478e-05, 8.03377304e-07, 3.65722371e-07, 4.98785539e-07,
+        1.37837217e-08, 1.00747208e-07, 6.06082509e-08, 3.94741028e-06,
+        7.10235071e-08, 1.69653077e-07, 1.73707249e-05, 1.54607278e-06,
+        4.89220729e-05, 7.40523831e-07, 8.54893926e-07, 1.00471595e-06,
+        9.98703342e-09, 3.06131476e-08, 1.40731188e-07, 5.20920977e-08,
+        1.31625066e-08, 9.34547515e-08, 3.24858114e-08, 4.00238243e-08,
+        1.91738349e-04, 3.14479166e-06, 1.32722164e-07, 6.89278841e-06,
+        7.29645808e-06, 4.90466891e-06, 2.12085354e-07, 4.38568520e-07,
+        5.70686382e-07, 8.97580264e-07, 1.56464051e-08, 1.07001803e-07,
+        7.50558797e-07, 9.51741413e-07, 3.36923840e-08, 5.34097779e-08,
+        1.77375223e-05, 1.72772133e-07, 3.55589762e-08, 8.38164471e-09,
+        9.12969710e-07, 1.32454159e-06, 2.05620763e-05, 6.18671208e-07,
+        1.56490842e-07, 8.27659292e-08, 1.04609571e-05, 2.30176511e-07,
+        1.91370226e-08, 1.81046983e-06, 9.00357975e-07, 5.29871431e-05,
+        7.40103758e-07, 3.64682023e-07, 5.21576703e-06, 3.12630868e-06,
+        1.75079506e-07, 1.49572236e-06, 1.39119747e-05, 2.16342323e-06,
+        5.10878593e-08, 7.57715171e-08, 2.91329430e-04, 7.05078307e-08,
+        4.76907474e-08, 1.81246867e-06, 3.56844012e-08, 1.39066424e-05,
+        1.64770972e-06, 1.75037949e-05, 2.87580058e-08, 5.07249661e-06,
+        2.15312548e-06, 8.98535575e-08, 2.11578185e-06, 5.05718951e-08,
+        1.54342104e-08, 1.89451919e-06, 1.68519367e-08, 2.59888602e-05,
+        2.74932461e-07, 2.00012185e-08, 1.97279704e-08, 2.23891875e-05,
+        2.34228423e-07, 6.33858690e-07, 3.52894244e-06, 6.23561618e-07,
+        1.59773478e-07, 2.20319460e-04, 3.95545356e-07, 3.39762863e-07,
+        4.59922553e-08, 4.72152166e-08, 1.57768386e-06, 5.90417631e-06,
+        8.65793925e-09, 7.61667280e-08, 6.85525734e-08, 1.12686944e-08,
+        1.39720186e-07, 1.64703977e-07, 1.55557009e-05, 2.25209746e-07,
+        2.34410757e-09, 1.32394282e-08, 1.03016976e-06, 2.98369230e-07,
+        7.26395433e-09, 2.41500743e-07, 1.08037386e-06, 5.97784222e-08,
+        2.72129855e-05, 3.23625699e-07, 2.60866454e-05, 1.82006920e-06,
+        4.56080656e-04, 2.77210631e-07, 2.13454285e-08, 1.93574422e-07,
+        1.08476015e-05, 1.02433638e-07, 9.38850553e-06, 1.37056766e-08,
+        2.66808460e-08, 3.90996036e-07, 2.12439293e-08, 5.76670209e-06,
+        3.54932149e-06, 1.92957987e-08, 5.46688206e-09, 3.46115507e-06,
+        4.60707452e-06, 8.13636859e-07, 7.05712333e-09, 7.61370202e-08,
+        1.58197563e-05, 1.59634112e-07, 4.25841016e-08, 8.63675780e-08,
+        3.15127153e-07, 1.37078018e-07, 8.26236146e-09, 7.20345440e-07,
+        7.70038412e-07, 5.76401953e-06, 1.76408343e-04, 6.24262839e-06,
+        1.91485956e-08, 5.60556614e-08, 2.70809073e-06, 9.02508020e-07,
+        2.95503586e-08, 1.55460680e-06, 1.79604989e-08, 1.41473531e-04,
+        7.05745742e-06, 5.13960731e-06, 8.36539414e-07, 4.59378988e-08,
+        1.47361149e-07, 1.56827085e-02, 5.41640084e-08, 3.66196460e-08,
+        2.05718635e-07, 5.28138003e-07, 2.88077587e-07, 1.40117641e-06,
+        6.73106251e-06, 1.06973950e-07, 4.91104792e-08, 4.73942492e-07,
+        3.94559038e-07, 2.09052200e-06, 2.24188443e-05, 3.96605492e-06,
+        5.94256699e-06, 6.54013110e-09, 1.66611756e-07, 2.93421021e-08,
+        1.59431323e-07, 4.18593390e-06, 1.75135465e-05, 5.42386829e-07,
+        2.94390543e-06, 3.06368929e-06, 1.10581439e-07, 1.37935990e-06,
+        4.67533425e-08, 2.87463394e-07, 1.09019925e-06, 3.78070943e-08,
+        1.95305256e-05, 2.49075583e-07, 1.88775157e-05, 2.43823506e-05,
+        1.42132376e-06, 1.68880410e-06, 1.35500656e-07, 9.74761178e-07,
+        4.05859140e-07, 7.13980057e-07, 5.38881864e-07, 2.40283862e-05,
+        1.32920263e-07, 6.72690078e-07, 2.31001380e-07, 5.29700870e-08,
+        3.78082837e-06, 1.23375179e-02, 7.97549365e-06, 4.27160302e-07,
+        6.40690558e-08, 3.79926405e-07, 2.92688952e-07, 4.44884591e-08,
+        3.11600665e-08, 1.39019543e-08, 1.04999273e-07, 1.77168033e-06,
+        1.93643405e-06, 8.88002978e-06, 4.42980927e-05, 2.48587895e-07,
+        1.17284152e-07, 6.74648604e-08, 4.71922789e-07, 1.98075540e-07,
+        5.25653661e-07, 2.69821498e-06, 3.84169937e-07, 4.97369570e-07,
+        1.24303801e-06, 8.41954346e-08, 2.03592112e-08, 4.53609594e-09,
+        7.37740535e-08, 2.57440161e-06, 3.67120805e-07, 2.96055891e-08,
+        4.95262095e-04, 4.38857199e-07, 9.76660317e-07, 5.29256283e-09,
+        6.05305331e-07, 1.11715795e-04, 4.06630285e-08, 1.13087867e-06,
+        9.70791945e-08, 2.07313428e-06, 1.46531249e-07, 6.29572794e-09,
+        4.29507281e-06, 7.06429546e-07, 1.90187802e-06, 8.96300136e-08,
+        3.10500106e-08, 4.11359746e-09, 2.76818866e-07, 1.82589592e-05,
+        2.08955339e-06, 1.29551552e-08, 4.04326011e-06, 1.43453362e-05,
+        4.76714958e-05, 3.86165802e-08, 1.10205278e-07, 6.61844552e-08,
+        3.30068275e-08, 2.15795843e-08, 2.05103703e-07, 3.29985816e-08,
+        5.43825900e-06, 1.20013965e-05, 5.67736333e-06, 1.09627951e-08,
+        9.58354804e-07, 4.88013825e-07, 7.25631082e-07, 5.84639508e-07,
+        2.96557209e-06, 2.47400664e-07, 5.33883394e-06, 5.80091744e-08,
+        1.04031699e-06, 5.33550838e-03, 1.83874741e-04, 3.44726857e-07,
+        5.14731846e-06, 1.81518001e-09, 5.55293305e-08, 3.86142405e-04,
+        2.38253932e-07, 1.85367881e-07, 2.17458478e-08, 2.51325895e-04,
+        4.90558065e-08, 1.98287512e-06, 1.05115441e-06, 1.89473880e-07,
+        1.15158309e-06, 1.69682278e-06, 7.51792413e-07, 9.05999258e-08,
+        2.11496390e-05, 2.63543797e-07, 2.37221093e-06, 2.13503561e-08,
+        6.15924682e-06, 3.40474315e-08, 3.20646043e-09, 6.14307325e-08,
+        1.45927561e-05, 8.64352216e-08, 1.43941094e-07, 5.15253191e-07,
+        6.36787192e-08, 1.10993224e-08, 2.80374434e-06, 6.52698742e-04,
+        1.50569051e-08, 1.22862764e-06, 1.08190960e-07, 3.12823225e-08,
+        3.62867247e-09, 4.03211828e-07, 3.97046342e-08, 1.65756101e-05,
+        1.71216607e-06, 1.03340312e-06, 6.63309265e-08, 6.99213203e-08,
+        5.04177979e-06, 5.02478542e-07, 1.48223538e-04, 5.60587971e-03,
+        1.22078291e-07, 1.86379359e-03, 2.41065627e-05, 3.56008854e-06,
+        2.09815774e-08, 1.45322669e-08, 8.51550794e-08, 4.63173137e-06,
+        7.07669523e-09, 7.60982232e-07, 1.78681694e-05, 5.82860002e-06,
+        6.26186036e-09, 6.71652529e-08, 3.74762585e-08, 2.02472563e-08,
+        3.52314004e-07, 6.38601023e-07, 2.49788741e-07, 4.97702857e-08,
+        8.95248853e-09, 3.09092769e-07, 6.68525715e-08, 6.17728847e-06,
+        3.55519774e-07, 4.82555379e-06, 4.56816724e-06, 1.00632030e-06,
+        5.42093858e-06, 2.09320729e-06, 3.83092839e-07, 4.86991212e-06,
+        2.43694722e-05, 2.56681062e-07, 8.63832668e-07, 6.09998722e-07,
+        1.07966014e-06, 3.76456956e-06, 1.74969591e-06, 1.18637536e-06,
+        1.50784388e-07, 1.34870800e-06, 9.96130325e-07, 1.12748012e-06,
+        2.89275135e-07, 1.01199373e-06, 3.10480566e-08, 1.45067531e-07,
+        1.26558336e-06, 3.39497774e-06, 3.42935181e-07, 9.83362384e-07,
+        3.81136658e-07, 1.72278953e-06, 6.00352860e-06, 1.54326791e-08,
+        3.96012638e-07, 1.47352722e-07, 1.79122722e-07, 6.93016375e-07,
+        8.36267500e-05, 2.56906588e-07, 3.51594025e-07, 8.25545783e-08,
+        5.67604445e-07, 1.08268534e-06, 1.89774516e-06, 2.16050283e-03,
+        4.29603785e-01, 1.07624714e-04, 1.10562395e-08, 5.84981933e-07,
+        7.06443331e-08, 2.95814175e-07, 4.58169644e-08, 3.93046840e-08,
+        1.51907518e-08, 2.29506000e-07, 4.63015475e-08, 1.30545716e-08,
+        5.95132610e-09, 3.17670242e-07, 3.65797881e-08, 3.37072038e-06,
+        4.28877343e-08, 1.46307002e-07, 9.32429156e-09, 4.02610453e-07,
+        2.71421470e-07, 2.34199042e-08, 3.92000175e-08, 3.31181809e-07,
+        7.20081275e-08, 9.55431823e-09, 3.60028992e-07, 4.12938306e-07,
+        3.22377531e-07, 2.96478007e-08, 1.23911505e-07, 1.00578827e-05]],
+      dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-outputid="aa4e293f-f7b3-4734-f957-30b9eff21ab3" data-trusted="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions for most likely classes. </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>prediction_classes <span class="op">=</span>vgg16.decode_predictions(preds, top<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> imagenet_id, name, likelihood <span class="kw">in</span> prediction_classes[<span class="dv">0</span>]:</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"-</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{:2f}</span><span class="st"> </span><span class="sc">% li</span><span class="st">kelihood"</span>.<span class="bu">format</span>(name, likelihood<span class="op">*</span><span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading data from https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json
+40960/35363 [==================================] - 0s 0us/step
+-coffee_mug: 50.948304 % likelihood
+-cup: 42.960379 % likelihood
+-pitcher: 1.568271 % likelihood
+-saltshaker: 1.233752 % likelihood
+-coffeepot: 0.845757 % likelihood
+-water_jug: 0.560588 % likelihood
+-teapot: 0.533551 % likelihood
+-espresso_maker: 0.225793 % likelihood
+-espresso: 0.216050 % likelihood
+-whiskey_jug: 0.186379 % likelihood</code></pre>
+</div>
+</div>
+</section>
+<section id="combine-into-a-function" class="level2">
+<h2 class="anchored" data-anchor-id="combine-into-a-function">Combine into a function!</h2>
+<p>Here we’ll use another image to test how the model performs at prediction and combine all the previous steps into a function.</p>
+<div id="cell-15" class="cell" data-trusted="true">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> imgClasser(locc):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    imgName <span class="op">=</span> locc</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Re- Load in the sample image we want to predict</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span>image.load_img(imgName, target_size<span class="op">=</span>(<span class="dv">224</span>,<span class="dv">224</span>)) <span class="co">#Load in the image and resize</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Convert image to array (flatten)</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>image.img_to_array(img)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#The neural network is actually expecting (a list) more than 1 image so we will trick it</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Add a 4th dimension to the array</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span> np.expand_dims(x,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Normalize data to 0-1 instead of 0-255</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>vgg16.preprocess_input(x)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Now we run the normalized data through the network and predict</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span>model.predict(x)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#We will get back a predictions object with 1000 element array. </span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Each element reps a probability that the input matches each of the 1000 objects </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#that the network was trained on.</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Here we use a function to tell us the names of the objects that </span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#the network predicted. We only want to top 10 so we ask for ony 10</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    prediction_classes <span class="op">=</span>vgg16.decode_predictions(predictions, top<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Print out all the predictions</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> imagenet_id, name, likelihood <span class="kw">in</span> prediction_classes[<span class="dv">0</span>]:</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"-</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{:2f}</span><span class="st"> </span><span class="sc">% li</span><span class="st">kelihood"</span>.<span class="bu">format</span>(name, likelihood<span class="op">*</span><span class="dv">100</span>))</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Look at loaded image</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    plt.imshow(img) </span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Selected Image'</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    plt.show()  <span class="co"># display it</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-16" class="cell" data-outputid="6d8ebfb8-0f84-4f41-dece-fd76bee44c81" data-trusted="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>imgClasser(<span class="st">'ant.jpeg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-ant: 83.244991 % likelihood
+-tick: 9.916326 % likelihood
+-ground_beetle: 1.015474 % likelihood
+-barn_spider: 0.821714 % likelihood
+-cockroach: 0.662146 % likelihood
+-long-horned_beetle: 0.640894 % likelihood
+-lacewing: 0.417204 % likelihood
+-scorpion: 0.339317 % likelihood
+-centipede: 0.336908 % likelihood
+-mantis: 0.327309 % likelihood</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ImageRecog_VGG16_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The model was able to classify the image as containing an <strong>ant</strong> with <strong>83.2% likelihood</strong></p>
+<hr>
+</section>
+<section id="archived" class="level2">
+<h2 class="anchored" data-anchor-id="archived">Archived</h2>
+<p><strong>Project Archive Note:</strong></p>
+<p>This project is archived. <br> Please note that library and framework versions may be outdated.<br> Last updated:</p>
+<ul>
+<li>April 2025</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Nigel Gebodh, Made on Earth by a Human</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

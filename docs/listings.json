@@ -1,0 +1,23 @@
+[
+  {
+    "listing": "/projects/index.html",
+    "items": [
+      "/projects/Short_dive_posts/aws/aws-analysis.html",
+      "/projects/Short_dive_posts/aws-demo/aws-analysis-demo.html",
+      "/projects/Short_dive_posts/ECG_analysis/ECG_proc.html",
+      "/projects/Short_dive_posts/LLM_temp/LLM_temp.html",
+      "/projects/Short_dive_posts/ML_reg_norm/ML_reg_norm.html",
+      "/projects/2024-03-19/index.html",
+      "/projects/2024-03-05/index_demo.html",
+      "/projects/2024-03-05/index.html",
+      "/projects/Past_projects/ImageRecog_PCA.html",
+      "/projects/Past_projects/ImageRecog_ResNet50.html",
+      "/projects/Past_projects/ImageRecog_VGG16.html",
+      "/projects/Past_projects/ImageRecog_MLP.html"
+    ]
+  },
+  {
+    "listing": "/publications/publications.html",
+    "items": []
+  }
+]
